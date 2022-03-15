@@ -608,12 +608,51 @@ void matrix_scan_user(void) {
             SEND_STRING(SS_LALT(SS_TAP(X_F4)));
         }
 
+        SEQ_THREE_KEYS(KC_A, KC_A, KC_A) {
+            register_code(KC_RALT);
+            register_code16(UK_2);
+            unregister_code16(UK_2);
+            unregister_code(KC_RALT);
+            SEND_STRING(SS_LSFT("a"));
+        }
+
+        SEQ_TWO_KEYS(KC_A, KC_A) {
+            register_code(KC_RALT);
+            register_code16(UK_2);
+            unregister_code16(UK_2);
+            unregister_code(KC_RALT);
+            tap_code(KC_A);
+        }
+
+        SEQ_THREE_KEYS(KC_A, KC_O, KC_O) {
+            register_code(KC_RALT);
+            register_code16(UK_2);
+            unregister_code16(UK_2);
+            unregister_code(KC_RALT);
+            SEND_STRING(SS_LSFT("o"));
+        }
+
+        SEQ_TWO_KEYS(KC_A, KC_O) {
+            register_code(KC_RALT);
+            register_code16(UK_2);
+            unregister_code16(UK_2);
+            unregister_code(KC_RALT);
+            tap_code(KC_O);
+        }
         SEQ_THREE_KEYS(KC_A, KC_U, KC_U) {
             register_code(KC_RALT);
-            register_code(UK_GRV);
-            tap_code(KC_U);
-            unregister_code(UK_GRV);
+            register_code16(UK_2);
+            unregister_code16(UK_2);
             unregister_code(KC_RALT);
+            SEND_STRING(SS_LSFT("u"));
+        }
+
+        SEQ_TWO_KEYS(KC_A, KC_U) {
+            register_code(KC_RALT);
+            register_code16(UK_2);
+            unregister_code16(UK_2);
+            unregister_code(KC_RALT);
+            tap_code(KC_U);
         }
   }
 }
