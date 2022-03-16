@@ -62,6 +62,7 @@ enum tap_dance_codes {
   DANCE_5,
   DANCE_6,
   DANCE_7,
+  DANCE_8,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -91,18 +92,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [3] = LAYOUT_moonlander(
     KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         TO(0),          
-    KC_TRANSPARENT, KC_EXLM,        KC_AT,          KC_LABK,        KC_RABK,        KC_PIPE,        KC_TRANSPARENT,                                 KC_F11,         KC_UNDS,        KC_AMPR,        KC_ASTR,        KC_EQUAL,       KC_MINUS,       KC_PSCREEN,     
-    KC_TRANSPARENT, KC_DLR,         KC_HASH,        KC_LPRN,        KC_RPRN,        KC_DQUO,        KC_TRANSPARENT,                                                                 KC_F12,         KC_COLN,        KC_DLR,         KC_PERC,        KC_CIRC,        KC_PLUS,        KC_INSERT,      
-    KC_TRANSPARENT, KC_PERC,        KC_QUES,        KC_LCBR,        KC_RCBR,        KC_QUOTE,                                       KC_TILD,        KC_EXLM,        KC_AT,          KC_HASH,        KC_TRANSPARENT, KC_HOME,        
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_LBRACKET,    KC_RBRACKET,    KC_TRANSPARENT,                                                                                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_END,         
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, UK_LABK,        UK_RABK,        UK_PIPE,        KC_TRANSPARENT,                                 KC_F11,         UK_UNDS,        UK_QUES,        UK_AMPR,        UK_ASTR,        UK_MINS,        KC_PSCREEN,     
+    KC_TRANSPARENT, KC_LGUI,        MT(MOD_LALT, UK_SCLN),TD(DANCE_7),    TD(DANCE_8),    UK_DQUO,        KC_TRANSPARENT,                                                                 KC_F12,         UK_COLN,        UK_DLR,         UK_PERC,        UK_CIRC,        UK_PLUS,        KC_INSERT,      
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, UK_LCBR,        UK_RCBR,        UK_QUOT,                                        UK_TILD,        UK_EXLM,        UK_AT,          UK_HASH,        UK_EQL,         KC_HOME,        
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, UK_LBRC,        UK_RBRC,        KC_TRANSPARENT,                                                                                                 KC_TRANSPARENT, KC_HOME,        KC_PGDOWN,      KC_PGUP,        KC_END,         KC_TRANSPARENT, 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                 KC_TRANSPARENT, KC_LPRN,        KC_RPRN
   ),
   [4] = LAYOUT_moonlander(
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_KP_SLASH,    TO(0),          
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_7,           KC_8,           KC_9,           KC_KP_ASTERISK, KC_TRANSPARENT, 
-    KC_TRANSPARENT, TD(DANCE_7),    KC_LALT,        KC_LCTRL,       KC_LSHIFT,      KC_TRANSPARENT, KC_TRANSPARENT,                                                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_4,           KC_5,           KC_6,           KC_KP_MINUS,    KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_1,           KC_2,           KC_3,           KC_KP_PLUS,     KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_TRANSPARENT, KC_0,           KC_KP_0,        KC_KP_DOT,      KC_KP_EQUAL,    KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_KP_SLASH,    KC_KP_ASTERISK, KC_TRANSPARENT, TO(0),          
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_7,           KC_8,           KC_9,           KC_KP_MINUS,    KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_LGUI,        KC_LALT,        KC_LSHIFT,      KC_LCTRL,       KC_TRANSPARENT, KC_TRANSPARENT,                                                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_4,           KC_5,           KC_6,           KC_KP_PLUS,     KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_1,           KC_2,           KC_3,           KC_KP_EQUAL,    KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_TRANSPARENT, KC_0,           KC_KP_0,        KC_KP_DOT,      KC_TRANSPARENT, KC_TRANSPARENT, 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
   [5] = LAYOUT_moonlander(
@@ -122,11 +123,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
   [7] = LAYOUT_moonlander(
-    KC_SYSTEM_POWER,KC_SYSTEM_SLEEP,KC_SYSTEM_WAKE, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, TO(0),          
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, TO(0),          
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, RGB_HUI,        RGB_HUD,        RGB_MOD,        RGB_SLD,        KC_TRANSPARENT, 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                 KC_TRANSPARENT, KC_TRANSPARENT, RGB_VAI,        RGB_VAD,        TOGGLE_LAYER_COLOR,RGB_TOG,        KC_TRANSPARENT, 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, RGB_SAI,        RGB_SAD,        MOON_LED_LEVEL, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, AU_TOG,                                                                                                         KC_TRANSPARENT, RGB_SPI,        RGB_SPD,        KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_SYSTEM_POWER,KC_SYSTEM_SLEEP,KC_SYSTEM_WAKE, KC_TRANSPARENT, KC_TRANSPARENT, AU_TOG,                                                                                                         KC_TRANSPARENT, RGB_SPI,        RGB_SPD,        KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
 };
@@ -145,15 +146,15 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
 
     [2] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {249,255,232}, {249,255,232}, {249,255,232}, {0,0,0}, {0,0,0}, {249,255,232}, {249,255,232}, {249,255,232}, {0,0,0}, {0,0,0}, {249,255,232}, {249,255,232}, {249,255,232}, {0,0,0}, {0,0,0}, {249,255,232}, {249,255,232}, {249,255,232}, {0,0,0}, {0,0,0}, {249,255,232}, {249,255,232}, {249,255,232}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {146,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {249,255,232}, {249,255,232}, {249,255,232}, {0,0,0}, {0,0,0}, {249,255,232}, {249,255,232}, {249,255,232}, {0,0,0}, {0,0,0}, {249,255,232}, {249,255,232}, {249,255,232}, {0,0,0}, {0,0,0}, {249,255,232}, {249,255,232}, {249,255,232}, {0,0,0}, {0,0,0}, {249,255,232}, {249,255,232}, {249,255,232}, {35,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
 
-    [3] = { {146,255,255}, {146,255,255}, {146,255,255}, {146,255,255}, {146,255,255}, {169,120,255}, {14,255,255}, {14,255,255}, {14,255,255}, {146,255,255}, {169,120,255}, {14,255,255}, {14,255,255}, {14,255,255}, {146,255,255}, {169,120,255}, {110,218,204}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {110,218,204}, {146,255,255}, {146,255,255}, {146,255,255}, {169,120,255}, {110,218,204}, {110,218,204}, {110,218,204}, {146,255,255}, {110,218,204}, {110,218,204}, {146,255,255}, {146,255,255}, {146,255,255}, {146,255,255}, {146,255,255}, {167,255,255}, {146,255,255}, {35,255,255}, {146,255,255}, {169,120,255}, {14,255,255}, {14,255,255}, {14,255,255}, {146,255,255}, {169,120,255}, {14,255,255}, {14,255,255}, {14,255,255}, {146,255,255}, {169,120,255}, {14,255,255}, {14,255,255}, {14,255,255}, {146,255,255}, {169,120,255}, {14,255,255}, {14,255,255}, {14,255,255}, {146,255,255}, {169,120,255}, {14,255,255}, {14,255,255}, {14,255,255}, {146,255,255}, {169,120,255}, {169,120,255}, {14,255,255}, {14,255,255}, {0,183,238}, {146,255,255} },
+    [3] = { {146,255,255}, {146,255,255}, {146,255,255}, {146,255,255}, {146,255,255}, {169,120,255}, {0,0,0}, {0,0,0}, {0,0,0}, {146,255,255}, {169,120,255}, {146,255,255}, {109,218,204}, {0,0,0}, {146,255,255}, {169,120,255}, {110,218,204}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {110,218,204}, {146,255,255}, {146,255,255}, {146,255,255}, {169,120,255}, {110,218,204}, {110,218,204}, {110,218,204}, {146,255,255}, {110,218,204}, {110,218,204}, {146,255,255}, {14,255,255}, {146,255,255}, {146,255,255}, {146,255,255}, {167,255,255}, {146,255,255}, {35,255,255}, {0,0,0}, {169,120,255}, {14,255,255}, {14,255,255}, {14,255,255}, {46,218,204}, {169,120,255}, {14,255,255}, {14,255,255}, {14,255,255}, {146,255,255}, {169,120,255}, {14,255,255}, {14,255,255}, {14,255,255}, {146,255,255}, {169,120,255}, {14,255,255}, {14,255,255}, {14,255,255}, {46,218,204}, {169,120,255}, {14,255,255}, {14,255,255}, {14,255,255}, {146,255,255}, {169,120,255}, {169,120,255}, {146,255,255}, {169,120,255}, {0,183,238}, {146,255,255} },
 
-    [4] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {146,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {169,120,255}, {0,0,0}, {110,218,204}, {110,218,204}, {110,218,204}, {14,255,255}, {0,0,0}, {110,218,204}, {110,218,204}, {110,218,204}, {35,255,255}, {0,0,0}, {110,218,204}, {110,218,204}, {110,218,204}, {35,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {169,120,255}, {14,255,255}, {85,203,158}, {0,0,0} },
+    [4] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {95,218,204}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {95,218,204}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {95,218,204}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {95,218,204}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {146,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {169,120,255}, {169,120,255}, {169,120,255}, {0,0,0}, {169,120,255}, {110,218,204}, {110,218,204}, {110,218,204}, {14,255,255}, {169,120,255}, {110,218,204}, {110,218,204}, {110,218,204}, {35,255,255}, {0,0,0}, {110,218,204}, {110,218,204}, {110,218,204}, {35,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {169,120,255}, {14,255,255}, {85,203,158}, {0,0,0} },
 
-    [5] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {88,218,204}, {88,218,204}, {0,0,0}, {0,0,0}, {252,218,204}, {85,203,158}, {214,218,204}, {0,0,0}, {0,0,0}, {252,218,204}, {214,218,204}, {214,218,204}, {0,0,0}, {0,0,0}, {252,218,204}, {85,203,158}, {214,218,204}, {0,0,0}, {0,0,0}, {35,218,204}, {35,218,204}, {35,218,204}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {243,222,234}, {0,0,0}, {146,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {35,255,255}, {110,218,204}, {35,255,255}, {0,0,0}, {0,0,0}, {35,255,255}, {110,218,204}, {35,255,255}, {0,0,0}, {0,0,0}, {35,255,255}, {110,218,204}, {35,255,255}, {0,0,0}, {0,0,0}, {35,255,255}, {110,218,204}, {35,255,255}, {0,0,0}, {0,0,0}, {35,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
+    [5] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {85,203,158}, {85,203,158}, {0,0,0}, {0,0,0}, {85,203,158}, {85,203,158}, {74,170,141}, {0,0,0}, {0,0,0}, {85,203,158}, {74,170,141}, {74,170,141}, {0,0,0}, {0,0,0}, {85,203,158}, {85,203,158}, {74,170,141}, {0,0,0}, {0,0,0}, {85,203,158}, {85,203,158}, {85,203,158}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {243,222,234}, {0,0,0}, {146,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {35,255,255}, {110,218,204}, {35,255,255}, {0,0,0}, {0,0,0}, {35,255,255}, {110,218,204}, {35,255,255}, {0,0,0}, {0,0,0}, {35,255,255}, {110,218,204}, {0,0,0}, {0,0,0}, {0,0,0}, {35,255,255}, {110,218,204}, {35,255,255}, {0,0,0}, {0,0,0}, {35,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
 
     [6] = { {0,0,0}, {0,0,0}, {154,255,255}, {154,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {154,255,255}, {154,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {154,255,255}, {154,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {154,255,255}, {154,255,255}, {249,228,255}, {0,0,0}, {0,0,0}, {154,255,255}, {154,255,255}, {249,228,255}, {0,0,0}, {0,0,0}, {154,255,255}, {154,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {233,218,217}, {32,255,234}, {146,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {233,218,217}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {35,255,255}, {154,255,255}, {249,228,255}, {0,0,0}, {0,0,0}, {35,255,255}, {154,255,255}, {249,228,255}, {0,0,0}, {0,0,0}, {35,255,255}, {154,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {35,255,255}, {0,0,0}, {0,0,0}, {233,218,217}, {32,255,234} },
 
-    [7] = { {249,228,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {249,228,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {249,228,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {205,255,255}, {146,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {233,218,217}, {0,0,0}, {35,255,255}, {35,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {35,255,255}, {35,255,255}, {35,255,255}, {0,0,0}, {0,0,0}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {0,0,0}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {205,255,255}, {0,0,0}, {0,0,0}, {205,255,255} },
+    [7] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {249,228,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {249,228,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {249,228,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {205,255,255}, {146,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {233,218,217}, {0,0,0}, {35,255,255}, {35,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {35,255,255}, {35,255,255}, {35,255,255}, {0,0,0}, {0,0,0}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {0,0,0}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {205,255,255}, {0,0,0}, {0,0,0}, {205,255,255} },
 
 };
 
@@ -233,7 +234,7 @@ enum {
     MORE_TAPS
 };
 
-static tap dance_state[8];
+static tap dance_state[9];
 
 uint8_t dance_step(qk_tap_dance_state_t *state);
 
@@ -445,24 +446,75 @@ void dance_6_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
     dance_state[6].step = 0;
 }
+void on_dance_7(qk_tap_dance_state_t *state, void *user_data);
 void dance_7_finished(qk_tap_dance_state_t *state, void *user_data);
 void dance_7_reset(qk_tap_dance_state_t *state, void *user_data);
+
+void on_dance_7(qk_tap_dance_state_t *state, void *user_data) {
+    if(state->count == 3) {
+        tap_code16(KC_LPRN);
+        tap_code16(KC_LPRN);
+        tap_code16(KC_LPRN);
+    }
+    if(state->count > 3) {
+        tap_code16(KC_LPRN);
+    }
+}
 
 void dance_7_finished(qk_tap_dance_state_t *state, void *user_data) {
     dance_state[7].step = dance_step(state);
     switch (dance_state[7].step) {
-        case SINGLE_HOLD: register_code16(KC_LGUI); break;
-        case DOUBLE_HOLD: register_code16(KC_LGUI); break;
+        case SINGLE_TAP: register_code16(KC_LPRN); break;
+        case SINGLE_HOLD: register_code16(KC_LSHIFT); break;
+        case DOUBLE_TAP: register_code16(KC_LPRN); register_code16(KC_LPRN); break;
+        case DOUBLE_SINGLE_TAP: tap_code16(KC_LPRN); register_code16(KC_LPRN);
     }
 }
 
 void dance_7_reset(qk_tap_dance_state_t *state, void *user_data) {
     wait_ms(10);
     switch (dance_state[7].step) {
-        case SINGLE_HOLD: unregister_code16(KC_LGUI); break;
-        case DOUBLE_HOLD: unregister_code16(KC_LGUI); break;
+        case SINGLE_TAP: unregister_code16(KC_LPRN); break;
+        case SINGLE_HOLD: unregister_code16(KC_LSHIFT); break;
+        case DOUBLE_TAP: unregister_code16(KC_LPRN); break;
+        case DOUBLE_SINGLE_TAP: unregister_code16(KC_LPRN); break;
     }
     dance_state[7].step = 0;
+}
+void on_dance_8(qk_tap_dance_state_t *state, void *user_data);
+void dance_8_finished(qk_tap_dance_state_t *state, void *user_data);
+void dance_8_reset(qk_tap_dance_state_t *state, void *user_data);
+
+void on_dance_8(qk_tap_dance_state_t *state, void *user_data) {
+    if(state->count == 3) {
+        tap_code16(KC_RPRN);
+        tap_code16(KC_RPRN);
+        tap_code16(KC_RPRN);
+    }
+    if(state->count > 3) {
+        tap_code16(KC_RPRN);
+    }
+}
+
+void dance_8_finished(qk_tap_dance_state_t *state, void *user_data) {
+    dance_state[8].step = dance_step(state);
+    switch (dance_state[8].step) {
+        case SINGLE_TAP: register_code16(KC_RPRN); break;
+        case SINGLE_HOLD: register_code16(KC_LCTRL); break;
+        case DOUBLE_TAP: register_code16(KC_RPRN); register_code16(KC_RPRN); break;
+        case DOUBLE_SINGLE_TAP: tap_code16(KC_RPRN); register_code16(KC_RPRN);
+    }
+}
+
+void dance_8_reset(qk_tap_dance_state_t *state, void *user_data) {
+    wait_ms(10);
+    switch (dance_state[8].step) {
+        case SINGLE_TAP: unregister_code16(KC_RPRN); break;
+        case SINGLE_HOLD: unregister_code16(KC_LCTRL); break;
+        case DOUBLE_TAP: unregister_code16(KC_RPRN); break;
+        case DOUBLE_SINGLE_TAP: unregister_code16(KC_RPRN); break;
+    }
+    dance_state[8].step = 0;
 }
 
 qk_tap_dance_action_t tap_dance_actions[] = {
@@ -473,6 +525,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
         [DANCE_4] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_4_finished, dance_4_reset),
         [DANCE_5] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_5, dance_5_finished, dance_5_reset),
         [DANCE_6] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_6, dance_6_finished, dance_6_reset),
-        [DANCE_7] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_7_finished, dance_7_reset),
+        [DANCE_7] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_7, dance_7_finished, dance_7_reset),
+        [DANCE_8] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_8, dance_8_finished, dance_8_reset),
 };
 
