@@ -7,3 +7,4 @@ ORYX_ENABLE = yes
 TAP_DANCE_ENABLE = yes
 SRC = matrix.c
 LEADER_ENABLE = yes
+DYNAMIC_MACRO_ENABLE = yes
