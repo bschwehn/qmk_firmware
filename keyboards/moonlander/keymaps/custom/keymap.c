@@ -97,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DYN_REC_STOP,   DYN_REC_START1, DYN_MACRO_PLAY1,UK_LABK,        UK_RABK,        UK_PERC,        UK_BRKP,                                        KC_F11,         UK_AT,          UK_QUES,        UK_PIPE,        UK_ASTR,        UK_MINS,        KC_PSCREEN,     
     TO(0),          TD(DANCE_8),    MT(MOD_LALT, UK_SCLN),TD(DANCE_9),    TD(DANCE_10),   UK_DQUO,        KC_GRAVE,                                                                       KC_F12,         UK_CIRC,        UK_EQL,         UK_AMPR,        UK_DLR,         UK_PLUS,        KC_INSERT,      
     KC_TRANSPARENT, DYN_REC_START2, DYN_MACRO_PLAY2,UK_LBRC,        UK_RBRC,        UK_QUOT,                                        UK_TILD,        UK_EXLM,        UK_UNDS,        UK_HASH,        UK_COLN,        KC_RALT,        
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, UK_LPRN,        UK_RPRN,        KC_TRANSPARENT,                                                                                                 KC_TRANSPARENT, KC_HOME,        KC_PGDOWN,      KC_PGUP,        KC_END,         KC_SCROLLLOCK,  
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, UK_LPRN,        UK_RPRN,        TO(0),                                                                                                          KC_TRANSPARENT, KC_HOME,        KC_PGDOWN,      KC_PGUP,        KC_END,         KC_SCROLLLOCK,  
     UK_MINS,        UK_SCLN,        UK_COLN,                        UK_UNDS,        KC_LPRN,        KC_RPRN
   ),
   [4] = LAYOUT_moonlander(
