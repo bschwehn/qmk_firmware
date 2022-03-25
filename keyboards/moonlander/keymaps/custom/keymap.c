@@ -742,7 +742,7 @@ void matrix_scan_user(void) {
             unregister_code(KC_RALT);
             tap_code(KC_U);
         }
-        SEQ_ONE_KEY(UK_GRV) {
+        SEQ_ONE_KEY(UK_LBRC) {
             SEND_STRING("` ");
         }
   }
