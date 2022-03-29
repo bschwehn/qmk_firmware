@@ -98,9 +98,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [3] = LAYOUT_moonlander(
     KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          LALT(KC_F2),                                    KC_CAPSLOCK,    KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         TO(0),          
     DYN_REC_STOP,   DYN_REC_START1, DYN_MACRO_PLAY1,UK_LABK,        UK_RABK,        UK_PERC,        UK_BRKP,                                        KC_F11,         UK_AT,          UK_QUES,        UK_PIPE,        UK_ASTR,        UK_MINS,        KC_PSCREEN,     
-    TO(0),          TD(DANCE_10),   MT(MOD_LALT, UK_SCLN),TD(DANCE_11),   TD(DANCE_12),   UK_DQUO,        ST_MACRO_0,                                                                     KC_F12,         UK_CIRC,        UK_EQL,         UK_AMPR,        UK_DLR,         UK_PLUS,        KC_INSERT,      
+    TO(0),          TD(DANCE_10),   MT(MOD_LALT, UK_SCLN),TD(DANCE_11),   TD(DANCE_12),   UK_DQUO,        ST_MACRO_0,                                                                     KC_F12,         UK_CIRC,        UK_EQL,         UK_AMPR,        UK_DLR,         UK_PLUS,        KC_TRANSPARENT, 
     KC_TRANSPARENT, DYN_REC_START2, DYN_MACRO_PLAY2,UK_LBRC,        UK_RBRC,        UK_QUOT,                                        UK_TILD,        UK_EXLM,        UK_UNDS,        UK_HASH,        UK_COLN,        KC_RALT,        
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, UK_LPRN,        UK_RPRN,        TO(0),                                                                                                          KC_TRANSPARENT, KC_HOME,        KC_PGDOWN,      KC_PGUP,        KC_END,         KC_SCROLLLOCK,  
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_INSERT,      UK_LPRN,        UK_RPRN,        TO(0),                                                                                                          KC_TRANSPARENT, KC_HOME,        KC_PGDOWN,      KC_PGUP,        KC_END,         KC_SCROLLLOCK,  
     UK_MINS,        UK_SCLN,        UK_COLN,                        UK_UNDS,        KC_LPRN,        KC_RPRN
   ),
   [4] = LAYOUT_moonlander(
