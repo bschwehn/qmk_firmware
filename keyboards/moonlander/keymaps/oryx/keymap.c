@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LT(5,KC_ESCAPE),MT(MOD_LGUI, KC_A),MT(MOD_LALT, KC_R),MT(MOD_LSFT, KC_S),MT(MOD_LCTL, KC_T),KC_G,           TD(DANCE_1),                                                                    UK_SCLN,        KC_M,           MT(MOD_RCTL, KC_N),MT(MOD_RSFT, KC_E),MT(MOD_LALT, KC_I),MT(MOD_RGUI, KC_O),KC_BSPACE,      
     KC_LSPO,        KC_Z,           KC_X,           KC_C,           KC_D,           KC_V,                                           KC_K,           KC_H,           TD(DANCE_7),    TD(DANCE_8),    TD(DANCE_9),    KC_RSPC,        
     TD(DANCE_2),    TD(DANCE_3),    KC_RALT,        KC_LGUI,        TD(DANCE_4),    OSL(3),                                                                                                         KC_TRANSPARENT, KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       MT(MOD_RCTL, KC_APPLICATION),
-    KC_SPACE,       MT(MOD_LCTL, KC_DELETE),MT(MOD_LSFT, UK_MINS),                MT(MOD_RSFT, UK_SCLN),TD(DANCE_10),   KC_ENTER
+    KC_SPACE,       MT(MOD_LCTL, KC_DELETE),MT(MOD_LSFT, UK_MINS),                TD(DANCE_10),   MT(MOD_LCTL, UK_SCLN),KC_ENTER
   ),
   [1] = LAYOUT_moonlander(
     UK_CIRC,        UK_AMPR,        UK_LBRC,        UK_LCBR,        UK_LPRN,        UK_ASTR,        UK_PLUS,                                        UK_UNDS,        UK_RPRN,        UK_RCBR,        UK_RBRC,        UK_EXLM,        UK_SCLN,        UK_TILD,        
@@ -581,7 +581,7 @@ void dance_10_finished(qk_tap_dance_state_t *state, void *user_data) {
     dance_state[10].step = dance_step(state);
     switch (dance_state[10].step) {
         case SINGLE_TAP: register_code16(UK_COLN); break;
-        case SINGLE_HOLD: register_code16(KC_LCTRL); break;
+        case SINGLE_HOLD: register_code16(KC_RSHIFT); break;
         case DOUBLE_TAP: register_code16(UK_COLN); register_code16(UK_COLN); break;
         case DOUBLE_SINGLE_TAP: tap_code16(UK_COLN); register_code16(UK_COLN);
     }
@@ -591,7 +591,7 @@ void dance_10_reset(qk_tap_dance_state_t *state, void *user_data) {
     wait_ms(10);
     switch (dance_state[10].step) {
         case SINGLE_TAP: unregister_code16(UK_COLN); break;
-        case SINGLE_HOLD: unregister_code16(KC_LCTRL); break;
+        case SINGLE_HOLD: unregister_code16(KC_RSHIFT); break;
         case DOUBLE_TAP: unregister_code16(UK_COLN); break;
         case DOUBLE_SINGLE_TAP: unregister_code16(UK_COLN); break;
     }
