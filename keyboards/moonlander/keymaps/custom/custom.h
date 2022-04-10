@@ -1,0 +1,4 @@
+// custom
+#define LEADER_PER_KEY_TIMING
+#define LEADER_TIMEOUT 600
+#define IGNORE_MOD_TAP_INTERRUPT
