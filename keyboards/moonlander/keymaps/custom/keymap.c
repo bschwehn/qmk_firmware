@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
+#include "keymap_custom.h"
 #include "keymap_german.h"
 #include "keymap_nordic.h"
 #include "keymap_french.h"
@@ -245,6 +246,7 @@ void rgb_matrix_indicators_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+if (!custom_record_user(keycode, record)) { return false; }
   switch (keycode) {
     case ST_MACRO_0:
     if (record->event.pressed) {
