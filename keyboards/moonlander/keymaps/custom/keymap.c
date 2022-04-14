@@ -858,6 +858,14 @@ void matrix_scan_user(void) {
         SEQ_TWO_KEYS(KC_S, KC_P) {
             tap_code(KC_PSCREEN);
         }
+        SEQ_TWO_KEYS(KC_S, KC_B) {
+            tap_code(KC_PAUSE);
+        }
+        SEQ_THREE_KEYS(KC_S, KC_B, KC_B) {
+            register_code(KC_LSFT);
+            tap_code(KC_PAUSE);
+            unregister_code(KC_LSFT);
+        }
         SEQ_ONE_KEY(KC_Q) {
             SEND_STRING(SS_LALT(SS_TAP(X_F4)));
         }
