@@ -10,4 +10,5 @@ TAP_DANCE_ENABLE = yes
 SRC = matrix.c
 # custom
 LEADER_ENABLE = yes
+COMBO_ENABLE = yes
 SRC += features/caps_word.c
