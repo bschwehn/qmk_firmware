@@ -11,4 +11,5 @@ SRC = matrix.c
 # custom
 LEADER_ENABLE = yes
 COMBO_ENABLE = yes
+KEY_OVERRIDE_ENABLE = yes
 SRC += features/caps_word.c
