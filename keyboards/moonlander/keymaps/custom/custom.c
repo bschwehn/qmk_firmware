@@ -91,7 +91,8 @@ const uint16_t PROGMEM q_combo[] = {LT(9,KC_F),     LT(9,KC_P), COMBO_END};
 
 combo_t key_combos[] = {
     [AT_ESC] = COMBO(esc_combo, KC_ESC),
-    [FP_Q] = COMBO(q_combo, KC_Q),
+    [FP_Q] = COMBO(q_combo, CUSTOM_QU),
+
 };
 const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_QUOTE);
 
