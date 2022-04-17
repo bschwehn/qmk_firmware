@@ -4,15 +4,34 @@
 enum custom_combo {
     CUSTOM_QU = ML_SAFE_RANGE + 5,
     CUSTOM_AUML,
+    CUSTOM_UUML,
+    CUSTOM_OUML,
     CUSTOM_END_CAPS,
 };
+
+bool send_with_caps_word(uint16_t keycode, uint16_t mod_state) {
+    bool is_caps_word = caps_word_get();
+    del_mods(MOD_MASK_SHIFT);
+    if (is_caps_word) {
+        del_weak_mods(MOD_BIT(KC_LSFT));
+    }
+    register_code(KC_RALT);
+    register_code16(UK_2);
+    unregister_code16(UK_2);
+    unregister_code(KC_RALT);
+    set_mods(mod_state);
+    if (is_caps_word) {
+        register_weak_mods(MOD_BIT(KC_LSFT));
+    }
+    tap_code(keycode);
+    return false;
+}
 
 bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     if (!process_caps_word(keycode, record)) { return false; }
     uint8_t mod_state = get_mods();
     static bool is_shifted;
     is_shifted = get_mods() & MOD_MASK_SHIFT;
-    bool is_caps_word = caps_word_get();
     if (record->event.pressed) {
         switch (keycode) {
         case CUSTOM_QU:
@@ -25,20 +44,11 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             }
             return false;
         case CUSTOM_AUML:
-            del_mods(MOD_MASK_SHIFT);
-            if (is_caps_word) {
-            del_weak_mods(MOD_BIT(KC_LSFT));
-            }
-            register_code(KC_RALT);
-            register_code16(UK_2);
-            unregister_code16(UK_2);
-            unregister_code(KC_RALT);
-            set_mods(mod_state);
-            if (is_caps_word) {
-                register_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
-            }
-            tap_code(KC_A);
-            return false;
+            send_with_caps_word(KC_A, mod_state);
+        case CUSTOM_UUML:
+            send_with_caps_word(KC_U, mod_state);
+        case CUSTOM_OUML:
+            send_with_caps_word(KC_O, mod_state);
         }
     }
     return true;
