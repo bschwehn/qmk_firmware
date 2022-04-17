@@ -1,4 +1,5 @@
 #include "features/caps_word.h"
+#include "keymap_uk.h"
 
 enum custom_combo {
     CUSTOM_QU = ML_SAFE_RANGE + 5,
@@ -22,7 +23,11 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             }
             return false;
         case CUSTOM_AUML:
-            SEND_STRING("ä");
+            register_code(KC_RALT);
+            register_code16(UK_2);
+            unregister_code16(UK_2);
+            unregister_code(KC_RALT);
+            tap_code(KC_A);
             return false;
         }
     }
