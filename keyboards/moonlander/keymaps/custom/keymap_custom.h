@@ -12,6 +12,7 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     uint8_t mod_state = get_mods();
     static bool is_shifted;
     is_shifted = get_mods() & MOD_MASK_SHIFT;
+    bool is_caps_word = caps_word_get();
     if (record->event.pressed) {
         switch (keycode) {
         case CUSTOM_QU:
@@ -25,11 +26,17 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             return false;
         case CUSTOM_AUML:
             del_mods(MOD_MASK_SHIFT);
+            if (is_caps_word) {
+            del_weak_mods(MOD_BIT(KC_LSFT));
+            }
             register_code(KC_RALT);
             register_code16(UK_2);
             unregister_code16(UK_2);
             unregister_code(KC_RALT);
             set_mods(mod_state);
+            if (is_caps_word) {
+                register_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
+            }
             tap_code(KC_A);
             return false;
         }
