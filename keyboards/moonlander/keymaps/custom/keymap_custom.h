@@ -11,17 +11,13 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     case CUSTOM_QU:
         static bool is_shifted;
         if (record->event.pressed) {
-            if (caps_word_get()) {
-                SEND_STRING("QU");
+            is_shifted = get_mods() & MOD_MASK_SHIFT;
+            if (is_shifted) {
+                del_mods(MOD_MASK_SHIFT);
+                SEND_STRING("Qu");
+                set_mods(mod_state);
             } else {
-                is_shifted = get_mods() & MOD_MASK_SHIFT;
-                if (is_shifted) {
-                    del_mods(MOD_MASK_SHIFT);
-                    SEND_STRING("Qu");
-                    set_mods(mod_state);
-                } else {
-                    SEND_STRING("qu");
-                }
+                SEND_STRING("qu");
             }
         } else {
         }
