@@ -17,6 +17,7 @@
 // https://getreuer.info/posts/keyboards/caps-word
 
 #include "caps_word.h"
+#include "../custom.h"
 
 static bool caps_word_active = false;
 
@@ -128,22 +129,3 @@ void caps_word_set(bool active) {
 bool caps_word_get(void) { return caps_word_active; }
 
 __attribute__((weak)) void caps_word_set_user(bool active) {}
-
-__attribute__((weak)) bool caps_word_press_user(uint16_t keycode) {
-  switch (keycode) {
-    // Keycodes that continue Caps Word, with shift applied.
-    case KC_A ... KC_Z:
-      register_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
-      return true;
-
-    // Keycodes that continue Caps Word, without shifting.
-    case KC_1 ... KC_0:
-    case KC_BSPC:
-    case KC_MINS:
-    case KC_UNDS:
-      return true;
-
-    default:
-      return false;  // Deactivate Caps Word.
-  }
-}
