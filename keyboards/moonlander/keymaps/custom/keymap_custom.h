@@ -2,16 +2,17 @@
 
 enum custom_combo {
     CUSTOM_QU = ML_SAFE_RANGE + 5,
+    CUSTOM_AUML,
 };
 
 bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     if (!process_caps_word(keycode, record)) { return false; }
     uint8_t mod_state = get_mods();
-    switch (keycode) {
-    case CUSTOM_QU:
-        static bool is_shifted;
-        if (record->event.pressed) {
-            is_shifted = get_mods() & MOD_MASK_SHIFT;
+    static bool is_shifted;
+    is_shifted = get_mods() & MOD_MASK_SHIFT;
+    if (record->event.pressed) {
+        switch (keycode) {
+        case CUSTOM_QU:
             if (is_shifted) {
                 del_mods(MOD_MASK_SHIFT);
                 SEND_STRING("Qu");
@@ -19,9 +20,11 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             } else {
                 SEND_STRING("qu");
             }
-        } else {
+            return false;
+        case CUSTOM_AUML:
+            SEND_STRING("ä");
+            return false;
         }
-        return false;
     }
     return true;
 }
