@@ -23,10 +23,12 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             }
             return false;
         case CUSTOM_AUML:
+            del_mods(MOD_MASK_SHIFT);
             register_code(KC_RALT);
             register_code16(UK_2);
             unregister_code16(UK_2);
             unregister_code(KC_RALT);
+            set_mods(mod_state);
             tap_code(KC_A);
             return false;
         }
