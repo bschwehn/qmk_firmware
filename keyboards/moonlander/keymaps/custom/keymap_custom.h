@@ -44,11 +44,11 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             }
             return false;
         case CUSTOM_AUML:
-            send_with_caps_word(KC_A, mod_state);
+            return send_with_caps_word(KC_A, mod_state);
         case CUSTOM_UUML:
-            send_with_caps_word(KC_U, mod_state);
+            return send_with_caps_word(KC_U, mod_state);
         case CUSTOM_OUML:
-            send_with_caps_word(KC_O, mod_state);
+            return send_with_caps_word(KC_O, mod_state);
         }
     }
     return true;
