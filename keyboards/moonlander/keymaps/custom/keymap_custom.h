@@ -4,6 +4,7 @@
 enum custom_combo {
     CUSTOM_QU = ML_SAFE_RANGE + 5,
     CUSTOM_AUML,
+    CUSTOM_END_CAPS,
 };
 
 bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
@@ -40,7 +41,7 @@ __attribute__((weak)) bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
         // Keycodes that continue Caps Word, with shift applied.
     case KC_A ... KC_Z:
-    case CUSTOM_QU:
+    case CUSTOM_QU ... CUSTOM_END_CAPS:
         register_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
         return true;
 
