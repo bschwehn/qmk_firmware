@@ -96,7 +96,7 @@ const uint16_t PROGMEM ouml_combo[] = {MT(MOD_RGUI, KC_O), KC_V, COMBO_END};
 
 
 combo_t key_combos[] = {
-    [AT_ESC] = COMBO(esc_combo, KC_ESC),
+    [AT_ESC] = COMBO(esc_combo, CUSTOM_ESC),
     [FP_Q] = COMBO(q_combo, CUSTOM_QU),
     [V_A] = COMBO(auml_combo, CUSTOM_AUML),
     [V_U] = COMBO(uuml_combo, CUSTOM_UUML),

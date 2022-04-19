@@ -6,6 +6,7 @@ enum custom_combo {
     CUSTOM_AUML,
     CUSTOM_UUML,
     CUSTOM_OUML,
+    CUSTOM_ESC,
     CUSTOM_END_CAPS,
 };
 
@@ -49,6 +50,12 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             return send_with_caps_word(KC_U, mod_state);
         case CUSTOM_OUML:
             return send_with_caps_word(KC_O, mod_state);
+        case CUSTOM_ESC:
+            if (layer_state > 0) {
+                layer_move(0);
+            } else {
+                tap_code16(KC_ESC);
+            }
         }
     }
     return true;
