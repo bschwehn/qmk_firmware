@@ -51,9 +51,8 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
         case CUSTOM_OUML:
             return send_with_caps_word(KC_O, mod_state);
         case CUSTOM_ESC:
-            tap_code16(KC_ESC);
-            return false;
-            if (layer_state > 0) {
+            uint8_t layer = biton32(layer_state);
+            if (layer > 0) {
                 layer_move(0);
             } else {
                 tap_code16(KC_ESC);
