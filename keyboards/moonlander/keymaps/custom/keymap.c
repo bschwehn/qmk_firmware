@@ -861,7 +861,7 @@ uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this
 
 const uint16_t PROGMEM esc_combo[] = {MT(MOD_LGUI, KC_A), MT(MOD_LCTL, KC_T), COMBO_END};
 const uint16_t PROGMEM esc_combo10[] = {KC_TAB, KC_F6, COMBO_END};
-const uint16_t PROGMEM esc_combo3[] = {TD(DANCE_8), TD(DANCE_9), COMBO_END};
+const uint16_t PROGMEM esc_combo3[] = {TD(DANCE_8), TD(DANCE_10), COMBO_END};
 const uint16_t PROGMEM q_combo[] = {LT(9,KC_F),     LT(9,KC_P), COMBO_END};
 const uint16_t PROGMEM auml_combo[] = {MT(MOD_LGUI, KC_A), KC_V, COMBO_END};
 const uint16_t PROGMEM uuml_combo[] = {LT(8,KC_U), KC_V, COMBO_END};
