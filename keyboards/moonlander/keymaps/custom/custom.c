@@ -1,6 +1,7 @@
 // custom
 LEADER_EXTERNS();
 void matrix_scan_user(void) {
+    custom_matrix_scan_user();
     LEADER_DICTIONARY() {
         leading = false;
         leader_end();

@@ -1,4 +1,5 @@
 #include "features/caps_word.h"
+#include "features/achordion.h"
 #include "keymap_uk.h"
 
 enum custom_combo {
@@ -9,6 +10,27 @@ enum custom_combo {
     CUSTOM_ESC,
     CUSTOM_END_CAPS,
 };
+
+void custom_matrix_scan_user(void) {
+    achordion_task();
+}
+
+uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
+    return 800;
+}
+
+bool achordion_eager_mod(uint8_t mod) {
+    switch (mod) {
+    case MOD_LSFT:
+    case MOD_RSFT:
+    case MOD_LCTL:
+    case MOD_RCTL:
+        return true;  // Eagerly apply Shift and Ctrl mods.
+
+    default:
+        return false;
+    }
+}
 
 bool send_with_caps_word(uint16_t keycode, uint16_t mod_state) {
     bool is_caps_word = caps_word_get();
