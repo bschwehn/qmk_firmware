@@ -101,7 +101,7 @@ const uint16_t PROGMEM q_combo[] = {LT(9,KC_F),     LT(9,KC_P), COMBO_END};
 const uint16_t PROGMEM auml_combo[] = {MT(MOD_LGUI, KC_A), KC_V, COMBO_END};
 const uint16_t PROGMEM uuml_combo[] = {LT(8,KC_U), KC_V, COMBO_END};
 const uint16_t PROGMEM ouml_combo[] = {MT(MOD_RGUI, KC_O), KC_V, COMBO_END};
-const uint16_t PROGMEM bspc_combo[] = {KC_W, LT(9,KC_F), COMBO_END};
+const uint16_t PROGMEM bspc_combo[] = {LT(5,KC_X), LT(3,KC_C), COMBO_END};
 
 
 
