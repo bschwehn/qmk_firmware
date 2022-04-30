@@ -416,6 +416,7 @@ void dance_4_finished(qk_tap_dance_state_t *state, void *user_data) {
     dance_state[4].step = dance_step(state);
     switch (dance_state[4].step) {
         case SINGLE_TAP: layer_move(3); break;
+        case SINGLE_HOLD: layer_on(3); break;
         case DOUBLE_TAP: layer_move(2); break;
         case DOUBLE_SINGLE_TAP: layer_move(3); break;
     }
@@ -424,6 +425,7 @@ void dance_4_finished(qk_tap_dance_state_t *state, void *user_data) {
 void dance_4_reset(qk_tap_dance_state_t *state, void *user_data) {
     wait_ms(10);
     switch (dance_state[4].step) {
+        case SINGLE_HOLD: layer_off(3); break;
     }
     dance_state[4].step = 0;
 }
