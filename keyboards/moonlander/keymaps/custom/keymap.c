@@ -850,9 +850,9 @@ void matrix_scan_user(void) {
 }
 
 enum combos {
-    QP_ESC,
-    QP_ESC10,
-    QP_ESC3,
+    WF_ESC,
+    WF_ESC10,
+    WF_ESC3,
     FP_Q,
     V_A,
     V_U,
@@ -863,10 +863,10 @@ enum combos {
 uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this instead!
 
 // const uint16_t PROGMEM esc_combo[] = {MT(MOD_LGUI, KC_A), MT(MOD_LCTL, KC_T), COMBO_END};
-const uint16_t PROGMEM esc_combo[] = {KC_Q, LT(9,KC_P), COMBO_END};
-const uint16_t PROGMEM esc_combo10[] = {LSFT(KC_TAB), KC_F3, COMBO_END};
+const uint16_t PROGMEM esc_combo[] = {KC_W, LT(9,KC_F), COMBO_END};
+const uint16_t PROGMEM esc_combo10[] = {KC_F1, KC_F2, COMBO_END};
 //const uint16_t PROGMEM esc_combo10[] = {KC_TAB, KC_F6, COMBO_END};
-const uint16_t PROGMEM esc_combo3[] = {KC_Q, UK_RABK, COMBO_END};
+const uint16_t PROGMEM esc_combo3[] = {UK_BSLS, UK_LABK, COMBO_END};
 //const uint16_t PROGMEM esc_combo3[] = {TD(DANCE_8), TD(DANCE_10), COMBO_END};
 const uint16_t PROGMEM q_combo[] = {LT(9,KC_F),     LT(9,KC_P), COMBO_END};
 const uint16_t PROGMEM auml_combo[] = {MT(MOD_LGUI, KC_A), KC_V, COMBO_END};
@@ -876,9 +876,9 @@ const uint16_t PROGMEM ouml_combo[] = {MT(MOD_RGUI, KC_O), KC_V, COMBO_END};
 
 
 combo_t key_combos[] = {
-    [QP_ESC] = COMBO(esc_combo, CUSTOM_ESC),
-    [QP_ESC10] = COMBO(esc_combo10, CUSTOM_ESC),
-    [QP_ESC3] = COMBO(esc_combo3, CUSTOM_ESC),
+    [WF_ESC] = COMBO(esc_combo, CUSTOM_ESC),
+    [WF_ESC10] = COMBO(esc_combo10, CUSTOM_ESC),
+    [WF_ESC3] = COMBO(esc_combo3, CUSTOM_ESC),
     [FP_Q] = COMBO(q_combo, CUSTOM_QU),
     [V_A] = COMBO(auml_combo, CUSTOM_AUML),
     [V_U] = COMBO(uuml_combo, CUSTOM_UUML),
