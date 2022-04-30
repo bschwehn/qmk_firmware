@@ -39,7 +39,7 @@ bool achordion_eager_mod(uint8_t mod) {
     }
 }
 
-bool send_with_caps_word(uint16_t keycode, uint16_t mod_state) {
+bool send_grave_with_caps_word(uint16_t keycode, uint16_t mod_state) {
     bool is_caps_word = caps_word_get();
     del_mods(MOD_MASK_SHIFT);
     if (is_caps_word) {
@@ -75,13 +75,14 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             }
             return false;
         case CUSTOM_AUML:
-            return send_with_caps_word(KC_A, mod_state);
+            return send_grave_with_caps_word(KC_A, mod_state);
         case CUSTOM_UUML:
-            return send_with_caps_word(KC_U, mod_state);
+            return send_grave_with_caps_word(KC_U, mod_state);
         case CUSTOM_OUML:
-            return send_with_caps_word(KC_O, mod_state);
+            return send_grave_with_caps_word(KC_O, mod_state);
         case CUSTOM_BSPACE:
-            return send_with_caps_word(KC_BSPACE, mod_state);
+            tap_code(KC_BSPACE);
+            return false;
         case CUSTOM_ESC:
             uint8_t layer = biton32(layer_state);
             if (layer > 0) {
