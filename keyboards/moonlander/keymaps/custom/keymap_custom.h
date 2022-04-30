@@ -8,6 +8,7 @@ enum custom_combo {
     CUSTOM_AUML,
     CUSTOM_UUML,
     CUSTOM_OUML,
+    CUSTOM_BSPACE,
     CUSTOM_ESC,
     CUSTOM_END_CAPS,
     CUSTOM_LAST
@@ -79,6 +80,8 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             return send_with_caps_word(KC_U, mod_state);
         case CUSTOM_OUML:
             return send_with_caps_word(KC_O, mod_state);
+        case CUSTOM_BSPACE:
+            return send_with_caps_word(KC_BSPACE, mod_state);
         case CUSTOM_ESC:
             uint8_t layer = biton32(layer_state);
             if (layer > 0) {
