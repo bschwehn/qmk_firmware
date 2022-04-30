@@ -1,5 +1,6 @@
 #include "features/caps_word.h"
 #include "features/achordion.h"
+#include "features/layer_lock.h"
 #include "keymap_uk.h"
 
 enum custom_combo {
@@ -9,6 +10,11 @@ enum custom_combo {
     CUSTOM_OUML,
     CUSTOM_ESC,
     CUSTOM_END_CAPS,
+    CUSTOM_LAST
+};
+
+enum custom_ext {
+    LLOCK = CUSTOM_LAST
 };
 
 void custom_matrix_scan_user(void) {
@@ -52,6 +58,7 @@ bool send_with_caps_word(uint16_t keycode, uint16_t mod_state) {
 
 bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     if (!process_caps_word(keycode, record)) { return false; }
+    if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
     uint8_t mod_state = get_mods();
     static bool is_shifted;
     is_shifted = get_mods() & MOD_MASK_SHIFT;
