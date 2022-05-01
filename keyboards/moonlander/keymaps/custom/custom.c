@@ -116,7 +116,7 @@ combo_t key_combos[] = {
     [XC_BSPC] = COMBO(bspc_combo, CUSTOM_BSPACE),
 };
 const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_QUOTE);
-const key_override_t dash_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(3,KC_COMMA), UK_MINS);
+const key_override_t dash_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(1,KC_COMMA), UK_MINS);
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
