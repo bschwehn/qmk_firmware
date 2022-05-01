@@ -176,12 +176,7 @@ void achordion_task(void) {
 
 // Returns true if `pos` on the left hand of the keyboard, false if right.
 static bool on_left_hand(keypos_t pos) {
-#ifdef SPLIT_KEYBOARD
   return pos.row < MATRIX_ROWS / 2;
-#else
-  return (MATRIX_COLS > MATRIX_ROWS)
-      ? pos.col < MATRIX_COLS / 2 : pos.row < MATRIX_ROWS / 2;
-#endif
 }
 
 bool achordion_opposite_hands(const keyrecord_t* tap_hold_record,
@@ -217,4 +212,3 @@ __attribute__((weak)) bool achordion_eager_mod(uint8_t mod) {
       return false;
   }
 }
-
