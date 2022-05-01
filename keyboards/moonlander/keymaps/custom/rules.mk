@@ -12,6 +12,7 @@ SRC = matrix.c
 LEADER_ENABLE = yes
 COMBO_ENABLE = yes
 KEY_OVERRIDE_ENABLE = yes
+SPLIT_KEYBOADS = yes
 SRC += features/caps_word.c
 SRC += features/achordion.c
 SRC += features/layer_lock.c

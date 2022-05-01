@@ -38,7 +38,12 @@ bool achordion_eager_mod(uint8_t mod) {
         return false;
     }
 }
-
+bool achordion_chord(uint16_t tap_hold_keycode,
+                     keyrecord_t* tap_hold_record,
+                     uint16_t other_keycode,
+                     keyrecord_t* other_record) {
+    return achordion_opposite_hands(tap_hold_record, other_record);
+}
 bool send_grave_with_caps_word(uint16_t keycode, uint16_t mod_state) {
     bool is_caps_word = caps_word_get();
     del_mods(MOD_MASK_SHIFT);
