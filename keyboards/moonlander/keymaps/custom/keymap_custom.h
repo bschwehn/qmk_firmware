@@ -23,7 +23,7 @@ void custom_matrix_scan_user(void) {
 }
 
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
-    return 800;
+    return 600;
 }
 
 bool achordion_eager_mod(uint8_t mod) {
@@ -42,6 +42,8 @@ bool achordion_chord(uint16_t tap_hold_keycode,
                      keyrecord_t* tap_hold_record,
                      uint16_t other_keycode,
                      keyrecord_t* other_record) {
+    uint16_t row = tap_hold_record->event.key.row;
+    if (row == 5 || row == 6 || row == 11 || row == 12) return true;
     return achordion_opposite_hands(tap_hold_record, other_record);
 }
 bool send_grave_with_caps_word(uint16_t keycode, uint16_t mod_state) {
