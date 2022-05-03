@@ -9,8 +9,8 @@ enum custom_combo {
     CUSTOM_UUML,
     CUSTOM_OUML,
     CUSTOM_BSPACE,
-    CUSTOM_ESC,
     CUSTOM_END_CAPS,
+    CUSTOM_ESC,
     CUSTOM_LAST
 };
 
