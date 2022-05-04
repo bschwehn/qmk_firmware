@@ -124,3 +124,13 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 	&dash_key_override,
 	NULL // Null terminate the array of overrides!
 };
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+    case LT(1,KC_C):
+        // Immediately select the hold action when another key is pressed.
+        return true;
+    default:
+        // Do not select the hold action when another key is pressed.
+        return false;
+    }
+}
