@@ -134,3 +134,12 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 }
+bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+    case MT(MOD_LSFT, KC_S):
+    case MT(MOD_RSFT, KC_E):
+        return true;
+    default:
+        return false;
+    }
+}
