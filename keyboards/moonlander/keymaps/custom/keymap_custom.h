@@ -38,14 +38,30 @@ bool achordion_eager_mod(uint8_t mod) {
         return false;
     }
 }
+
+static bool custom_on_left_hand(keypos_t pos) {
+    return pos.row < MATRIX_ROWS / 2;
+}
+
+bool custom_achordion_opposite_hands(const keyrecord_t* tap_hold_record,
+                              const keyrecord_t* other_record) {
+    return custom_on_left_hand(tap_hold_record->event.key)
+        != custom_on_left_hand(other_record->event.key);
+}
+
 bool achordion_chord(uint16_t tap_hold_keycode,
                      keyrecord_t* tap_hold_record,
                      uint16_t other_keycode,
                      keyrecord_t* other_record) {
     uint16_t row = tap_hold_record->event.key.row;
+    // holding key on thumb or buttom cow
     if (row == 5 || row == 6 || row == 11 || row == 12) return true;
-    return achordion_opposite_hands(tap_hold_record, other_record);
+    row = other_record->event.key.row;
+    // other key on thumb
+    if (row == 5 || row == 6 || row == 11 || row == 12) return true;
+    return custom_achordion_opposite_hands(tap_hold_record, other_record);
 }
+
 bool send_grave_with_caps_word(uint16_t keycode, uint16_t mod_state) {
     bool is_caps_word = caps_word_get();
     del_mods(MOD_MASK_SHIFT);
