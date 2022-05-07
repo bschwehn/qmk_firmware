@@ -791,6 +791,11 @@ void matrix_scan_user(void) {
             tap_code(KC_PAUSE);
         }
         SEQ_THREE_KEYS(KC_S, KC_B, KC_B) {
+            register_code(KC_LCTRL);
+            tap_code(KC_PAUSE);
+            unregister_code(KC_LCTRL);
+        }
+        SEQ_THREE_KEYS(KC_S, KC_B, KC_B) {
             SEND_STRING(SS_LSFT(SS_TAP(X_PAUSE)));
         }
         SEQ_ONE_KEY(KC_Q) {
