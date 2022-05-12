@@ -20,7 +20,7 @@ cat $maproot/custom/custom.h >> $maproot/custom/config.h
 awk '/\/\/ custom/,EOF' $maproot/custom/keymap.c > $maproot/custom/custom.c
 cp $maproot/oryx/keymap.c $maproot/custom/keymap.c
 cat $maproot/custom/custom.c >> $maproot/custom/keymap.c
-sed -zi 's/KC_TRANSPARENT, KC_LEFT/KC_LEAD, KC_LEFT/' $maproot/custom/keymap.c
+sed -zi 's/KC_TRANSPARENT, KC_BSPACE/KC_LEAD, KC_BSPACE/' $maproot/custom/keymap.c
 sed -zi 's/OSL(3)/LLOCK/' $maproot/custom/keymap.c
 sed -i '/process_record_user/a if (!custom_record_user(keycode, record))\ { return false; }' $maproot/custom/keymap.c
 sed -i '/version.h/a #include "keymap_custom.h"' $maproot/custom/keymap.c
