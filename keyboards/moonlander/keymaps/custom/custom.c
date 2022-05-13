@@ -128,6 +128,7 @@ const key_override_t dquote_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_DQUO
 const key_override_t **key_overrides = (const key_override_t *[]){
 	&apo_key_override,
 	&dash_key_override,
+    &dquote_key_override,
 	NULL // Null terminate the array of overrides!
 };
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
