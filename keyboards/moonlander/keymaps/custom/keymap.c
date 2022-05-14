@@ -50,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,         KC_Q,           KC_W,           LT(4,KC_F),     LT(4,KC_P),     KC_B,           TD(DANCE_0),                                    UK_COLN,        KC_J,           LT(3,KC_L),     LT(3,KC_U),     KC_Y,           TD(DANCE_4),    TD(DANCE_5),    
     LT(5,KC_ESCAPE),MT(MOD_LGUI, KC_A),MT(MOD_LALT, KC_R),MT(MOD_LSFT, KC_S),MT(MOD_LCTL, KC_T),KC_G,           TD(DANCE_1),                                                                    UK_SCLN,        KC_M,           MT(MOD_RCTL, KC_N),MT(MOD_RSFT, KC_E),MT(MOD_LALT, KC_I),MT(MOD_RGUI, KC_O),KC_APPLICATION, 
     KC_LSPO,        LT(2,KC_Z),     LT(2,KC_X),     LT(1,KC_C),     LT(1,KC_D),     KC_V,                                           KC_K,           LT(1,KC_H),     LT(1,KC_COMMA), KC_DOT,         UK_DQUO,        KC_RSPC,        
-    TD(DANCE_2),    TD(DANCE_3),    KC_RALT,        KC_LGUI,        OSL(1),         LLOCK,                                                                                                         KC_LEAD, KC_BSPACE,      KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       
+    TD(DANCE_2),    TD(DANCE_3),    KC_RALT,        KC_LGUI,        OSL(1),         LLOCK,                                                                                                         KC_TRANSPARENT, OSM(MOD_LSFT),  KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       
     KC_SPACE,       MT(MOD_LCTL, KC_DELETE),MT(MOD_LSFT, UK_MINS),                TD(DANCE_6),    MT(MOD_LCTL, KC_BSPACE),KC_ENTER
   ),
   [1] = LAYOUT_moonlander(
