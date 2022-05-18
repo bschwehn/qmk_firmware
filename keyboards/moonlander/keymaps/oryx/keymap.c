@@ -77,13 +77,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LT(5,KC_ESCAPE),MT(MOD_LGUI, KC_A),MT(MOD_LALT, KC_R),MT(MOD_LSFT, KC_S),MT(MOD_LCTL, KC_T),KC_G,           TD(DANCE_1),                                                                    UK_SCLN,        KC_M,           MT(MOD_RCTL, KC_N),MT(MOD_RSFT, KC_E),MT(MOD_LALT, KC_I),MT(MOD_RGUI, KC_O),KC_APPLICATION, 
     KC_LSPO,        LT(2,KC_Z),     LT(2,KC_X),     LT(1,KC_C),     LT(1,KC_D),     KC_V,                                           KC_K,           LT(1,KC_H),     LT(1,KC_COMMA), KC_DOT,         UK_DQUO,        KC_RSPC,        
     TD(DANCE_2),    TD(DANCE_3),    KC_RALT,        KC_LGUI,        OSL(1),         OSL(3),                                                                                                         TT(6),          OSM(MOD_LSFT),  KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       
-    KC_SPACE,       MT(MOD_LCTL, KC_DELETE),MT(MOD_LSFT, UK_MINS),                MT(MOD_RSFT, KC_ENTER),MT(MOD_LCTL, KC_BSPACE),KC_BSPACE
+    KC_SPACE,       MT(MOD_LCTL, KC_DELETE),MT(MOD_LSFT, KC_ENTER),                MT(MOD_RSFT, KC_ENTER),MT(MOD_LCTL, KC_BSPACE),KC_BSPACE
   ),
   [1] = LAYOUT_moonlander(
     KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          LALT(KC_F2),                                    KC_CAPSLOCK,    KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         TO(0),          
     KC_TRANSPARENT, KC_TRANSPARENT, UK_BSLS,        UK_LABK,        UK_RABK,        UK_PERC,        UK_BRKP,                                        KC_F11,         UK_AT,          UK_QUES,        UK_PIPE,        UK_ASTR,        UK_GRV,         KC_PSCREEN,     
-    TO(0),          TD(DANCE_6),    MT(MOD_LALT, UK_SCLN),TD(DANCE_7),    TD(DANCE_8),    UK_DQUO,        ST_MACRO_0,                                                                     KC_F12,         UK_CIRC,        MT(MOD_RCTL, UK_EQL),TD(DANCE_9),    TD(DANCE_10),   MT(MOD_RGUI, UK_MINS),KC_TRANSPARENT, 
-    KC_TRANSPARENT, UK_LPRN,        UK_RPRN,        UK_LBRC,        UK_RBRC,        UK_PLUS,                                        UK_TILD,        UK_EXLM,        UK_UNDS,        UK_SLSH,        UK_HASH,        KC_RALT,        
+    TO(0),          TD(DANCE_6),    MT(MOD_LALT, UK_SCLN),TD(DANCE_7),    TD(DANCE_8),    UK_PLUS,        ST_MACRO_0,                                                                     KC_F12,         UK_CIRC,        MT(MOD_RCTL, UK_EQL),TD(DANCE_9),    TD(DANCE_10),   MT(MOD_RGUI, UK_MINS),KC_TRANSPARENT, 
+    KC_TRANSPARENT, UK_LPRN,        UK_RPRN,        UK_LBRC,        UK_RBRC,        UK_MINS,                                        UK_TILD,        UK_EXLM,        UK_UNDS,        UK_SLSH,        UK_HASH,        KC_RALT,        
     KC_TRANSPARENT, KC_TRANSPARENT, KC_INSERT,      UK_LPRN,        TO(0),          KC_TRANSPARENT,                                                                                                 KC_TRANSPARENT, KC_HOME,        KC_PGDOWN,      KC_PGUP,        KC_END,         KC_SCROLLLOCK,  
     KC_SPACE,       UK_SCLN,        UK_COLN,                        UK_UNDS,        KC_LPRN,        KC_ENTER
   ),
