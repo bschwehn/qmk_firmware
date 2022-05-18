@@ -11,6 +11,7 @@ enum custom_combo {
     CUSTOM_BSPACE,
     CUSTOM_END_CAPS,
     CUSTOM_ESC,
+    CUSTOM_ENTER,
     CUSTOM_LAST
 };
 
@@ -106,6 +107,9 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             return send_grave_with_caps_word(KC_O, mod_state);
         case CUSTOM_BSPACE:
             tap_code(KC_BSPACE);
+            return false;
+        case CUSTOM_ENTER:
+            tap_code(KC_ENTER);
             return false;
         case CUSTOM_ESC:
             uint8_t layer = biton32(layer_state);

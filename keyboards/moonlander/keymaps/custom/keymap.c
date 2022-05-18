@@ -804,6 +804,7 @@ enum combos {
     V_A,
     V_U,
     V_O,
+    UY_ENTER,
     COMBO_LENGTH
 };
 
@@ -820,7 +821,7 @@ const uint16_t PROGMEM auml_combo[] = {MT(MOD_LGUI, KC_A), KC_V, COMBO_END};
 const uint16_t PROGMEM uuml_combo[] = {LT(3,KC_U), KC_V, COMBO_END};
 const uint16_t PROGMEM ouml_combo[] = {MT(MOD_RGUI, KC_O), KC_V, COMBO_END};
 const uint16_t PROGMEM bspc_combo[] = {LT(2,KC_X), LT(1,KC_C), COMBO_END};
-
+const uint16_t PROGMEM enter_combo[] = {LT(3,KC_U), KC_Y, COMBO_END};
 
 
 combo_t key_combos[] = {
@@ -832,6 +833,7 @@ combo_t key_combos[] = {
     [V_U] = COMBO(uuml_combo, CUSTOM_UUML),
     [V_O] = COMBO(ouml_combo, CUSTOM_OUML),
     [XC_BSPC] = COMBO(bspc_combo, CUSTOM_BSPACE),
+    [UY_ENTER] = COMBO(enter_combo, CUSTOM_ENTER),
 };
 const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_QUOTE);
 const key_override_t dash_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(1,KC_COMMA), UK_MINS);
