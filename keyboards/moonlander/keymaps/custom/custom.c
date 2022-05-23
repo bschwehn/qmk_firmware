@@ -153,6 +153,8 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     case LT(2,KC_X):
     case LT(1,KC_C):
     case LT(1,KC_D):
+    case LT(1,KC_H):
+    case LT(1,KC_COMMA):
         return true;
     default:
         return false;
