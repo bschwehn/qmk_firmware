@@ -147,6 +147,12 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case MT(MOD_LSFT, KC_S):
     case MT(MOD_RSFT, KC_E):
+    case LT(4,KC_F):
+    case LT(4,KC_P):
+    case LT(2,KC_Z):
+    case LT(2,KC_X):
+    case LT(1,KC_C):
+    case LT(1,KC_D):
         return true;
     default:
         return false;
