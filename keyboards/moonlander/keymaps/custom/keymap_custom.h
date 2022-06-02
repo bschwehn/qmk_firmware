@@ -82,7 +82,7 @@ bool send_grave_with_caps_word(uint16_t keycode, uint16_t mod_state) {
 }
 
 bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
-    // if (!process_achordion(keycode, record)) { return false; }
+    if (!process_achordion(keycode, record)) { return false; }
     if (!process_caps_word(keycode, record)) { return false; }
     if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
     uint8_t mod_state = get_mods();
