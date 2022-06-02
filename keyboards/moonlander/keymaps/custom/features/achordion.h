@@ -126,4 +126,3 @@ bool achordion_opposite_hands(const keyrecord_t* tap_hold_record,
 #ifdef __cplusplus
 }
 #endif
-
