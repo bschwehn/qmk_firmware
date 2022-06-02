@@ -1,6 +1,6 @@
 #define ORYX_CONFIGURATOR
 #undef DEBOUNCE
-#define DEBOUNCE 5
+#define DEBOUNCE 10
 
 #undef TAPPING_TERM
 #define TAPPING_TERM 171

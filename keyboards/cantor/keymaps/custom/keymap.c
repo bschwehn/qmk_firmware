@@ -62,8 +62,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3(
                            KC_TAB,         KC_Q,           KC_W,           LT(4,KC_F),     LT(4,KC_P),     KC_B,           KC_J, LT(3,KC_L), LT(3,KC_U), KC_Y, TD(DANCE_4), KC_TRANSPARENT,
     LT(5,KC_ESCAPE), MT(MOD_LGUI, KC_A),MT(MOD_LALT, KC_R),MT(MOD_LSFT, KC_S),MT(MOD_LCTL, KC_T),KC_G,   KC_M,  MT(MOD_RCTL, KC_N),MT(MOD_RSFT, KC_E),MT(MOD_LALT, KC_I),MT(MOD_RGUI, KC_O),KC_APPLICATION,
-    KC_LSPO,        LT(2,KC_Z),     LT(2,KC_X),     LT(1,KC_C),     LT(1,KC_D),     KC_V,                                           KC_K,           LT(1,KC_H),     LT(1,KC_COMMA), KC_DOT,         UK_DQUO,        KC_RSPC,
-    KC_SPACE,       MT(MOD_LCTL, KC_DELETE),MT(MOD_LSFT, KC_ENTER),                MT(MOD_RSFT, KC_ENTER),MT(MOD_LCTL, KC_BSPACE),KC_BSPACE
+    LLOCK,        LT(2,KC_Z),     LT(2,KC_X),     LT(1,KC_C),     LT(1,KC_D),     KC_V,                                           KC_K,           LT(1,KC_H),     LT(1,KC_COMMA), KC_DOT,         UK_DQUO,        KC_RSPC,
+                           MT(MOD_LCTL, KC_DELETE),  KC_SPACE, MT(MOD_LSFT, KC_ENTER),                MT(MOD_RSFT, KC_ENTER),MT(MOD_LCTL, KC_BSPACE),KC_LEAD
   ),
   [1] = LAYOUT_split_3x6_3(
     KC_TRANSPARENT, KC_TRANSPARENT, UK_BSLS,        UK_LABK,        UK_RABK,        UK_PERC,      UK_AT,          UK_QUES,        UK_PIPE,        UK_ASTR,        UK_GRV,         KC_PSCREEN,
@@ -72,9 +72,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_SPACE,       UK_SCLN,        UK_COLN,                        UK_UNDS,        KC_LPRN,        KC_ENTER
   ),
   [2] = LAYOUT_split_3x6_3(
-    KC_TRANSPARENT, KC_MS_WH_DOWN,  KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_ACCEL0,    LCTL(KC_Z),     LSFT(KC_INSERT),LCTL(KC_INSERT),LSFT(KC_DELETE),LCTL(KC_Y),     KC_PSCREEN,
+                           KC_SYSTEM_SLEEP, KC_MS_WH_DOWN,  KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_ACCEL0,    LCTL(KC_Z),     LSFT(KC_INSERT),LCTL(KC_INSERT),LSFT(KC_DELETE),LCTL(KC_Y),     KC_PSCREEN,
     TO(0),          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_ACCEL1,    KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_PAUSE,       KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_PC_UNDO,     KC_PC_CUT,      KC_PC_COPY,     KC_PC_PASTE,    KC_MS_ACCEL2,   KC_HOME,  KC_PGDN,    KC_PGUP,        KC_END,         KC_INSERT,      KC_TRANSPARENT,
+                           RESET, KC_PC_UNDO,     KC_PC_CUT,      KC_PC_COPY,     KC_PC_PASTE,    KC_MS_ACCEL2,   KC_HOME,  KC_PGDN,    KC_PGUP,        KC_END,         KC_INSERT,      KC_TRANSPARENT,
     KC_MS_WH_UP,    KC_MS_WH_DOWN,  KC_TRANSPARENT,                 KC_TRANSPARENT, LCTL(KC_MS_WH_DOWN),LCTL(KC_MS_WH_UP)
   ),
   [3] = LAYOUT_split_3x6_3(
@@ -758,6 +758,14 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case MT(MOD_LSFT, KC_S):
     case MT(MOD_RSFT, KC_E):
+    case LT(4,KC_F):
+    case LT(4,KC_P):
+    case LT(2,KC_Z):
+    case LT(2,KC_X):
+    case LT(1,KC_C):
+    case LT(1,KC_D):
+    case LT(1,KC_H):
+    case LT(1,KC_COMMA):
         return true;
     default:
         return false;

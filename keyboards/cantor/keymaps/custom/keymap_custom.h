@@ -56,10 +56,11 @@ bool achordion_chord(uint16_t tap_hold_keycode,
                      keyrecord_t* other_record) {
     uint16_t row = tap_hold_record->event.key.row;
     // holding key on thumb or buttom cow
-    if (row == 5 || row == 6 || row == 11 || row == 12) return true;
+    if (row == 3 || row == 7) return true;
     row = other_record->event.key.row;
     // other key on thumb
-    if (row == 5 || row == 6 || row == 11 || row == 12) return true;
+    if (row == 3 || row == 7) return true;
+    if (other_keycode == LLOCK) return true;
     return custom_achordion_opposite_hands(tap_hold_record, other_record);
 }
 

@@ -30,5 +30,6 @@ sed -i '/g_suspend/d' $maproot/custom/keymap.c
 qmk compile
 wally-cli ../qmk_upstream/qmk_firmware/moonlander_custom.bin
 cd $maproot
+rsync -av ~/dev/qmk/qmk_cantor/keyboards/cantor/keymaps/ ~/dev/qmk/qmk_upstream/qmk_firmware/keyboards/cantor/keymaps
 git commit -am "automatic merge from configurator"
 git push
