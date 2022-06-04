@@ -17,7 +17,7 @@ SRC += features/autocorrection.c
 SRC += features/custom_shift_keys.c
 SRC += features/select_word.c
 
-MCU = atmega32u4
+#MCU = atmega32u4
 
 # Bootloader selection
 #   Teensy       halfkay
@@ -27,7 +27,7 @@ MCU = atmega32u4
 #   QMK DFU      qmk-dfu
 #   ATmega32A    bootloadHID
 #   ATmega328P   USBasp
-BOOTLOADER = atmel-dfu
+#BOOTLOADER = atmel-dfu
 
 BOOTMAGIC_ENABLE = no      # Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE = yes      # Mouse keys(+4700)
@@ -53,4 +53,3 @@ LTO_ENABLE = yes
 SLEEP_LED_ENABLE = no    # Breathing sleep LED during USB suspend
 
 SPLIT_KEYBOARD = yes
-

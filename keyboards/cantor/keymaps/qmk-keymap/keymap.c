@@ -86,84 +86,59 @@ enum custom_keycodes {
 #define REDSHFT KC_F13
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
-  [BASE] = LAYOUT_LR(  // Base layer: Dvorak.
-    KC_GRV , KC_7   , KC_8   , KC_9   , KC_0   , KC_5   ,
+  [BASE] = LAYOUT_split_3x6_3(  // Base layer: Dvorak.
     KC_TAB , KC_QUOT, KC_COMM, KC_DOT , KC_P   , KC_Y   ,
     KC_ESC , HOME_A , HOME_O , HOME_E , HOME_U , KC_I   ,
     KC_LSFT, HOME_SC, KC_Q   , KC_J   , KC_K   , KC_X   ,
-    KC_LCTL, KC_PGUP, KC_PGDN, KC_DOWN, KC_UP  ,
                                                           MO(SYM), KC_UNDS,
                                                                    KC_BTN2,
-                                                 KC_DEL , KC_SPC , KC_BTN1,
 
-                      KC_6   , KC_1   , KC_2   , KC_3   , KC_4   , KC_BSLS,
                       KC_F   , KC_G   , KC_C   , KC_R   , KC_L   , KC_SLSH,
                       KC_D   , HOME_H , HOME_T , HOME_N , HOME_S , KC_MINS,
                       KC_B   , KC_M   , KC_W   , KC_V   , HOME_Z , KC_RSFT,
-                               KC_LEFT, KC_RGHT, DASH   , ARROW  , THMBUP ,
     KC_RGUI, TMUXESC,
-    JOINLN ,
-    SELWORD, KC_BSPC, KC_ENT
+    RESET
   ),
 
-  [QWERTY] = LAYOUT_LR(  // Alternative base layer: QWERTY.
-    _______, _______, _______, _______, _______, _______,
+  [QWERTY] = LAYOUT_split_3x6_3(  // Alternative base layer: QWERTY.
     _______, KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,
     _______, QHOME_A, QHOME_S, QHOME_D, QHOME_F, KC_G   ,
     _______, QHOME_Z, KC_X   , KC_C   , KC_V   , KC_B   ,
-    _______, _______, _______, _______, _______,
                                                           _______, _______,
                                                                    _______,
-                                                 _______, _______, _______,
 
-                      _______, _______, _______, _______, _______, _______,
                       KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_MINS,
                       KC_H   , QHOME_J, QHOME_K, QHOME_L, QHOME_SC, KC_QUOT,
                       KC_N   , KC_M   , KC_COMM, KC_DOT , QHOME_SL, _______,
-                               _______, _______, _______, _______, _______,
     _______, _______,
-    _______,
-    _______, _______, _______
+    _______
   ),
 
-  [SYM] = LAYOUT_LR(  // Symbol layer.
-    _______, KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F5  ,
+  [SYM] = LAYOUT_split_3x6_3(  // Symbol layer.
     _______, KC_QUOT, KC_LABK, KC_RABK, KC_DQUO, KC_DOT ,
     _______, KC_EXLM, KC_MINS, KC_PLUS, KC_EQL , KC_HASH,
     _______, KC_CIRC, KC_SLSH, KC_ASTR, KC_BSLS, UPDIR,
-    _______, _______, _______, C(KC_END), C(KC_HOME),
                                                           _______, _______,
                                                                    _______,
-                                                 SRCHSEL, _______, _______,
-
-                      KC_F6  , KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F11 ,
                       KC_AMPR, SCOPE  , KC_LBRC, KC_RBRC, KC_PERC, KC_F12 ,
                       KC_PIPE, KC_COLN, KC_LPRN, KC_RPRN, KC_QUES, TO(ADJUST),
                       KC_TILD, KC_DLR , KC_LCBR, KC_RCBR, KC_AT  , _______,
-                               KC_HOME, KC_END , _______, _______, _______,
     _______, _______,
-    _______,
-    _______, _______, _______
+    _______
   ),
 
-  [ADJUST] = LAYOUT_LR(  // Adjust layer.
-    RESET  , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  [ADJUST] = LAYOUT_split_3x6_3(  // Adjust layer.
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     EXIT   , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                                           XXXXXXX, XXXXXXX,
                                                                    _______,
-                                                 XXXXXXX, XXXXXXX, _______,
 
-                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RESET  ,
                       XXXXXXX, KC_BRID, KC_BRIU, REDSHFT, XXXXXXX, XXXXXXX ,
                       XXXXXXX, DF(BASE), DF(QWERTY), XXXXXXX, XXXXXXX, EXIT  ,
                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                               XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX,
-    XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX
+    XXXXXXX
   ),
 };
 
@@ -200,7 +175,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
   if (pressed) {
     switch(combo_index) {
       case CAPS_COMBO:
-        caps_word_on();
+          // caps_word_on();
         break;
 
       case END_SENTENCE_COMBO:
@@ -346,4 +321,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 void matrix_scan_user(void) {
   achordion_task();
 }
-
