@@ -15,7 +15,6 @@
 #pragma once
 
 #define USE_SERIAL
-#define MASTER_RIGHT
 
 // Tap-hold configuration for home row mods.
 #define TAPPING_TERM 180
@@ -33,4 +32,3 @@
 
 // When idle, turn off Caps Word after 5 seconds.
 #define CAPS_WORD_IDLE_TIMEOUT 5000
-

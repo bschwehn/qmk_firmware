@@ -7,7 +7,7 @@ cd $ziproot
 unzip -oj moonlander.zip -d moonlander
 rsync -a moonlander/ $root/keymaps/oryx
 sed -i '/VERSION/d' $maproot/custom/config.h
-#sed -n '/VERSION/p' $maproot/oryx/config.h >> $maproot/custom/config.h
+sed -n '/VERSION/p' $maproot/oryx/config.h >> $maproot/custom/config.h
 
 awk '/# custom/,EOF' $maproot/custom/rules.mk > $maproot/custom/custom.m
 cp $maproot/oryx/rules.mk $maproot/custom/rules.mk

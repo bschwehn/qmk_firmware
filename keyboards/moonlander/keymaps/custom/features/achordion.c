@@ -45,7 +45,6 @@ static uint8_t achordion_state = STATE_RELEASED;
 
 // Calls `process_record()` with state set to RECURSING.
 static void recursively_process_record(keyrecord_t* record, uint8_t state) {
-    dprintln("Achordion: recursively");
   achordion_state = STATE_RECURSING;
   process_record(record);
   achordion_state = state;
@@ -53,7 +52,6 @@ static void recursively_process_record(keyrecord_t* record, uint8_t state) {
 
 // Sends hold press event and settles the active tap-hold key as held.
 static void settle_as_hold(void) {
-    dprintln("Achordion: settle_as_hold");
   eager_mods = 0;
   // Create hold press event.
   recursively_process_record(&tap_hold_record, STATE_HOLDING);
@@ -66,8 +64,6 @@ static void clear_eager_mods(void) {
 }
 
 bool process_achordion(uint16_t keycode, keyrecord_t* record) {
-    dprintf("Achordion: keycode: 0x%04X hold key code: 0x%04X pressed: %d state: %d\n",
-            keycode, tap_hold_keycode, record->event.pressed, achordion_state);
   // Don't process events that Achordion generated.
   if (achordion_state == STATE_RECURSING) { return true; }
 
@@ -75,32 +71,17 @@ bool process_achordion(uint16_t keycode, keyrecord_t* record) {
   const bool is_mt = QK_MOD_TAP <= keycode && keycode <= QK_MOD_TAP_MAX;
   const bool is_tap_hold =
       is_mt || (QK_LAYER_TAP <= keycode && keycode <= QK_LAYER_TAP_MAX);
-
-  dprintf("Achordion: is_mt: %s is_taphold: %s\n",
-          is_mt ? "true" : "false", is_tap_hold ? "true" : "false");
-
-  dprintf("Achordion: keycode: 0x%04X layertapmin: 0x%04X layertapmax: 0x%04X\n",
-          keycode, QK_LAYER_TAP, QK_LAYER_TAP_MAX);
-
   // Check key position to avoid acting on combos.
   const bool is_physical_pos = (record->event.key.row < 254
                              && record->event.key.col < 254);
 
-  dprintf("Achordion: is_physical: %s\n",
-          is_physical_pos ? "true" : "false");
-
   if (achordion_state == STATE_RELEASED) {
-      dprintln("Achordion: state released");
-
     if (is_tap_hold && record->tap.count == 0 &&
         record->event.pressed && is_physical_pos) {
       // A tap-hold key is pressed and considered by QMK as "held".
-        dprintf("Achordion: press and considered hold\n");
-
       const uint16_t timeout = achordion_timeout(keycode);
       if (timeout > 0) {
         achordion_state = STATE_UNSETTLED;
-        dprintf("Achordion: set unsettled\n");
         // Save info about this key.
         tap_hold_keycode = keycode;
         tap_hold_record = *record;
@@ -123,9 +104,7 @@ bool process_achordion(uint16_t keycode, keyrecord_t* record) {
     return true;  // Otherwise, continue with default handling.
   }
 
-
   if (keycode == tap_hold_keycode && !record->event.pressed) {
-      dprintf("Achordion: checking release in state %d\n", achordion_state);
     // The active tap-hold key is being released.
     if (achordion_state == STATE_HOLDING) {
       dprintln("Achordion: Key released. Plumbing hold release.");
@@ -140,14 +119,11 @@ bool process_achordion(uint16_t keycode, keyrecord_t* record) {
       }
     }
 
-    dprintln("Achordion: set released");
     achordion_state = STATE_RELEASED;
     return false;
   }
 
-  dprintf("Achordion: state %x\n", achordion_state);
   if (achordion_state == STATE_UNSETTLED && record->event.pressed) {
-      dprintln("Achordion: unsettled pressed handler");
     // Press event occurred on a key other than the active tap-hold key.
 
     // If the other key is *also* a tap-hold key and considered by QMK to be
@@ -156,7 +132,7 @@ bool process_achordion(uint16_t keycode, keyrecord_t* record) {
     // consider simply a single tap-hold key as "active" at a time.
     //
     // Otherwise, we call `achordion_chord()` to determine whether to settle the
-    // tap-hold key as tapped vs. held. We implement the tap or hold plumbing by
+    // tap-hold key as tapped vs. held. We implement the tap or hold by plumbing
     // events back into the handling pipeline so that QMK features and other
     // user code can see them. This is done by calling `process_record()`, which
     // in turn calls most handlers including `process_record_user()`.

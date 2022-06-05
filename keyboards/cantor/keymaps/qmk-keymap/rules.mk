@@ -46,7 +46,7 @@ CAPS_WORD_ENABLE = yes
 
 UNICODEMAP_ENABLE = yes
 COMBO_ENABLE = yes
-TAP_DANCE_ENABLE = no
+TAP_DANCE_ENABLE = yes
 LTO_ENABLE = yes
 
 # Do not enable SLEEP_LED_ENABLE. it uses the same timer as BACKLIGHT_ENABLE

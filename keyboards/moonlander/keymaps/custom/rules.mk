@@ -15,4 +15,4 @@ KEY_OVERRIDE_ENABLE = yes
 SRC += features/caps_word.c
 SRC += features/achordion.c
 SRC += features/layer_lock.c
-CONSOLE_ENABLE = yes
+CONSOLE_ENABLE = no
