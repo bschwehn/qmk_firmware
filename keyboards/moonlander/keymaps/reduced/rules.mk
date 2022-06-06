@@ -5,13 +5,13 @@ COMMAND_ENABLE = no
 AUDIO_ENABLE = no
 WEBUSB_ENABLE = yes
 ORYX_ENABLE = yes
-DYNAMIC_MACRO_ENABLE = yes
+DYNAMIC_MACRO_ENABLE = no
 TAP_DANCE_ENABLE = no
 SRC = matrix.c
 # custom
 LEADER_ENABLE = yes
 COMBO_ENABLE = yes
-KEY_OVERRIDE_ENABLE = yes
+KEY_OVERRIDE_ENABLE = no
 SRC += features/caps_word.c
 SRC += features/achordion.c
 SRC += features/layer_lock.c
