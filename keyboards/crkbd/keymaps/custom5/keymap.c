@@ -98,9 +98,7 @@ bool send_grave_with_caps_word(uint16_t keycode, uint16_t mod_state) {
 bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     if (!process_achordion(keycode, record)) { return false; }
     if (!process_caps_word(keycode, record)) { return false; }
-#ifdef LAYER_LOCK_ENABLE
     if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
-#endif
     uint8_t mod_state = get_mods();
     static bool is_shifted;
     is_shifted = get_mods() & MOD_MASK_SHIFT;
@@ -175,19 +173,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 KC_Q,           KC_W,           LT(4,KC_F),     LT(4,KC_P),     KC_B,           KC_J, LT(3,KC_L), LT(3,KC_U), KC_Y, TD(DANCE_4),
     MT(MOD_LGUI, KC_A),MT(MOD_LALT, KC_R),MT(MOD_LSFT, KC_S),MT(MOD_LCTL, KC_T),KC_G,   KC_M,  MT(MOD_RCTL, KC_N),MT(MOD_RSFT, KC_E),MT(MOD_LALT, KC_I),MT(MOD_RGUI, KC_O),
     LT(2,KC_Z),     LT(2,KC_X),     LT(1,KC_C),     LT(1,KC_D),     KC_V,                                           KC_K,           LT(1,KC_H),     LT(1,KC_COMMA), KC_DOT,         UK_DQUO,
-MT(MOD_LCTL, KC_DELETE),  KC_SPACE, /*MT(MOD_LSFT, KC_ENTER)*/ LLOCK,                MT(MOD_RSFT, KC_ENTER),MT(MOD_LCTL, KC_BSPACE),KC_LEAD
+LLOCK,MT(MOD_LCTL, KC_DELETE),  KC_SPACE, /*MT(MOD_LSFT, KC_ENTER)*/                 KC_BSPACE, /*cannot use lead with mt*/KC_LEAD, /*maybe make it into repeat key*/MT(MOD_RSFT, KC_ENTER)
   ),
   [1] = LAYOUT_split_3x5_3(
     KC_TRANSPARENT, UK_BSLS,        UK_LABK,        UK_RABK,        UK_PERC,      UK_AT,          UK_QUES,        UK_PIPE,        UK_ASTR,        UK_GRV,
               TD(DANCE_6),    MT(MOD_LALT, UK_SCLN),TD(DANCE_7),    TD(DANCE_8),    UK_PLUS,         UK_CIRC,     MT(MOD_RCTL, UK_EQL),TD(DANCE_9),    TD(DANCE_10),   MT(MOD_RGUI, UK_MINS),
      UK_LPRN,        UK_RPRN,        UK_LBRC,        UK_RBRC,        UK_MINS,                                        UK_TILD,        UK_EXLM,        UK_UNDS,        UK_SLSH,        UK_HASH,
-    KC_SPACE,       UK_SCLN,        UK_COLN,                        UK_UNDS,        KC_LPRN,        KC_ENTER
+    LLOCK,       UK_SCLN,        UK_COLN,                        UK_UNDS,        KC_LPRN,        KC_ENTER
   ),
   [2] = LAYOUT_split_3x5_3(
                            KC_MS_WH_DOWN,  KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_ACCEL0,    LCTL(KC_Z),     LSFT(KC_INSERT),LCTL(KC_INSERT),LSFT(KC_DELETE),LCTL(KC_Y),
              KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_ACCEL1,    KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_PAUSE,
                             KC_PC_UNDO,     KC_PC_CUT,      KC_PC_COPY,     KC_PC_PASTE,    KC_MS_ACCEL2,   KC_HOME,  KC_PGDN,    KC_PGUP,        KC_END,         KC_INSERT,
-    KC_MS_WH_UP,    KC_MS_WH_DOWN,  KC_TRANSPARENT,                 KC_TRANSPARENT, LCTL(KC_MS_WH_DOWN),LCTL(KC_MS_WH_UP)
+    LLOCK,    KC_MS_WH_DOWN,  KC_TRANSPARENT,                 KC_TRANSPARENT, LCTL(KC_MS_WH_DOWN),LCTL(KC_MS_WH_UP)
   ),
   [3] = LAYOUT_split_3x5_3(
      LSFT(KC_TAB),   KC_F1,          KC_F2,          KC_F3,          KC_F10,          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
@@ -218,30 +216,38 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   return rotation;
 }
 
-#define L_BASE 0
-#define L_LOWER 2
-#define L_RAISE 4
-#define L_ADJUST 8
+void oled_render_capsword_state(void) {
+    oled_write_ln_P(PSTR(""), false);
+    if (is_caps_word_on()) {
+        oled_write_P(PSTR("Caps Word"), false);
+    } else {
+        oled_write_P(PSTR("               "), false);
+    }
+}
+
 
 void oled_render_layer_state(void) {
-    /* oled_write_P(PSTR("L: "), false); */
-    /* switch (layer_state) { */
-    /*     case L_BASE: */
-    /*         oled_write_ln_P(PSTR("Default"), false); */
-    /*         break; */
-    /*     case L_LOWER: */
-    /*         oled_write_ln_P(PSTR("Lower"), false); */
-    /*         break; */
-    /*     case L_RAISE: */
-    /*         oled_write_ln_P(PSTR("Raise"), false); */
-    /*         break; */
-    /*     case L_ADJUST: */
-    /*     case L_ADJUST|L_LOWER: */
-    /*     case L_ADJUST|L_RAISE: */
-    /*     case L_ADJUST|L_LOWER|L_RAISE: */
-    /*         oled_write_ln_P(PSTR("Adjust"), false); */
-    /*         break; */
-    /* } */
+    oled_write_P(PSTR("L: "), false);
+    switch (get_highest_layer(layer_state)) {
+    case 0:
+        oled_write_ln_P(PSTR("Default"), false);
+        break;
+    case 1:
+        oled_write_ln_P(PSTR("Special"), false);
+        break;
+    case 2:
+        oled_write_ln_P(PSTR("Nav"), false);
+        break;
+    case 3:
+        oled_write_ln_P(PSTR("Function"), false);
+        break;
+    case 4:
+        oled_write_ln_P(PSTR("Numbers"), false);
+        break;
+    case 5:
+        oled_write_ln_P(PSTR("Num Fun"), false);
+        break;
+    }
 }
 
 
@@ -264,7 +270,7 @@ void set_keylog(uint16_t keycode, keyrecord_t *record) {
   }
 
   // update keylog
-  snprintf(keylog_str, sizeof(keylog_str), "%dx%d, k%2d : %c",
+  snprintf(keylog_str, sizeof(keylog_str), "%dx%d, k%2d : %c    ",
            record->event.key.row, record->event.key.col,
            keycode, name);
 }
@@ -288,21 +294,21 @@ void render_bootmagic_status(bool status) {
     /* } */
 }
 
-void oled_render_logo(void) {
-    /* static const char PROGMEM crkbd_logo[] = { */
-    /*     0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94, */
-    /*     0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4, */
-    /*     0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4, */
-    /*     0}; */
-    /* oled_write_P(crkbd_logo, false); */
-}
+/* void oled_render_logo(void) { */
+/*     static const char PROGMEM crkbd_logo[] = { */
+/*         0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94, */
+/*         0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4, */
+/*         0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4, */
+/*         0}; */
+/*     oled_write_P(crkbd_logo, false); */
+/* } */
 
 bool oled_task_user(void) {
     if (is_keyboard_master()) {
-        oled_render_layer_state();
         oled_render_keylog();
+        oled_render_capsword_state();
     } else {
-        oled_render_logo();
+        oled_render_layer_state();
     }
     return false;
 }
@@ -685,13 +691,17 @@ enum combos {
     WF_ESC,
     WF_ESC10,
     WF_ESC3,
-    XC_BSPC,
+    XC_ENTER,
+    ZX_BSPC,
     FP_Q,
     V_A,
     V_U,
     V_O,
     UY_ENTER,
-    COMBO_LENGTH
+    SLEEP,
+    APP,
+    TAB,
+    COMBO_LENGTH,
 };
 
 uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this instead!
@@ -706,9 +716,12 @@ const uint16_t PROGMEM q_combo[] = {LT(4,KC_F),     LT(4,KC_P), COMBO_END};
 const uint16_t PROGMEM auml_combo[] = {MT(MOD_LGUI, KC_A), KC_V, COMBO_END};
 const uint16_t PROGMEM uuml_combo[] = {LT(3,KC_U), KC_V, COMBO_END};
 const uint16_t PROGMEM ouml_combo[] = {MT(MOD_RGUI, KC_O), KC_V, COMBO_END};
-const uint16_t PROGMEM bspc_combo[] = {LT(2,KC_X), LT(1,KC_C), COMBO_END};
+const uint16_t PROGMEM bspc_combo[] = {LT(2,KC_Z), LT(2,KC_X), COMBO_END};
+const uint16_t PROGMEM enter_left_combo[] = {LT(2,KC_X), LT(1,KC_C), COMBO_END};
 const uint16_t PROGMEM enter_combo[] = {LT(3,KC_U), KC_Y, COMBO_END};
-
+const uint16_t PROGMEM sleep_combo[] = {KC_Q, KC_SPACE, COMBO_END};
+const uint16_t PROGMEM app_combo[] = {KC_DOT, UK_DQUO, COMBO_END};
+const uint16_t PROGMEM tab_combo[] = {KC_Q, KC_W,  COMBO_END};
 
 combo_t key_combos[] = {
     [WF_ESC] = COMBO(esc_combo, CUSTOM_ESC),
@@ -718,9 +731,14 @@ combo_t key_combos[] = {
     [V_A] = COMBO(auml_combo, CUSTOM_AUML),
     [V_U] = COMBO(uuml_combo, CUSTOM_UUML),
     [V_O] = COMBO(ouml_combo, CUSTOM_OUML),
-    [XC_BSPC] = COMBO(bspc_combo, CUSTOM_BSPACE),
+    [ZX_BSPC] = COMBO(bspc_combo, CUSTOM_BSPACE),
     [UY_ENTER] = COMBO(enter_combo, CUSTOM_ENTER),
+    [XC_ENTER] = COMBO(enter_left_combo, CUSTOM_ENTER),
+    [SLEEP] = COMBO(sleep_combo, KC_SYSTEM_SLEEP),
+    [APP] = COMBO(app_combo, KC_APPLICATION),
+    [TAB] = COMBO(tab_combo, KC_TAB),
 };
+
 const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_QUOTE);
 const key_override_t dash_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(1,KC_COMMA), UK_MINS);
 const key_override_t dquote_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_DQUO, UK_UNDS);

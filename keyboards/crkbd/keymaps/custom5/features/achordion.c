@@ -107,7 +107,7 @@ bool process_achordion(uint16_t keycode, keyrecord_t* record) {
   if (keycode == tap_hold_keycode && !record->event.pressed) {
     // The active tap-hold key is being released.
     if (achordion_state == STATE_HOLDING) {
-      dprintln("Achordion: Key released. Plumbing hold release.");
+        //dprintln("Achordion: Key released. Plumbing hold release.");
       tap_hold_record.event.pressed = false;
       // Plumb hold release event.
       recursively_process_record(&tap_hold_record, STATE_RELEASED);
@@ -138,7 +138,7 @@ bool process_achordion(uint16_t keycode, keyrecord_t* record) {
     // in turn calls most handlers including `process_record_user()`.
     if (!is_physical_pos || (is_tap_hold && record->tap.count == 0) ||
         achordion_chord(tap_hold_keycode, &tap_hold_record, keycode, record)) {
-      dprintln("Achordion: Plumbing hold press.");
+        // dprintln("Achordion: Plumbing hold press.");
       settle_as_hold();
     } else {
       clear_eager_mods();  // Clear in case eager mods were set.

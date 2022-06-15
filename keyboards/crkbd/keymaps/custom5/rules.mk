@@ -14,7 +14,7 @@ SRC += features/achordion.c
 SRC += features/layer_lock.c
 LAYER_LOCK_ENABLE = yes
 
-MOUSEKEY_ENABLE = yes    # Mouse keys
+MOUSEKEY_ENABLE = no    # Mouse keys
 RGBLIGHT_ENABLE = no    # Enable WS2812 RGB underlight.
 OLED_ENABLE     = yes
 OLED_DRIVER     = SSD1306
@@ -29,3 +29,4 @@ BOOTMAGIC_ENABLE = no
 UNICODE_ENABLE = no
 MIDI_ENABLE = no
 BLUETOOTH_ENABLE = no
+EXTRAKEY_ENABLE=yes
