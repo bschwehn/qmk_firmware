@@ -8,7 +8,9 @@
 #include "features/achordion.h"
 #include "features/layer_lock.h"
 #include "features/repeat.h"
+#ifdef OLED_ENABLE
 #include "features/crab.c"
+#endif
 
 #define KC_PC_UNDO LCTL(KC_Z)
 #define KC_PC_CUT LCTL(KC_X)
