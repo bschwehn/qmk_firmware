@@ -86,23 +86,25 @@ const keyrecord_t* tap_hold_record) {
             tap_hold_keycode, tap_hold_record->event.time, delta, event_delta);
 
     // if I was typing fast before the potential chord, as detected by the
-    // delta to release time of the previous key, I prevent ctrl, alt, gui
+    // delta to release time of the previous key, I prevent alt, gui
     // activation. I don't type those fast after a differnt key
     if (delta < ACHORDION_COOLDOWN) {
         const bool is_mt = QK_MOD_TAP <= tap_hold_keycode && tap_hold_keycode <= QK_MOD_TAP_MAX;
         if (is_mt) {
             uint8_t mod = (tap_hold_keycode >> 8) & 0x1f;
             switch (mod) {
-            case MOD_LCTL:
-            case MOD_RCTL:
+                // while I use mostly vim keybindings, turns out I still use plenty of ctrl+
+                // shortcuts
+                // case MOD_LCTL:
+                // case MOD_RCTL:
             case MOD_LGUI:
             case MOD_RGUI:
             case MOD_LALT:
                 dprintf("cooldown: mod %d, applying cooldown\n",
                         mod);
-                return true;  // Prevent accidental ctrl, alt, win only.
+                return true;  // Prevent accidental alt, win only.
             default:
-                // I do use shift during fast typing...
+                // I do use shift and ctrl during fast typing...
                 dprintf("cooldown: mod %d, NOT applying cooldown\n",
                         mod);
                 return false;
