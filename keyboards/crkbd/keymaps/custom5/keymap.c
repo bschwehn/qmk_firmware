@@ -3,9 +3,14 @@
 
 #include QMK_KEYBOARD_H
 #include "keymap_uk.h"
+#include "keys.h"
 #include <stdio.h>
 #include "features/achordion.h"
 #include "features/layer_lock.h"
+#include "features/repeat.h"
+#ifdef OLED_ENABLE
+#include "features/crab.c"
+#endif
 
 #define KC_PC_UNDO LCTL(KC_Z)
 #define KC_PC_CUT LCTL(KC_X)
@@ -13,22 +18,6 @@
 #define KC_PC_PASTE LCTL(KC_V)
 #define NO_PIPE_ALT KC_GRAVE
 #define NO_BSLS_ALT KC_EQUAL
-
-enum custom_combo {
-    CUSTOM_QU = SAFE_RANGE + 5,
-    CUSTOM_AUML,
-    CUSTOM_UUML,
-    CUSTOM_OUML,
-    CUSTOM_BSPACE,
-    CUSTOM_END_CAPS,
-    CUSTOM_ESC,
-    CUSTOM_ENTER,
-    CUSTOM_LAST
-};
-
-enum custom_ext {
-    LLOCK = CUSTOM_LAST
-};
 
 void custom_matrix_scan_user(void) {
     achordion_task();
@@ -50,6 +39,84 @@ bool achordion_eager_mod(uint8_t mod) {
         return false;
     }
 }
+#ifdef ACHORDION_COOLDOWN
+static int32_t last_stroke_time;
+// save last release time, so we can check when making a tap/hold
+// decision later on. I thought about using the last
+// N key strokes, or current WPM, but just the single delta
+// between last release and current potential mod tap seems
+// to be sufficient
+void save_keystroke_time(uint16_t keycode,
+                        const keyrecord_t* record) {
+
+       last_stroke_time = timer_read32();
+       //    last_stroke_time = record->event.time;
+    dprintf("cooldown: Key 0x%04X released at %ld\n",
+            keycode, last_stroke_time);
+}
+
+// prevent accidental activation of ctrl, alt, gui chords
+// when typing fast (and sloppy).
+// I don't have accidental activation often, but if it happens,
+// it can be quite annoying as I seem to trigger GUI+r and GUI+e most
+// often, which triggers layout functions in i3wm.
+// accidental activation of shift or a LT key is not nearly as bad,
+// it just causes a normal typo, and I want to type them fast,
+// so not changing their behaviour here
+bool achordion_cooldown(uint16_t tap_hold_keycode,
+const keyrecord_t* tap_hold_record) {
+    // I initially used tap_hold_record->event.time, but due to the uint16 overflow,
+    // I think this would trigger incorrectly with a probabilty of ACHORDION_COOLDOWN / 65535
+    // with cooldown set to 150, this is 0.2%, which is quite high.
+    // using timer_elapsed32 now, but need to substract the tapping term (I think)
+    // as this method will not be called until the tapping_term is expired
+    // that is, after event.time.
+    // TAPPING_TERM is not really correct, as we can get here earlier due to
+    // permissive hold. May be we should have one timer updated on every release and
+    // a second on every press instead, but seems to work well enough.
+
+    // uint16_t last_stroke_16 = last_stroke_time % (2<<16);
+    /* uint16_t event_delta = (tap_hold_record->event.time < last_stroke_16) ? */
+    /*     last_stroke_16 - tap_hold_record->event.time : */
+    /*     tap_hold_record->event.time - last_stroke_16; */
+
+    int32_t delta = timer_elapsed32(last_stroke_time) - TAPPING_TERM;
+
+    /* dprintf("cooldown: Key 0x%04X released at %d, delta: %ld, event_delta: %d\n", */
+    /*         tap_hold_keycode, tap_hold_record->event.time, delta, event_delta); */
+
+    // if I was typing fast before the potential chord, as detected by the
+    // delta to release time of the previous key, I prevent alt, gui
+    // activation. I don't type those fast after a differnt key
+    if (delta < ACHORDION_COOLDOWN) {
+        const bool is_mt = QK_MOD_TAP <= tap_hold_keycode && tap_hold_keycode <= QK_MOD_TAP_MAX;
+        if (is_mt) {
+            uint8_t mod = (tap_hold_keycode >> 8) & 0x1f;
+            switch (mod) {
+                // while I use mostly vim keybindings, turns out I still use plenty of ctrl+
+                // shortcuts
+                // case MOD_LCTL:
+                // case MOD_RCTL:
+            case MOD_LGUI:
+            case MOD_RGUI:
+            case MOD_LALT:
+                dprintf("cooldown: mod %d, applying cooldown\n",
+                        mod);
+                return true;  // Prevent accidental alt, win only.
+            default:
+                // I do use shift and ctrl during fast typing...
+                dprintf("cooldown: mod %d, NOT applying cooldown\n",
+                        mod);
+                return false;
+            }
+        } else {
+            // I do use layers during fast typing...
+            dprintln("cooldown: not mod key, NOT applying cooldown");
+        }
+    }
+    return false;
+}
+#endif
 
 static bool custom_on_left_hand(keypos_t pos) {
     return pos.row < MATRIX_ROWS / 2;
@@ -66,7 +133,16 @@ bool achordion_chord(uint16_t tap_hold_keycode,
                      uint16_t other_keycode,
                      keyrecord_t* other_record) {
     uint16_t row = tap_hold_record->event.key.row;
-    // holding key on thumb or buttom cow
+
+#ifdef ACHORDION_COOLDOWN
+    bool within_cooldown = achordion_cooldown(tap_hold_keycode,tap_hold_record);
+    if (within_cooldown) {
+        dprintln("cooldown: within cooldown, should tap");
+        return false;
+    }
+#endif
+
+    // holding key on thumb or bottom cow
     if (row == 3 || row == 7) return true;
     row = other_record->event.key.row;
     // other key on thumb
@@ -96,16 +172,24 @@ bool send_grave_with_caps_word(uint16_t keycode, uint16_t mod_state) {
 }
 
 bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
+    if (!record->event.pressed) {
+        save_keystroke_time(keycode, record);
+    }
     if (!process_achordion(keycode, record)) { return false; }
     if (!process_caps_word(keycode, record)) { return false; }
     if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
+    process_repeat_key(keycode, record);
     uint8_t mod_state = get_mods();
     static bool is_shifted;
     is_shifted = get_mods() & MOD_MASK_SHIFT;
     if (record->event.pressed) {
         switch (keycode) {
         case CUSTOM_QU:
-            if (is_shifted) {
+            if (is_caps_word) {
+                del_weak_mods(MOD_BIT(KC_LSFT));
+                SEND_STRING("QU");
+                register_weak_mods(MOD_BIT(KC_LSFT));
+            } else if (is_shifted) {
                 del_mods(MOD_MASK_SHIFT);
                 SEND_STRING("Qu");
                 set_mods(mod_state);
@@ -124,6 +208,7 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             return false;
         case CUSTOM_ENTER:
             tap_code(KC_ENTER);
+            return false;
             return false;
         case CUSTOM_ESC:
             uint8_t layer = biton32(layer_state);
@@ -173,13 +258,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 KC_Q,           KC_W,           LT(4,KC_F),     LT(4,KC_P),     KC_B,           KC_J, LT(3,KC_L), LT(3,KC_U), KC_Y, TD(DANCE_4),
     MT(MOD_LGUI, KC_A),MT(MOD_LALT, KC_R),MT(MOD_LSFT, KC_S),MT(MOD_LCTL, KC_T),KC_G,   KC_M,  MT(MOD_RCTL, KC_N),MT(MOD_RSFT, KC_E),MT(MOD_LALT, KC_I),MT(MOD_RGUI, KC_O),
     LT(2,KC_Z),     LT(2,KC_X),     LT(1,KC_C),     LT(1,KC_D),     KC_V,                                           KC_K,           LT(1,KC_H),     LT(1,KC_COMMA), KC_DOT,         UK_DQUO,
-LLOCK,MT(MOD_LCTL, KC_DELETE),  KC_SPACE, /*MT(MOD_LSFT, KC_ENTER)*/                 KC_BSPACE, /*cannot use lead with mt*/KC_LEAD, /*maybe make it into repeat key*/MT(MOD_RSFT, KC_ENTER)
+LLOCK,MT(MOD_LCTL, KC_DELETE),  KC_SPACE, /*MT(MOD_LSFT, KC_ENTER)*/                 KC_BSPACE, /*cannot use lead with mt*/KC_LEAD, /*maybe make it into repeat key*/ CUSTOM_REPEAT
   ),
   [1] = LAYOUT_split_3x5_3(
     KC_TRANSPARENT, UK_BSLS,        UK_LABK,        UK_RABK,        UK_PERC,      UK_AT,          UK_QUES,        UK_PIPE,        UK_ASTR,        UK_GRV,
               TD(DANCE_6),    MT(MOD_LALT, UK_SCLN),TD(DANCE_7),    TD(DANCE_8),    UK_PLUS,         UK_CIRC,     MT(MOD_RCTL, UK_EQL),TD(DANCE_9),    TD(DANCE_10),   MT(MOD_RGUI, UK_MINS),
      UK_LPRN,        UK_RPRN,        UK_LBRC,        UK_RBRC,        UK_MINS,                                        UK_TILD,        UK_EXLM,        UK_UNDS,        UK_SLSH,        UK_HASH,
-    LLOCK,       UK_SCLN,        UK_COLN,                        UK_UNDS,        KC_LPRN,        KC_ENTER
+    LLOCK,       UK_SCLN,        KC_TRANSPARENT,            KC_TRANSPARENT,        KC_LPRN,        KC_ENTER
   ),
   [2] = LAYOUT_split_3x5_3(
                            KC_MS_WH_DOWN,  KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_ACCEL0,    LCTL(KC_Z),     LSFT(KC_INSERT),LCTL(KC_INSERT),LSFT(KC_DELETE),LCTL(KC_Y),
@@ -308,7 +393,8 @@ bool oled_task_user(void) {
         oled_render_keylog();
         oled_render_capsword_state();
     } else {
-        oled_render_layer_state();
+        //   oled_render_layer_state();
+            oled_render_anim();
     }
     return false;
 }
@@ -329,6 +415,7 @@ if (!custom_record_user(keycode, record)) { return false; }
     }
     break;
   }
+
   return true;
 }
 
