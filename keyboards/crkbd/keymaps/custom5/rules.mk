@@ -1,4 +1,4 @@
-CONSOLE_ENABLE = no
+CONSOLE_ENABLE = yes
 COMMAND_ENABLE = no
 AUDIO_ENABLE = no
 WEBUSB_ENABLE = no
@@ -12,11 +12,12 @@ COMBO_ENABLE = yes
 KEY_OVERRIDE_ENABLE = yes
 SRC += features/achordion.c
 SRC += features/layer_lock.c
+SRC += features/repeat.c
 LAYER_LOCK_ENABLE = yes
 
-MOUSEKEY_ENABLE = no    # Mouse keys
+MOUSEKEY_ENABLE = yes    # Mouse keys
 RGBLIGHT_ENABLE = no    # Enable WS2812 RGB underlight.
-OLED_ENABLE     = yes
+OLED_ENABLE     = no
 OLED_DRIVER     = SSD1306
 LTO_ENABLE      = yes
 # https://docs.qmk.fm/#/squeezing_avr?id=squeezing-the-most-out-of-avr

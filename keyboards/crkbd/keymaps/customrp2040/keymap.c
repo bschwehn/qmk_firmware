@@ -18,7 +18,7 @@
 #define KC_PC_PASTE LCTL(KC_V)
 #define NO_PIPE_ALT KC_GRAVE
 #define NO_BSLS_ALT KC_EQUAL
-
+#define KC_NA KC_TRANSPARENT
 void custom_matrix_scan_user(void) {
     achordion_task();
 }
@@ -254,41 +254,78 @@ enum tap_dance_codes {
 };
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-  [0] = LAYOUT_split_3x5_3(
-KC_Q,           KC_W,           LT(4,KC_F),     LT(4,KC_P),     KC_B,           KC_J, LT(3,KC_L), LT(3,KC_U), KC_Y, TD(DANCE_4),
-    MT(MOD_LGUI, KC_A),MT(MOD_LALT, KC_R),MT(MOD_LSFT, KC_S),MT(MOD_LCTL, KC_T),KC_G,   KC_M,  MT(MOD_RCTL, KC_N),MT(MOD_RSFT, KC_E),MT(MOD_LALT, KC_I),MT(MOD_RGUI, KC_O),
-    LT(2,KC_Z),     LT(2,KC_X),     LT(1,KC_C),     LT(1,KC_D),     KC_V,                                           KC_K,           LT(1,KC_H),     LT(1,KC_COMMA), KC_DOT,         UK_DQUO,
-LLOCK,MT(MOD_LCTL, KC_DELETE),  KC_SPACE, /*MT(MOD_LSFT, KC_ENTER)*/                 KC_BSPACE, /*cannot use lead with mt*/KC_LEAD, /*maybe make it into repeat key*/ CUSTOM_REPEAT
+  [0] = LAYOUT_ben_split_3x5_3(
+/*left side*/
+KC_Q               , KC_W                  , LT(4,KC_F)       , LT(4,KC_P)       , KC_B             ,
+ MT(MOD_LGUI, KC_A),MT(MOD_LALT, KC_R)     ,MT(MOD_LSFT, KC_S),MT(MOD_LCTL, KC_T),KC_G              ,
+LT(2,KC_Z)         , LT(2,KC_X)            , LT(1,KC_C)       , LT(1,KC_D)       , KC_V             ,
+LLOCK              ,MT(MOD_LCTL, KC_DELETE), KC_SPACE         ,
+/*right side*/
+ KC_J              , LT(3,KC_L)            , LT(3,KC_U)       , KC_Y             , TD(DANCE_4)      ,
+ KC_M              , MT(MOD_RCTL, KC_N)    ,MT(MOD_RSFT, KC_E),MT(MOD_LALT, KC_I),MT(MOD_RGUI, KC_O),
+ KC_K              , LT(1,KC_H)            , LT(1,KC_COMMA)   , KC_DOT           , UK_DQUO          ,
+KC_BSPACE          , KC_LEAD               , CUSTOM_REPEAT
   ),
-  [1] = LAYOUT_split_3x5_3(
-    KC_TRANSPARENT, UK_BSLS,        UK_LABK,        UK_RABK,        UK_PERC,      UK_AT,          UK_QUES,        UK_PIPE,        UK_ASTR,        UK_GRV,
-              TD(DANCE_6),    MT(MOD_LALT, UK_SCLN),TD(DANCE_7),    TD(DANCE_8),    UK_PLUS,         UK_CIRC,     MT(MOD_RCTL, UK_EQL),TD(DANCE_9),    TD(DANCE_10),   MT(MOD_RGUI, UK_MINS),
-     UK_LPRN,        UK_RPRN,        UK_LBRC,        UK_RBRC,        UK_MINS,                                        UK_TILD,        UK_EXLM,        UK_UNDS,        UK_SLSH,        UK_HASH,
-    LLOCK,       UK_SCLN,        KC_TRANSPARENT,            KC_TRANSPARENT,        KC_LPRN,        KC_ENTER
+
+  [1] = LAYOUT_ben_split_3x5_3(
+  /*left side*/
+ KC_NA      , UK_BSLS              , UK_LABK   , UK_RABK     , UK_PERC              ,
+ TD(DANCE_6), MT(MOD_LALT, UK_SCLN),TD(DANCE_7), TD(DANCE_8) , UK_PLUS              ,
+ UK_LPRN    , UK_RPRN              , UK_LBRC   , UK_RBRC     , UK_MINS              ,
+ LLOCK      , UK_SCLN              , KC_NA     ,
+ /*right side*/
+ UK_AT      , UK_QUES              , UK_PIPE   , UK_ASTR     , UK_GRV               ,
+ UK_CIRC    , MT(MOD_RCTL, UK_EQL) ,TD(DANCE_9), TD(DANCE_10), MT(MOD_RGUI, UK_MINS),
+ UK_TILD    , UK_EXLM              , UK_UNDS   , UK_SLSH     , UK_HASH              ,
+ KC_NA      , KC_LPRN              , KC_ENTER
   ),
-  [2] = LAYOUT_split_3x5_3(
-                           KC_MS_WH_DOWN,  KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_ACCEL0,    LCTL(KC_Z),     LSFT(KC_INSERT),LCTL(KC_INSERT),LSFT(KC_DELETE),LCTL(KC_Y),
-             KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_ACCEL1,    KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_PAUSE,
-                            KC_PC_UNDO,     KC_PC_CUT,      KC_PC_COPY,     KC_PC_PASTE,    KC_MS_ACCEL2,   KC_HOME,  KC_PGDN,    KC_PGUP,        KC_END,         KC_INSERT,
-    LLOCK,    KC_MS_WH_DOWN,  KC_TRANSPARENT,                 KC_TRANSPARENT, LCTL(KC_MS_WH_DOWN),LCTL(KC_MS_WH_UP)
+  [2] = LAYOUT_ben_split_3x5_3(
+  /*left side*/
+KC_MS_WH_DOWN, KC_MS_LEFT         , KC_MS_DOWN    , KC_MS_RIGHT   , KC_MS_ACCEL0,
+KC_NA        , KC_NA              , KC_NA         , KC_NA         , KC_MS_ACCEL1,
+KC_PC_UNDO   , KC_PC_CUT          , KC_PC_COPY    , KC_PC_PASTE   , KC_MS_ACCEL2,
+LLOCK        , KC_MS_WH_DOWN      , KC_NA         ,
+/*right side*/
+LCTL(KC_Z)   , LSFT(KC_INSERT)    ,LCTL(KC_INSERT),LSFT(KC_DELETE),LCTL(KC_Y)   ,
+KC_LEFT      , KC_DOWN            , KC_UP         , KC_RIGHT      , KC_PAUSE    ,
+KC_HOME      , KC_PGDN            , KC_PGUP       , KC_END        , KC_INSERT   ,
+KC_NA        , LCTL(KC_MS_WH_DOWN),LCTL(KC_MS_WH_UP)
   ),
-  [3] = LAYOUT_split_3x5_3(
-     LSFT(KC_TAB),   KC_F1,          KC_F2,          KC_F3,          KC_F10,          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-     KC_TAB,         KC_F4,          KC_F5,          KC_F6,          KC_F11,          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-     KC_APPLICATION, KC_F7,          KC_F8,          KC_F9,          KC_F12,          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
+  [3] = LAYOUT_ben_split_3x5_3(
+  /*left side*/
+ LSFT(KC_TAB)  , KC_F1, KC_F2, KC_F3, KC_F10,
+ KC_TAB        , KC_F4, KC_F5, KC_F6, KC_F11,
+ KC_APPLICATION, KC_F7, KC_F8, KC_F9, KC_F12,
+ KC_NA         , KC_NA, KC_NA,
+ /*right side*/
+ KC_NA         , KC_NA, KC_NA, KC_NA, KC_NA ,
+ KC_NA         , KC_NA, KC_NA, KC_NA, KC_NA ,
+ KC_NA         , KC_NA, KC_NA, KC_NA, KC_NA ,
+ KC_NA         , KC_NA, KC_NA
   ),
-  [4] = LAYOUT_split_3x6_3(
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,    UK_0,           UK_1,           UK_2,           UK_3,           TD(DANCE_11),   KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,  KC_KP_MINUS,    UK_4,           UK_5,           UK_6,           KC_KP_DOT,      KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,    KC_KP_PLUS, UK_7,        UK_8,           UK_9,           KC_KP_COMMA,    KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
+  [4] = LAYOUT_ben_split_3x5_3(
+  /*left side*/
+ KC_NA      , KC_NA, KC_NA, KC_NA, KC_NA       ,
+ KC_NA      , KC_NA, KC_NA, KC_NA, KC_NA       ,
+ KC_NA      , KC_NA, KC_NA, KC_NA, KC_NA       ,
+ KC_NA      , KC_NA, KC_NA,
+ /*right side*/
+ UK_0       , UK_1 , UK_2 , UK_3 , TD(DANCE_11),
+ KC_KP_MINUS, UK_4 , UK_5 , UK_6 , KC_KP_DOT   ,
+ KC_KP_PLUS , UK_7 , UK_8 , UK_9 , KC_KP_COMMA ,
+ KC_NA      , KC_NA, KC_NA
   ),
-  [5] = LAYOUT_split_3x6_3(
-    KC_TRANSPARENT, LSFT(KC_TAB),   KC_F1,          KC_F2,          KC_F3,          KC_F10,          UK_0,           UK_1,           UK_2,           UK_3,           TD(DANCE_12),   KC_TRANSPARENT,
-    TO(0),          KC_TAB,         KC_F4,          KC_F5,          KC_F6,          KC_F11,          KC_KP_MINUS,    UK_4,           UK_5,           UK_6,           KC_KP_DOT,      KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_APPLICATION, KC_F7,          KC_F8,          KC_F9,          KC_F12,                                         KC_KP_PLUS,     UK_7,           UK_8,           UK_9,           KC_KP_COMMA,    KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
+  [5] = LAYOUT_ben_split_3x5_3(
+  /*left side*/
+ LSFT(KC_TAB)  , KC_F1, KC_F2, KC_F3, KC_F10      ,
+ KC_TAB        , KC_F4, KC_F5, KC_F6, KC_F11      ,
+ KC_APPLICATION, KC_F7, KC_F8, KC_F9, KC_F12      ,
+ KC_NA         , KC_NA, KC_NA,
+ /*right side*/
+ UK_0          , UK_1 , UK_2 , UK_3 , TD(DANCE_12),
+ KC_KP_MINUS   , UK_4 , UK_5 , UK_6 , KC_KP_DOT   ,
+ KC_KP_PLUS    , UK_7 , UK_8 , UK_9 , KC_KP_COMMA ,
+ KC_NA         , KC_NA, KC_NA
   ),
 };
 
