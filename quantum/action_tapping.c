@@ -220,7 +220,7 @@ bool process_tapping(keyrecord_t *keyp) {
                 // clang-format off
                 else if (
                     (
-                        (GET_TAP_TAPPING_TERM() >= 500 || GET_PERMISSIVE_HOLD()) &&
+                        GET_PERMISSIVE_HOLD() &&
                         IS_RELEASED(event) && waiting_buffer_typed(event)
                     )
                     // Causes nested taps to not wait past TAPPING_TERM/RETRO_SHIFT
