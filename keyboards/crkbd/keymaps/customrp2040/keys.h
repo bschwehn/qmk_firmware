@@ -34,4 +34,5 @@ enum custom_combo {
 
 enum custom_ext {
     LLOCK = CUSTOM_LAST,
+    TURBO
 };

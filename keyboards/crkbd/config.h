@@ -20,24 +20,43 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config_common.h"
 
-/* USB Device descriptor parameter */
-#define VENDOR_ID    0x4653
-#define PRODUCT_ID   0x0001
-#define DEVICE_VER   0x0001
-#define MANUFACTURER foostan
-#define PRODUCT      Corne
+#pragma once
+#define VENDOR_ID       0xFEED
+#define PRODUCT_ID      0x9040
+#define DEVICE_VER      0x0001
+#define MANUFACTURER    QMK Community
+#define PRODUCT         crkbd_RP2040
+#define MATRIX_ROW_PINS { GP4, GP5, GP6, GP7 }
+#define MATRIX_COL_PINS { GP29, GP28, GP27, GP26, GP18, GP20 }
+#define DIODE_DIRECTION COL2ROW
+#undef SOFT_SERIAL_PIN
+#define SOFT_SERIAL_PIN GP1
+#define RP2040_BOOTLOADER_DOUBLE_TAP_RESET
+#define RP2040_BOOTLOADER_DOUBLE_TAP_RESET_LED GP25
+#define RP2040_BOOTLOADER_DOUBLE_TAP_RESET_TIMEOUT 500U
+#define I2C1_SDA_PIN GP2
+#define I2C1_SCL_PIN GP3
+#define I2C_DRIVER I2CD2
+//#define SPLIT_HAND_PIN GP22
 
-/* key matrix size */
-// Rows are doubled-up
-#define MATRIX_ROWS  8
-#define MATRIX_COLS  6
-#define MATRIX_ROW_PINS \
-    { D4, C6, D7, E6 }
+/* /\* USB Device descriptor parameter *\/ */
+/* #define VENDOR_ID    0x4653 */
+/* #define PRODUCT_ID   0x0001 */
+/* #define DEVICE_VER   0x0001 */
+/* #define MANUFACTURER foostan */
+/* #define PRODUCT      Corne */
 
-// wiring of each half
-#define MATRIX_COL_PINS \
-    { F4, F5, F6, F7, B1, B3 }
-// #define MATRIX_COL_PINS { B2, B3, B1, F7, F6, F5, F4 } //uncomment this line and comment line above if you need to reverse left-to-right key order
+/* /\* key matrix size *\/ */
+/* // Rows are doubled-up */
+/* #define MATRIX_ROWS  8 */
+/* #define MATRIX_COLS  6 */
+/* #define MATRIX_ROW_PINS \ */
+/*     { D4, C6, D7, E6 } */
+
+/* // wiring of each half */
+/* #define MATRIX_COL_PINS \ */
+/*     { F4, F5, F6, F7, B1, B3 } */
+/* // #define MATRIX_COL_PINS { B2, B3, B1, F7, F6, F5, F4 } //uncomment this line and comment line above if you need to reverse left-to-right key order */
 
 /* define if matrix has ghost */
 //#define MATRIX_HAS_GHOST
@@ -70,3 +89,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_ONESHOT
 
 #define USE_SERIAL
+#define SERIAL_PIO_USE_PIO1
+#define SERIAL_USART_SPEED 57600
+//#define SERIAL_USART_FULL_DUPLEX
+//#define SERIAL_USART_SPEED 115200
+#define SERIAL_SOFT_DEBUG
+#define SERIAL_USART_SPEED 57600

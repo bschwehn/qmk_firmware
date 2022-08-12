@@ -8,6 +8,7 @@
 #include "features/achordion.h"
 #include "features/layer_lock.h"
 #include "features/repeat.h"
+#include "features/mouse_turbo_click.h"
 #ifdef OLED_ENABLE
 #include "features/crab.c"
 #endif
@@ -175,6 +176,7 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     if (!record->event.pressed) {
         save_keystroke_time(keycode, record);
     }
+    if (!process_mouse_turbo_click(keycode, record, TURBO)) { return false; }
     if (!process_achordion(keycode, record)) { return false; }
     if (!process_caps_word(keycode, record)) { return false; }
     if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
@@ -269,7 +271,7 @@ KC_BSPACE          , KC_LEAD               , CUSTOM_REPEAT
 
   [1] = LAYOUT_ben_split_3x5_3(
   /*left side*/
- KC_NA      , UK_BSLS              , UK_LABK   , UK_RABK     , UK_PERC              ,
+ TURBO      , UK_BSLS              , UK_LABK   , UK_RABK     , UK_PERC              ,
  TD(DANCE_6), MT(MOD_LALT, UK_SCLN),TD(DANCE_7), TD(DANCE_8) , UK_PLUS              ,
  UK_LPRN    , UK_RPRN              , UK_LBRC   , UK_RBRC     , UK_MINS              ,
  LLOCK      , UK_SCLN              , KC_NA     ,

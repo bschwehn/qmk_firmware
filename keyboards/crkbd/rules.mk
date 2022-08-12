@@ -1,8 +1,15 @@
 # MCU name
-MCU = atmega32u4
+MCU = RP2040
+BOOTLOADER = rp2040
+ALLOW_WARNINGS = yes
+SERIAL_DRIVER = vendor
+WS2812_DRIVER = vendor
+PICO_INTRINSICS_ENABLED = no # ATM Unsupported by ChibiOS
+SPLIT_KEYBOARD = yes
+# MCU = atmega32u4
 
-# Bootloader selection
-BOOTLOADER = caterina
+# # Bootloader selection
+# BOOTLOADER = caterina
 
 # Build Options
 #   change yes to no to disable

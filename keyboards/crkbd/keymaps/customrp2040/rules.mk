@@ -13,9 +13,11 @@ KEY_OVERRIDE_ENABLE = yes
 SRC += features/achordion.c
 SRC += features/layer_lock.c
 SRC += features/repeat.c
+SRC += features/mouse_turbo_click.c
 LAYER_LOCK_ENABLE = yes
 
 MOUSEKEY_ENABLE = yes    # Mouse keys
+DEFERRED_EXEC_ENABLE = yes
 RGBLIGHT_ENABLE = no    # Enable WS2812 RGB underlight.
 OLED_ENABLE     = yes
 OLED_DRIVER     = SSD1306
