@@ -99,6 +99,10 @@ static inline void process_tap_dance_action_on_reset(qk_tap_dance_action_t *acti
     _process_tap_dance_action_fn(&action->state, action->user_data, action->fn.on_reset);
     del_mods(action->state.oneshot_mods);
     del_weak_mods(action->state.weak_mods);
+
+#ifdef CONSOLE_ENABLE
+    print("del \n");
+#endif
     send_keyboard_report();
 }
 

@@ -988,6 +988,9 @@ void register_weak_mods(uint8_t mods) {
  * \param mods A bitfield of modifiers to unregister.
  */
 void unregister_weak_mods(uint8_t mods) {
+#ifdef CONSOLE_ENABLE
+    print("del in actin\n");
+#endif
     if (mods) {
         del_weak_mods(mods);
         send_keyboard_report();
