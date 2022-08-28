@@ -34,3 +34,17 @@ POINTING_DEVICE_DRIVER = pmw3360
 
 SERIAL_DRIVER = vendor
 WS2812_DRIVER = vendor
+
+CONSOLE_ENABLE = yes
+TAP_DANCE_ENABLE = yes
+LEADER_ENABLE = yes
+#COMBO_ENABLE = yes
+KEY_OVERRIDE_ENABLE = yes
+
+SRC += features/achordion.c
+SRC += features/layer_lock.c
+SRC += features/repeat.c
+#SRC += features/mouse_turbo_click.c
+LAYER_LOCK_ENABLE = yes
+DEFERRED_EXEC_ENABLE = yes
+CAPS_WORD_ENABLE = yes
