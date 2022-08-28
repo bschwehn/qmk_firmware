@@ -12,7 +12,7 @@ PICO_INTRINSICS_ENABLED = no # ATM Unsupported by ChibiOS.
 #   change yes to no to disable
 #
 BOOTMAGIC_ENABLE = yes      # Enable Bootmagic Lite
-MOUSEKEY_ENABLE = no        # Mouse keys
+MOUSEKEY_ENABLE = yes        # Mouse keys
 EXTRAKEY_ENABLE = yes       # Audio control and System control
 CONSOLE_ENABLE = yes         # Console for debug
 COMMAND_ENABLE = no         # Commands for debug and configuration
@@ -35,15 +35,15 @@ POINTING_DEVICE_DRIVER = pmw3360
 SERIAL_DRIVER = vendor
 WS2812_DRIVER = vendor
 
-#TAP_DANCE_ENABLE = yes
-#LEADER_ENABLE = yes
-#COMBO_ENABLE = yes
-#KEY_OVERRIDE_ENABLE = yes
+TAP_DANCE_ENABLE = yes
+LEADER_ENABLE = yes
+COMBO_ENABLE = yes
+KEY_OVERRIDE_ENABLE = yes
 
-#SRC += features/achordion.c
-#SRC += features/layer_lock.c
-#SRC += features/repeat.c
-#SRC += features/mouse_turbo_click.c
-#LAYER_LOCK_ENABLE = yes
-#DEFERRED_EXEC_ENABLE = yes
+SRC += features/achordion.c
+SRC += features/layer_lock.c
+SRC += features/repeat.c
+SRC += features/mouse_turbo_click.c
+LAYER_LOCK_ENABLE = yes
+DEFERRED_EXEC_ENABLE = yes
 CAPS_WORD_ENABLE = yes
