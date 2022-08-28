@@ -53,7 +53,9 @@ static uint16_t auto_pointer_layer_timer = 0;
 #define LT_D LT(LR_BRACES, KC_D)
 #define LT_H LT(LR_BRACES, KC_H)
 #define LT_COMMA LT(LR_BRACES, KC_COMMA)
-#define LT_DQUO LT(LR_POINTER, UK_DQUO)
+//#define LT_DQUO LT(LR_POINTER, UK_DQUO)
+//#define LT_DQUO TD(DANCE_PT_DQUOT)
+#define LT_DQUO CUSTOM_PT_DQUO
 
 #define HRM_A MT(MOD_LGUI, KC_A)
 #define HRM_R MT(MOD_LALT, KC_R)
@@ -278,6 +280,7 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     uint8_t mod_state = get_mods();
     static bool is_shifted;
     is_shifted = get_mods() & MOD_MASK_SHIFT;
+    static uint16_t dquo_timer;
     if (record->event.pressed) {
         switch (keycode) {
         case CUSTOM_QU:
@@ -314,6 +317,17 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
                 tap_code16(KC_ESC);
             }
             return false;
+      }
+    }
+    switch (keycode) {
+    case CUSTOM_PT_DQUO:
+        if (record->event.pressed) {
+            dquo_timer = timer_read();
+            layer_on(LR_POINTER);  //turn on layer 7
+        } else {
+            layer_off(LR_POINTER);  //turn off layer 7
+            if (timer_elapsed(dquo_timer) < TAPPING_TERM)
+                tap_code16(UK_DQUO);
         }
     }
     return true;
@@ -432,7 +446,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,    XXXXXXX, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, XXXXXXX,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       XXXXXXX, _______, DRGSCRL, SNIPING, EEP_RST, QK_BOOT,    QK_BOOT, EEP_RST, SNIPING, DRGSCRL, _______, XXXXXXX,
+       XXXXXXX, _______, DRGSCRL, SNIPING, EEP_RST, QK_BOOT,    KC_NA, KC_NA, SNIPING, DRGSCRL, KC_NA, XXXXXXX,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   KC_BTN2, KC_BTN1, KC_BTN3,    KC_BTN3, KC_BTN1,
                                            XXXXXXX, KC_BTN2,    KC_BTN2
@@ -897,6 +911,7 @@ const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC
 const key_override_t dash_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(LR_BRACES,KC_COMMA), UK_MINS);
 const key_override_t dquote_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_DQUO, UK_UNDS);
 
+#define LT_DQUO LT(LR_POINTER, UK_DQUO)
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
 	&apo_key_override,
