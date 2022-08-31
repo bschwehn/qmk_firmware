@@ -7,6 +7,10 @@
 #include "features/repeat.h"
 #include "features/mouse_turbo_click.h"
 
+#ifdef CONSOLE_ENABLE
+#    include "print.h"
+#endif // CONSOLE_ENABLE
+
 #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 #    include "timer.h"
 #endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
@@ -23,8 +27,8 @@ enum charybdis_keymap_layers {
 /** \brief Automatically enable sniping-mode on the pointer layer. */
 #define CHARYBDIS_AUTO_SNIPING_ON_LAYER LR_POINTER
 
-#ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 static uint16_t auto_pointer_layer_timer = 0;
+#ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 
 #    ifndef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS
 #        define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS 1000
@@ -91,32 +95,36 @@ static uint16_t auto_pointer_layer_timer = 0;
 #endif // !POINTING_DEVICE_ENABLE
 
 #ifdef POINTING_DEVICE_ENABLE
-#    ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+#ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
     if (abs(mouse_report.x) > CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD || abs(mouse_report.y) > CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD) {
         if (auto_pointer_layer_timer == 0) {
             layer_on(LR_POINTER);
-#        ifdef RGB_MATRIX_ENABLE
+#ifdef RGB_MATRIX_ENABLE
             rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
             rgb_matrix_sethsv_noeeprom(HSV_GREEN);
-#        endif // RGB_MATRIX_ENABLE
+#endif // RGB_MATRIX_ENABLE
         }
         auto_pointer_layer_timer = timer_read();
     }
     return mouse_report;
 }
+
 #    endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+void leave_pointer_layer() {
+    auto_pointer_layer_timer = 0;
+    layer_off(LR_POINTER);
+#ifdef RGB_MATRIX_ENABLE
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_STARTUP_MODE);
+#endif // RGB_MATRIX_ENABLE
+}
 
 void custom_matrix_scan_user(void) {
-#    ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+#ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE_AUTO_LEAVE
     if (auto_pointer_layer_timer != 0 && TIMER_DIFF_16(timer_read(), auto_pointer_layer_timer) >= CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS) {
-        auto_pointer_layer_timer = 0;
-        layer_off(LR_POINTER);
-#        ifdef RGB_MATRIX_ENABLE
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_STARTUP_MODE);
-#        endif // RGB_MATRIX_ENABLE
+        leave_pointer_layer();
     }
-#    endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+#endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
     achordion_task();
 }
 
@@ -282,6 +290,7 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     is_shifted = get_mods() & MOD_MASK_SHIFT;
     static uint16_t dquo_timer;
     if (record->event.pressed) {
+        dprintln("press");
         switch (keycode) {
         case CUSTOM_QU:
             if (is_caps_word) {
@@ -308,10 +317,18 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
         case CUSTOM_ENTER:
             tap_code(KC_ENTER);
             return false;
-            return false;
         case CUSTOM_ESC:
             uint8_t layer = biton32(layer_state);
-            if (layer > 0) {
+            uint8_t highlayer = get_highest_layer(layer_state);
+
+            dprintln("custom esc");
+            dprintf("layer: %d high %d\n pointer: %d",
+                    layer, highlayer, LR_POINTER);
+            if (highlayer == LR_POINTER) {
+                leave_pointer_layer();
+            }
+            else if (layer > 0) {
+                leave_pointer_layer();
                 layer_move(0);
             } else {
                 tap_code16(KC_ESC);
@@ -353,6 +370,7 @@ __attribute__((weak)) bool caps_word_press_user(uint16_t keycode) {
     }
 }
 enum tap_dance_codes {
+    DANCE_SCROLLLEAD,
     DANCE_4,
     DANCE_6,
     DANCE_7,
@@ -366,13 +384,13 @@ enum tap_dance_codes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [LR_BASE] = LAYOUT_charybdis_4x6(
   // ╭──────────────────────────────────────────────────────╮           ╭──────────────────────────────────────────────────────╮
-        KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,               KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   KC_MINS,
+        KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,               KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   KC_BTN1,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
         KC_TAB,    KC_Q,    KC_W,    LT_F,    LT_P,    KC_B,               KC_J,    LT_L,    LT_U,    KC_Y,    LT_APO, KC_BSLS,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
        KC_ESC,    HRM_A,   HRM_R,   HRM_S,   HRM_T,   KC_G,               KC_M,    HRM_N,   HRM_E,   HRM_I,   HRM_O,  KC_ENT,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
-        KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,               KC_K,    LT_H,  LT_COMMA, KC_DOT,  LT_DQUO, PT_SLSH,
+        KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,               KC_K,    LT_H,  LT_COMMA, KC_DOT,  LT_DQUO, DRGSCRL,
   // ╰──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────╯
         KC_SPC, KC_SPC,   LOWER,      KC_LEAD,  KC_BSPACE,
         KC_DEL, LLOCK,     CUSTOM_REPEAT
@@ -399,11 +417,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
         KC_F12,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,      KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-        KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    LCTL(KC_Z), LSFT(KC_INSERT),LCTL(KC_INSERT),LSFT(KC_DELETE),LCTL(KC_Y), KC_VOLU,
+        KC_MNXT, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    LCTL(KC_Z), LSFT(KC_INSERT),LCTL(KC_INSERT),LSFT(KC_DELETE),LCTL(KC_Y), KC_VOLU,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-        KC_MPLY, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_PAUSE, KC_MUTE,
+        KC_MPLY, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_PAUSE, KC_MUTE,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-        KC_MPRV, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    KC_HOME, KC_PGDN, KC_PGUP, KC_END, KC_INSERT, KC_VOLD,
+        KC_MPRV, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    KC_HOME, KC_PGDN, KC_PGUP, KC_END, KC_INSERT, KC_VOLD,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   KC_NA, KC_NA, KC_NA,    KC_NA, KC_NA,
                                            KC_NA, KC_NA,    KC_NA
@@ -413,11 +431,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
         KC_F12,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,      KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-        KC_MNXT, LSFT(KC_TAB)  , KC_F1, KC_F2, KC_F3, KC_F10,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU,
+        KC_MNXT, LSFT(KC_TAB)  , KC_F1, KC_F2, KC_F3, KC_F10,    KC_NA, KC_NA, KC_NA, KC_NA, KC_NA, KC_VOLU,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-        KC_MPLY, KC_TAB        , KC_F4, KC_F5, KC_F6, KC_F11,    XXXXXXX, KC_NA, KC_NA, KC_NA, KC_NA, KC_MUTE,
+        KC_MPLY, KC_TAB        , KC_F4, KC_F5, KC_F6, KC_F11,    KC_NA, KC_NA, KC_NA, KC_NA, KC_NA, KC_MUTE,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-        KC_MPRV, KC_APPLICATION, KC_F7, KC_F8, KC_F9, KC_F12,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLD,
+        KC_MPRV, KC_APPLICATION, KC_F7, KC_F8, KC_F9, KC_F12,    KC_NA, KC_NA, KC_NA, KC_NA, KC_NA, KC_VOLD,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
         KC_NA, KC_NA, KC_NA,    KC_NA, KC_NA,
         KC_NA, KC_NA,    KC_NA
@@ -440,16 +458,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [LR_POINTER] = LAYOUT_charybdis_4x6(
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
-       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+       KC_NA, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    QK_BOOT, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DPI_MOD, S_D_MOD,    S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+       KC_NA, KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_NA,    S_D_MOD, DPI_MOD, KC_NA, KC_NA, KC_NA, KC_NA,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,    XXXXXXX, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, XXXXXXX,
+       KC_NA, KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_NA,    KC_NA, KC_BTN1, KC_BTN2, KC_BTN3, KC_NA, KC_NA,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       XXXXXXX, _______, DRGSCRL, SNIPING, EEP_RST, QK_BOOT,    KC_NA, KC_NA, SNIPING, DRGSCRL, KC_NA, XXXXXXX,
+       KC_NA, _______, DRGSCRL, SNIPING, EEP_RST, QK_BOOT,    KC_NA, KC_NA, SNIPING, DRGSCRL, KC_NA, KC_NA,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   KC_BTN2, KC_BTN1, KC_BTN3,    KC_BTN3, KC_BTN1,
-                                           XXXXXXX, KC_BTN2,    KC_BTN2
+                                           KC_NA, KC_BTN2,    KC_BTN2
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 };
@@ -530,7 +548,37 @@ uint8_t dance_step(qk_tap_dance_state_t *state) {
     return MORE_TAPS;
 }
 
+void on_dance_scroll(qk_tap_dance_state_t *state, void *user_data) {
+    if(state->count == 3) {
+        tap_code16(KC_LEAD);
+        tap_code16(KC_LEAD);
+        tap_code16(KC_LEAD);
+    }
+    if(state->count > 3) {
+        tap_code16(KC_LEAD);
+    }
+}
 
+void dance_scroll_finished(qk_tap_dance_state_t *state, void *user_data) {
+    dance_state[DANCE_SCROLLLEAD].step = dance_step(state);
+    switch (dance_state[DANCE_SCROLLLEAD].step) {
+        case SINGLE_TAP: register_code16(KC_LEAD); break;
+    case SINGLE_HOLD: register_code16(DRGSCRL); dprintln("reg crgscrl"); break;
+        case DOUBLE_TAP: register_code16(KC_LEAD); register_code16(KC_LEAD); break;
+        case DOUBLE_SINGLE_TAP: tap_code16(KC_LEAD); register_code16(KC_LEAD);
+    }
+}
+
+void dance_scroll_reset(qk_tap_dance_state_t *state, void *user_data) {
+    wait_ms(10);
+    switch (dance_state[DANCE_SCROLLLEAD].step) {
+        case SINGLE_TAP: unregister_code16(KC_LEAD); break;
+        case SINGLE_HOLD: unregister_code16(UK_MINS); break;
+        case DOUBLE_TAP: unregister_code16(KC_LEAD); break;
+        case DOUBLE_SINGLE_TAP: unregister_code16(KC_LEAD); break;
+    }
+    dance_state[DANCE_SCROLLLEAD].step = 0;
+}
 void on_dance_4(qk_tap_dance_state_t *state, void *user_data);
 void dance_4_finished(qk_tap_dance_state_t *state, void *user_data);
 void dance_4_reset(qk_tap_dance_state_t *state, void *user_data);
@@ -803,16 +851,25 @@ void dance_12_finished(qk_tap_dance_state_t *state, void *user_data) {
 
 void dance_12_reset(qk_tap_dance_state_t *state, void *user_data) {
     wait_ms(10);
-    switch (dance_state[12].step) {
+    switch (dance_state[12].step) {void on_dance_scroll(qk_tap_dance_state_t *state, void *user_data);
+void dance_scroll_finished(qk_tap_dance_state_t *state, void *user_data);
+void dance_scroll_reset(qk_tap_dance_state_t *state, void *user_data);
+
+
         case SINGLE_TAP: unregister_code16(KC_KP_ASTERISK); break;
         case SINGLE_HOLD: unregister_code16(KC_KP_SLASH); break;
         case DOUBLE_TAP: unregister_code16(KC_KP_ASTERISK); break;
         case DOUBLE_SINGLE_TAP: unregister_code16(KC_KP_ASTERISK); break;
     }
     dance_state[12].step = 0;
-}
+}void on_dance_scroll(qk_tap_dance_state_t *state, void *user_data);
+void dance_scroll_finished(qk_tap_dance_state_t *state, void *user_data);
+void dance_scroll_reset(qk_tap_dance_state_t *state, void *user_data);
+
+
 
 qk_tap_dance_action_t tap_dance_actions[] = {
+    [DANCE_SCROLLLEAD] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_scroll, dance_scroll_finished, dance_scroll_reset),
         [DANCE_4] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_4, dance_4_finished, dance_4_reset),
         [DANCE_6] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_6, dance_6_finished, dance_6_reset),
         [DANCE_7] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_7, dance_7_finished, dance_7_reset),
@@ -947,4 +1004,11 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     default:
         return false;
     }
+}
+
+void keyboard_post_init_user(void) {
+    debug_enable=true;
+    //debug_matrix=true;
+    //debug_keyboard=true;
+    ///debug_mouse=true;
 }
