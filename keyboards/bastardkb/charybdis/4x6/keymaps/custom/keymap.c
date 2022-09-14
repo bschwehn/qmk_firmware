@@ -111,6 +111,7 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
 }
 
 #    endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+#endif     // POINTING_DEVICE_ENABLE
 void leave_pointer_layer() {
     auto_pointer_layer_timer = 0;
     layer_off(LR_POINTER);
@@ -401,7 +402,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
        KC_TILD, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,    KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       RGB_MOD,/*TURBO*/KC_NA,UK_BSLS,UK_LABK,UK_RABK,UK_PERC,  UK_AT, UK_QUES, UK_PIPE, UK_ASTR, UK_GRV, XXXXXXX,
+       RGB_MOD,/*TURBO*/KC_NA,UK_BSLS,UK_LABK,UK_RABK,UK_PERC,  UK_AT, UK_QUES, UK_PIPE, UK_ASTR, UK_GRV, KC_NA,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        RGB_TOG,HRM_COLN,HRM_SCLN,HRM_LCBR,HRM_RCBR,UK_PLUS,     UK_CIRC, HRM_EQ, HRM_AMPR, HRM_DLR, HRM_MINS, KC_PEQL,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
@@ -458,13 +459,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [LR_POINTER] = LAYOUT_charybdis_4x6(
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
-       KC_NA, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    QK_BOOT, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,
+                KC_NA, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    QK_BOOT, EEP_RST, KC_NA, KC_NA, KC_NA, KC_NA,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       KC_NA, KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_NA,    S_D_MOD, DPI_MOD, KC_NA, KC_NA, KC_NA, KC_NA,
+            KC_NA, KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_NA,    S_D_MOD, S_D_RMOD, DPI_MOD, DPI_RMOD, KC_NA, KC_NA,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        KC_NA, KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_NA,    KC_NA, KC_BTN1, KC_BTN2, KC_BTN3, KC_NA, KC_NA,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       KC_NA, _______, DRGSCRL, SNIPING, EEP_RST, QK_BOOT,    KC_NA, KC_NA, SNIPING, DRGSCRL, KC_NA, KC_NA,
+       KC_NA, _______, DRGSCRL, SNIPING, KC_NA, KC_NA,    KC_NA, KC_NA, SNIPING, DRGSCRL, KC_NA, KC_NA,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   KC_BTN2, KC_BTN1, KC_BTN3,    KC_BTN3, KC_BTN1,
                                            KC_NA, KC_BTN2,    KC_BTN2
@@ -474,13 +475,67 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 
-#    ifdef CHARYBDIS_AUTO_SNIPING_ON_LAYER
 layer_state_t layer_state_set_user(layer_state_t state) {
+#    ifdef CHARYBDIS_AUTO_SNIPING_ON_LAYER
     charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, CHARYBDIS_AUTO_SNIPING_ON_LAYER));
-    return state;
-}
 #    endif // CHARYBDIS_AUTO_SNIPING_ON_LAYER
-#endif     // POINTING_DEVICE_ENABLE
+    /* |RGB                  |HSV                  | */
+    /*      |---------------------|---------------------| */
+    /*      |`RGB_AZURE`          |`HSV_AZURE`          | */
+    /*      |`RGB_BLACK`/`RGB_OFF`|`HSV_BLACK`/`HSV_OFF`| */
+    /*      |`RGB_BLUE`           |`HSV_BLUE`           | */
+    /*      |`RGB_CHARTREUSE`     |`HSV_CHARTREUSE`     | */
+    /*      |`RGB_CORAL`          |`HSV_CORAL`          | */
+    /*      |`RGB_CYAN`           |`HSV_CYAN`           | */
+    /*      |`RGB_GOLD`           |`HSV_GOLD`           | */
+    /*      |`RGB_GOLDENROD`      |`HSV_GOLDENROD`      | */
+    /*      |`RGB_GREEN`          |`HSV_GREEN`          | */
+    /*      |`RGB_MAGENTA`        |`HSV_MAGENTA`        | */
+    /*      |`RGB_ORANGE`         |`HSV_ORANGE`         | */
+    /*      |`RGB_PINK`           |`HSV_PINK`           | */
+    /*      |`RGB_PURPLE`         |`HSV_PURPLE`         | */
+    /*      |`RGB_RED`            |`HSV_RED`            | */
+    /*      |`RGB_SPRINGGREEN`    |`HSV_SPRINGGREEN`    | */
+    /*      |`RGB_TEAL`           |`HSV_TEAL`           | */
+    /*      |`RGB_TURQUOISE`      |`HSV_TURQUOISE`      | */
+    /*      |`RGB_WHITE`          |`HSV_WHITE`          | */
+    /*      |`RGB_YELLOW`         |`HSV_YELLOW`         | */
+    uint8_t high_layer = get_highest_layer(state);
+    dprintln("layer switch");
+    dprintf("high %d\n pointer: %d",
+            high_layer, LR_POINTER);
+
+    switch (high_layer) {
+        case LR_NAV:
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
+            rgb_matrix_sethsv_noeeprom(HSV_CORAL);
+            break;
+        case LR_NUM:
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
+            rgb_matrix_sethsv_noeeprom(HSV_GOLD);
+            break;
+        case LR_BRACES:
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
+            rgb_matrix_sethsv_noeeprom(HSV_BLUE);
+            break;
+            // currently pointer layer is activated on press instead of normal layer toggle
+            // due to issues with lt and special chararcters -- need better solution or
+            // keybord blinks whenever I hit "
+        /* case LR_POINTER: */
+        /*     rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE); */
+        /*     rgb_matrix_sethsv_noeeprom(HSV_TEAL); */
+        /*     break; */
+        case LR_FUN:
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
+            rgb_matrix_sethsv_noeeprom(HSV_ORANGE);
+            break;
+        default: // for any other layers, or the default layer
+            rgb_matrix_sethsv_noeeprom(HSV_RED);
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_STARTUP_MODE);
+            break;
+        }
+        return state;
+}
 
 #ifdef RGB_MATRIX_ENABLE
 // Forward-declare this helper function since it is defined in rgb_matrix.c.
@@ -585,32 +640,32 @@ void dance_4_reset(qk_tap_dance_state_t *state, void *user_data);
 
 void on_dance_4(qk_tap_dance_state_t *state, void *user_data) {
     if(state->count == 3) {
-        tap_code16(KC_QUOTE);
-        tap_code16(KC_QUOTE);
-        tap_code16(KC_QUOTE);
+        tap_code16(KC_COLN);
+        tap_code16(KC_COLN);
+        tap_code16(KC_COLN);
     }
     if(state->count > 3) {
-        tap_code16(KC_QUOTE);
+        tap_code16(KC_COLN);
     }
 }
 
 void dance_4_finished(qk_tap_dance_state_t *state, void *user_data) {
     dance_state[4].step = dance_step(state);
     switch (dance_state[4].step) {
-        case SINGLE_TAP: register_code16(KC_QUOTE); break;
+        case SINGLE_TAP: register_code16(KC_COLN); break;
         case SINGLE_HOLD: register_code16(UK_MINS); break;
-        case DOUBLE_TAP: register_code16(KC_QUOTE); register_code16(KC_QUOTE); break;
-        case DOUBLE_SINGLE_TAP: tap_code16(KC_QUOTE); register_code16(KC_QUOTE);
+        case DOUBLE_TAP: register_code16(KC_COLN); register_code16(KC_COLN); break;
+        case DOUBLE_SINGLE_TAP: tap_code16(KC_COLN); register_code16(KC_COLN);
     }
 }
 
 void dance_4_reset(qk_tap_dance_state_t *state, void *user_data) {
     wait_ms(10);
     switch (dance_state[4].step) {
-        case SINGLE_TAP: unregister_code16(KC_QUOTE); break;
+        case SINGLE_TAP: unregister_code16(KC_COLN); break;
         case SINGLE_HOLD: unregister_code16(UK_MINS); break;
-        case DOUBLE_TAP: unregister_code16(KC_QUOTE); break;
-        case DOUBLE_SINGLE_TAP: unregister_code16(KC_QUOTE); break;
+        case DOUBLE_TAP: unregister_code16(KC_COLN); break;
+        case DOUBLE_SINGLE_TAP: unregister_code16(KC_COLN); break;
     }
     dance_state[4].step = 0;
 }
@@ -888,15 +943,98 @@ void matrix_scan_user(void) {
     LEADER_DICTIONARY() {
         leading = false;
         leader_end();
-        // Replace the sequences below with your own sequences.
-        SEQ_ONE_KEY(KC_T) {
-            // When I press KC_LEAD and then T, this sends CTRL + SHIFT + T
-            SEND_STRING(SS_LCTRL(SS_LSFT("t")));
+        SEQ_ONE_KEY(KC_BSPACE) {
+            tap_code(KC_BSPACE);
         }
-        // Note: This is not an array, you don't need to put any commas
-        // or semicolons between sequences.
+        SEQ_ONE_KEY(KC_A) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("1"))));
+        }
+        SEQ_ONE_KEY(KC_R) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("2"))));
+        }
+        SEQ_ONE_KEY(KC_S) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("3"))));
+        }
+        SEQ_ONE_KEY(KC_T) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("4"))));
+        }
+        SEQ_ONE_KEY(KC_G) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("5"))));
+        }
+        SEQ_ONE_KEY(KC_M) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("6"))));
+        }
+        SEQ_ONE_KEY(KC_N) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("7"))));
+        }
+        SEQ_ONE_KEY(KC_E) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("8"))));
+        }
+        SEQ_ONE_KEY(KC_I) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("9"))));
+        }
+        SEQ_ONE_KEY(KC_O) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("0"))));
+        }
+        SEQ_TWO_KEYS(KC_A, KC_A) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("a"))));
+        }
+        SEQ_TWO_KEYS(KC_R, KC_R) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("r"))));
+        }
+        SEQ_TWO_KEYS(KC_S, KC_S) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("s"))));
+        }
+        SEQ_TWO_KEYS(KC_T, KC_T) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("t"))));
+        }
+        SEQ_TWO_KEYS(KC_G, KC_G) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("g"))));
+        }
+        SEQ_TWO_KEYS(KC_M, KC_M) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("m"))));
+        }
+        SEQ_TWO_KEYS(KC_N, KC_N) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("n"))));
+        }
+        SEQ_TWO_KEYS(KC_E, KC_E) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("e"))));
+        }
+        SEQ_TWO_KEYS(KC_I, KC_I) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("i"))));
+        }
+        SEQ_TWO_KEYS(KC_O, KC_O) {
+            SEND_STRING(SS_LGUI(SS_LCTRL(SS_LALT("o"))));
+        }
+        SEQ_TWO_KEYS(KC_S, KC_S) {
+            tap_code(KC_SCROLL_LOCK);
+        }
         SEQ_TWO_KEYS(KC_S, KC_P) {
             tap_code(KC_PSCREEN);
+        }
+        SEQ_TWO_KEYS(KC_S, KC_I) {
+            tap_code(KC_INSERT);
+        }
+        SEQ_TWO_KEYS(KC_S, KC_H) {
+            tap_code(KC_HOME);
+        }
+        SEQ_TWO_KEYS(KC_S, KC_E) {
+            tap_code(KC_END);
+        }
+        SEQ_TWO_KEYS(KC_S, KC_U) {
+            tap_code(KC_PAGE_UP);
+        }
+        SEQ_TWO_KEYS(KC_S, KC_D) {
+            tap_code(KC_PAGE_DOWN);
+        }
+        SEQ_TWO_KEYS(KC_S, KC_N) {
+            tap_code(KC_NUM_LOCK);
+        }
+        SEQ_TWO_KEYS(KC_S, KC_C) {
+            tap_code(KC_CAPS_LOCK);
+        }
+        SEQ_TWO_KEYS(KC_S, KC_A) {
+            tap_code(KC_APPLICATION);
         }
         SEQ_TWO_KEYS(KC_S, KC_B) {
             tap_code(KC_PAUSE);
@@ -909,7 +1047,34 @@ void matrix_scan_user(void) {
         SEQ_ONE_KEY(KC_Q) {
             SEND_STRING(SS_LALT(SS_TAP(X_F4)));
         }
+        // note: need to press leader while in braces layer already
+        SEQ_ONE_KEY(UK_QUES) {
+            SEND_STRING("Home row single: Gui+C+Alt+ 1-0\n "
+                        "Home row double: Gui+C+Alt+letter\n"
+                        "S,S: scroll lock\n "
+                        "S,P: print screen\n "
+                        "S,H: home\n "
+                        "S,E: end\n "
+                        "S,I: insert\n "
+                        "S,U: page up\n "
+                        "S,D: page down\n "
+                        "S,N: num lock\n "
+                        "S,C: caps lock\n "
+                        "S,H: home\n "
+                        "Q: Alt+F4\n "
+                        "?: help\n "
+                        "S,B: Break\n "
+                        "S,B,B: C+Break\n");
+        }
   }
+}
+void leader_start(void) {
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
+    rgb_matrix_sethsv_noeeprom(HSV_PINK);
+}
+void leader_end(void) {
+    rgb_matrix_sethsv_noeeprom(HSV_RED);
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_STARTUP_MODE);
 }
 #endif
 enum combos {
@@ -945,7 +1110,7 @@ const uint16_t PROGMEM bspc_combo[] = {LT(2,KC_Z), LT(2,KC_X), COMBO_END};
 const uint16_t PROGMEM enter_left_combo[] = {LT(2,KC_X), LT(1,KC_C), COMBO_END};
 const uint16_t PROGMEM enter_combo[] = {LT(3,KC_U), KC_Y, COMBO_END};
 const uint16_t PROGMEM sleep_combo[] = {KC_Q, KC_SPACE, COMBO_END};
-const uint16_t PROGMEM app_combo[] = {KC_DOT, UK_DQUO, COMBO_END};
+const uint16_t PROGMEM app_combo[] = {KC_DOT, LT_DQUO, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_Q, KC_W,  COMBO_END};
 
 combo_t key_combos[] = {
@@ -968,7 +1133,7 @@ const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC
 const key_override_t dash_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(LR_BRACES,KC_COMMA), UK_MINS);
 const key_override_t dquote_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_DQUO, UK_UNDS);
 
-#define LT_DQUO LT(LR_POINTER, UK_DQUO)
+//#define LT_DQUO LT(LR_POINTER, UK_DQUO)
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
 	&apo_key_override,
