@@ -393,7 +393,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
         KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,               KC_K,    LT_H,  LT_COMMA, KC_DOT,  LT_DQUO, DRGSCRL,
   // ╰──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────╯
-        KC_SPC, KC_SPC,   LOWER,      KC_LEAD,  KC_BSPACE,
+        KC_ESC, KC_SPC,   KC_ENT,      KC_LEAD,  KC_BSPACE,
         KC_DEL, LLOCK,     CUSTOM_REPEAT
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
@@ -415,14 +415,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [LR_NAV] = LAYOUT_charybdis_4x6(
+                                  // LCTL(KC_Z), KC_HOME, LSFT(KC_INSERT), KC_PGDN,
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
         KC_F12,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,      KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-        KC_MNXT, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    LCTL(KC_Z), LSFT(KC_INSERT),LCTL(KC_INSERT),LSFT(KC_DELETE),LCTL(KC_Y), KC_VOLU,
+        KC_MNXT, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    KC_DOWN, KC_RIGHT, LSFT(KC_INSERT), LCTL(KC_INSERT), LSFT(KC_DELETE), KC_VOLU,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-        KC_MPLY, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_PAUSE, KC_MUTE,
+        KC_MPLY, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    KC_HOME, KC_PGDOWN, KC_PGUP, KC_END, KC_PAUSE, KC_MUTE,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-        KC_MPRV, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    KC_HOME, KC_PGDN, KC_PGUP, KC_END, KC_INSERT, KC_VOLD,
+        KC_MPRV, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    KC_UP, KC_LEFT, KC_APP, KC_SCRL, KC_INSERT, KC_VOLD,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   KC_NA, KC_NA, KC_NA,    KC_NA, KC_NA,
                                            KC_NA, KC_NA,    KC_NA
@@ -1044,7 +1045,7 @@ void matrix_scan_user(void) {
             tap_code(KC_PAUSE);
             unregister_code(KC_LCTRL);
         }
-        SEQ_ONE_KEY(KC_Q) {
+        SEQ_TWO_KEYS(KC_Q, KC_Q) {
             SEND_STRING(SS_LALT(SS_TAP(X_F4)));
         }
         // note: need to press leader while in braces layer already
