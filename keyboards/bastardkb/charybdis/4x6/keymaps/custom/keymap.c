@@ -65,7 +65,9 @@ static uint16_t auto_pointer_layer_timer = 0;
 #define HRM_R MT(MOD_LALT, KC_R)
 #define HRM_S MT(MOD_LSFT, KC_S)
 #define HRM_T MT(MOD_LCTL, KC_T)
+#define HRM_G MT(MOD_RALT, KC_G)
 
+#define HRM_M MT(MOD_RALT, KC_M)
 #define HRM_N MT(MOD_LCTL, KC_N)
 #define HRM_E MT(MOD_RSFT, KC_E)
 #define HRM_I MT(MOD_LALT, KC_I)
@@ -389,7 +391,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
         KC_TAB,    KC_Q,    KC_W,    LT_F,    LT_P,    KC_B,               KC_J,    LT_L,    LT_U,    KC_Y,    LT_APO, KC_BSLS,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
-       KC_ESC,    HRM_A,   HRM_R,   HRM_S,   HRM_T,   KC_G,               KC_M,    HRM_N,   HRM_E,   HRM_I,   HRM_O,  KC_ENT,
+       KC_ESC,    HRM_A,   HRM_R,   HRM_S,   HRM_T,   HRM_G,               HRM_M,    HRM_N,   HRM_E,   HRM_I,   HRM_O,  KC_ENT,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
         KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,               KC_K,    LT_H,  LT_COMMA, KC_DOT,  LT_DQUO, DRGSCRL,
   // ╰──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────╯
