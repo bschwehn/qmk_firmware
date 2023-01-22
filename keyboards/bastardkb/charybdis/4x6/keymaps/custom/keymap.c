@@ -1069,6 +1069,10 @@ void matrix_scan_user(void) {
                         "S,B: Break\n "
                         "S,B,B: C+Break\n");
         }
+        // does not seem to work actually
+        SEQ_FOUR_KEYS(KC_B, KC_O, KC_O, KC_T) {
+            tap_code16(QK_BOOT);
+        }
   }
 }
 void leader_start(void) {
@@ -1094,6 +1098,7 @@ enum combos {
     SLEEP,
     APP,
     TAB,
+    CD_DEL,
     COMBO_LENGTH,
 };
 
@@ -1115,6 +1120,7 @@ const uint16_t PROGMEM enter_combo[] = {LT(3,KC_U), KC_Y, COMBO_END};
 const uint16_t PROGMEM sleep_combo[] = {KC_Q, KC_SPACE, COMBO_END};
 const uint16_t PROGMEM app_combo[] = {KC_DOT, LT_DQUO, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_Q, KC_W,  COMBO_END};
+const uint16_t PROGMEM del_combo[] = {LT(1,KC_C),LT(1,KC_D),  COMBO_END};
 
 combo_t key_combos[] = {
     [WF_ESC] = COMBO(esc_combo, CUSTOM_ESC),
@@ -1130,6 +1136,7 @@ combo_t key_combos[] = {
     [SLEEP] = COMBO(sleep_combo, KC_SYSTEM_SLEEP),
     [APP] = COMBO(app_combo, KC_APPLICATION),
     [TAB] = COMBO(tab_combo, KC_TAB),
+    [CD_DEL] = COMBO(del_combo, KC_DEL),
 };
 
 const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_QUOTE);
