@@ -14,7 +14,7 @@ uint8_t oneshot_mod_state;
 uint16_t get_last_keycode(void) {
     switch (last_keycode) {
         case CUSTOM_BSPACE:
-            return KC_BSPACE;
+            return KC_BSPC;
         case CUSTOM_ENTER:
             return KC_ENTER;
         default:
