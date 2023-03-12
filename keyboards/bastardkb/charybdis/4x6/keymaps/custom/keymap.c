@@ -280,9 +280,11 @@ bool send_grave_with_caps_word(uint16_t keycode, uint16_t mod_state) {
 }
 
 bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
+#ifdef ACHORDION_COOLDOWN
     if (!record->event.pressed) {
         save_keystroke_time(keycode, record);
     }
+#endif
     if (!process_mouse_turbo_click(keycode, record, TURBO)) { return false; }
     if (!process_achordion(keycode, record)) { return false; }
     if (!process_caps_word(keycode, record)) { return false; }
@@ -395,7 +397,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
         KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,               KC_K,    LT_H,  LT_COMMA, KC_DOT,  LT_DQUO, DRGSCRL,
   // ╰──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────╯
-        KC_ESC, KC_SPC,   KC_ENT,      KC_LEAD,  KC_BSPACE,
+        KC_BSPACE, KC_SPC,   KC_ENT,      KC_LEAD,  KC_BSPACE,
         KC_DEL, LLOCK,     CUSTOM_REPEAT
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
@@ -1089,8 +1091,8 @@ enum combos {
     WF_ESC10,
     WF_ESC3,
     XC_ENTER,
-    ZX_BSPC,
-    FP_Q,
+    //ZX_BSPC,
+    //FP_Q,
     V_A,
     V_U,
     V_O,
@@ -1110,7 +1112,7 @@ const uint16_t PROGMEM esc_combo10[] = {KC_F1, KC_F2, COMBO_END};
 //const uint16_t PROGMEM esc_combo10[] = {KC_TAB, KC_F6, COMBO_END};
 const uint16_t PROGMEM esc_combo3[] = {UK_BSLS, UK_LABK, COMBO_END};
 //const uint16_t PROGMEM esc_combo3[] = {TD(DANCE_8), TD(DANCE_10), COMBO_END};
-const uint16_t PROGMEM q_combo[] = {LT(4,KC_F),     LT(4,KC_P), COMBO_END};
+//const uint16_t PROGMEM q_combo[] = {LT(4,KC_F),     LT(4,KC_P), COMBO_END};
 const uint16_t PROGMEM auml_combo[] = {MT(MOD_LGUI, KC_A), KC_V, COMBO_END};
 const uint16_t PROGMEM uuml_combo[] = {LT(3,KC_U), KC_V, COMBO_END};
 const uint16_t PROGMEM ouml_combo[] = {MT(MOD_RGUI, KC_O), KC_V, COMBO_END};
@@ -1126,11 +1128,11 @@ combo_t key_combos[] = {
     [WF_ESC] = COMBO(esc_combo, CUSTOM_ESC),
     [WF_ESC10] = COMBO(esc_combo10, CUSTOM_ESC),
     [WF_ESC3] = COMBO(esc_combo3, CUSTOM_ESC),
-    [FP_Q] = COMBO(q_combo, CUSTOM_QU),
+    //   [FP_Q] = COMBO(q_combo, CUSTOM_QU),
     [V_A] = COMBO(auml_combo, CUSTOM_AUML),
     [V_U] = COMBO(uuml_combo, CUSTOM_UUML),
     [V_O] = COMBO(ouml_combo, CUSTOM_OUML),
-    [ZX_BSPC] = COMBO(bspc_combo, CUSTOM_BSPACE),
+    //[ZX_BSPC] = COMBO(bspc_combo, CUSTOM_BSPACE),
     [UY_ENTER] = COMBO(enter_combo, CUSTOM_ENTER),
     [XC_ENTER] = COMBO(enter_left_combo, CUSTOM_ENTER),
     [SLEEP] = COMBO(sleep_combo, KC_SYSTEM_SLEEP),
