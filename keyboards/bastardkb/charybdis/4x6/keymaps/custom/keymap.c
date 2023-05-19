@@ -350,8 +350,14 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             layer_on(LR_POINTER);  //turn on layer 7
         } else {
             layer_off(LR_POINTER);  //turn off layer 7
-            if (timer_elapsed(dquo_timer) < TAPPING_TERM)
-                tap_code16(UK_DQUO);
+            if (timer_elapsed(dquo_timer) < TAPPING_TERM) {
+                if (is_shifted) {
+                    tap_code16(UK_UNDS);
+                }
+                else {
+                    tap_code16(UK_DQUO);
+                }
+            }
         }
     }
     return true;
@@ -391,9 +397,9 @@ enum tap_dance_codes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [LR_BASE] = LAYOUT_charybdis_4x6(
   // ╭──────────────────────────────────────────────────────╮           ╭──────────────────────────────────────────────────────╮
-        KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,               KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   KC_BTN1,
+        KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,               KC_6,    KC_0,    KC_8,    KC_9,    KC_0,   KC_BTN1,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
-        KC_TAB,    KC_Q,    KC_W,    LT_F,    LT_P,    KC_B,               KC_J,    LT_L,    LT_U,    KC_Y,    LT_APO, KC_BSLS,
+        KC_TAB,    KC_Q,    KC_W,    LT_F,    LT_P,    KC_B,               KC_J,    LT_L,    LT_U,    KC_Y,    UK_COLN, KC_BSLS,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
        KC_ESC,    HRM_A,   HRM_R,   HRM_S,   HRM_T,   HRM_G,               HRM_M,    HRM_N,   HRM_E,   HRM_I,   HRM_O,  KC_ENT,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
@@ -1091,7 +1097,7 @@ enum combos {
     WF_ESC10,
     WF_ESC3,
     XC_ENTER,
-    //ZX_BSPC,
+    ZX_BSPC,
     //FP_Q,
     V_A,
     V_U,
@@ -1132,7 +1138,7 @@ combo_t key_combos[] = {
     [V_A] = COMBO(auml_combo, CUSTOM_AUML),
     [V_U] = COMBO(uuml_combo, CUSTOM_UUML),
     [V_O] = COMBO(ouml_combo, CUSTOM_OUML),
-    //[ZX_BSPC] = COMBO(bspc_combo, CUSTOM_BSPACE),
+    [ZX_BSPC] = COMBO(bspc_combo, CUSTOM_BSPACE),
     [UY_ENTER] = COMBO(enter_combo, CUSTOM_ENTER),
     [XC_ENTER] = COMBO(enter_left_combo, CUSTOM_ENTER),
     [SLEEP] = COMBO(sleep_combo, KC_SYSTEM_SLEEP),
@@ -1144,14 +1150,17 @@ combo_t key_combos[] = {
 const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_QUOTE);
 const key_override_t dash_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(LR_BRACES,KC_COMMA), UK_MINS);
 const key_override_t dquote_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_DQUO, UK_UNDS);
+const key_override_t coln_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_COLN, UK_SCLN);
+//const key_override_t coln_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_COLN, UK_UNDS);
 
 //#define LT_DQUO LT(LR_POINTER, UK_DQUO)
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
-	&apo_key_override,
-	&dash_key_override,
+    &apo_key_override,
+    &dash_key_override,
     &dquote_key_override,
-	NULL // Null terminate the array of overrides!
+    &coln_key_override,
+    NULL // Null terminate the array of overrides!
 };
 #ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
