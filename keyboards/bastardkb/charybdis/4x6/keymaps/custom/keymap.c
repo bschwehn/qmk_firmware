@@ -399,7 +399,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ╭──────────────────────────────────────────────────────╮           ╭──────────────────────────────────────────────────────╮
         KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,               KC_6,    KC_0,    KC_8,    KC_9,    KC_0,   KC_BTN1,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
-        KC_TAB,    KC_Q,    KC_W,    LT_F,    LT_P,    KC_B,               KC_J,    LT_L,    LT_U,    KC_Y,    UK_COLN, KC_BSLS,
+        KC_TAB,    KC_Q,    KC_W,    LT_F,    LT_P,    KC_B,               KC_J,    LT_L,    LT_U,    KC_Y,    UK_COLN, RGB_MOD,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
        KC_ESC,    HRM_A,   HRM_R,   HRM_S,   HRM_T,   HRM_G,               HRM_M,    HRM_N,   HRM_E,   HRM_I,   HRM_O,  KC_ENT,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
@@ -931,6 +931,7 @@ void dance_scroll_reset(tap_dance_state_t *state, void *user_data);
     }
     dance_state[12].step = 0;
 }void on_dance_scroll(tap_dance_state_t *state, void *user_data);
+
 void dance_scroll_finished(tap_dance_state_t *state, void *user_data);
 void dance_scroll_reset(tap_dance_state_t *state, void *user_data);
 
@@ -1022,7 +1023,7 @@ void leader_end_user(void) {
     else if (leader_sequence_two_keys(KC_O, KC_O)) {
         SEND_STRING(SS_LGUI(SS_LCTL(SS_LALT("o"))));
     }
-    else if (leader_sequence_two_keys(KC_S, KC_S)) {
+    else if (leader_sequence_two_keys(KC_S, KC_R)) {
         tap_code(KC_SCROLL_LOCK);
     }
     else if (leader_sequence_two_keys(KC_S, KC_P)) {
@@ -1067,7 +1068,7 @@ void leader_end_user(void) {
     else if (leader_sequence_one_key(UK_QUES)) {
         SEND_STRING("Home row single: Gui+C+Alt+ 1-0\n "
                     "Home row double: Gui+C+Alt+letter\n"
-                    "S,S: scroll lock\n "
+                    "S,R: scroll lock\n "
                     "S,P: print screen\n "
                     "S,H: home\n "
                     "S,E: end\n "
@@ -1077,7 +1078,7 @@ void leader_end_user(void) {
                     "S,N: num lock\n "
                     "S,C: caps lock\n "
                     "S,H: home\n "
-                    "Q: Alt+F4\n "
+                    "Q,Q: Alt+F4\n "
                     "?: help\n "
                     "S,B: Break\n "
                     "S,B,B: C+Break\n");
@@ -1097,7 +1098,7 @@ enum combos {
     WF_ESC10,
     WF_ESC3,
     XC_ENTER,
-    ZX_BSPC,
+    ZC_BSPC,
     //FP_Q,
     V_A,
     V_U,
@@ -1106,7 +1107,7 @@ enum combos {
     SLEEP,
     APP,
     TAB,
-    CD_DEL,
+    XD_DEL,
     COMBO_LENGTH,
 };
 
@@ -1122,13 +1123,13 @@ const uint16_t PROGMEM esc_combo3[] = {UK_BSLS, UK_LABK, COMBO_END};
 const uint16_t PROGMEM auml_combo[] = {MT(MOD_LGUI, KC_A), KC_V, COMBO_END};
 const uint16_t PROGMEM uuml_combo[] = {LT(3,KC_U), KC_V, COMBO_END};
 const uint16_t PROGMEM ouml_combo[] = {MT(MOD_RGUI, KC_O), KC_V, COMBO_END};
-const uint16_t PROGMEM bspc_combo[] = {LT(2,KC_Z), LT(2,KC_X), COMBO_END};
+const uint16_t PROGMEM bspc_combo[] = {LT(2,KC_Z), LT(1,KC_C), COMBO_END};
 const uint16_t PROGMEM enter_left_combo[] = {LT(2,KC_X), LT(1,KC_C), COMBO_END};
 const uint16_t PROGMEM enter_combo[] = {LT(3,KC_U), KC_Y, COMBO_END};
 const uint16_t PROGMEM sleep_combo[] = {KC_Q, KC_SPACE, COMBO_END};
 const uint16_t PROGMEM app_combo[] = {KC_DOT, LT_DQUO, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_Q, KC_W,  COMBO_END};
-const uint16_t PROGMEM del_combo[] = {LT(1,KC_C),LT(1,KC_D),  COMBO_END};
+const uint16_t PROGMEM del_combo[] = {LT(2, KC_X),LT(1,KC_D),  COMBO_END};
 
 combo_t key_combos[] = {
     [WF_ESC] = COMBO(esc_combo, CUSTOM_ESC),
@@ -1138,13 +1139,13 @@ combo_t key_combos[] = {
     [V_A] = COMBO(auml_combo, CUSTOM_AUML),
     [V_U] = COMBO(uuml_combo, CUSTOM_UUML),
     [V_O] = COMBO(ouml_combo, CUSTOM_OUML),
-    [ZX_BSPC] = COMBO(bspc_combo, CUSTOM_BSPACE),
+    [ZC_BSPC] = COMBO(bspc_combo, CUSTOM_BSPACE),
     [UY_ENTER] = COMBO(enter_combo, CUSTOM_ENTER),
     [XC_ENTER] = COMBO(enter_left_combo, CUSTOM_ENTER),
     [SLEEP] = COMBO(sleep_combo, KC_SYSTEM_SLEEP),
     [APP] = COMBO(app_combo, KC_APPLICATION),
     [TAB] = COMBO(tab_combo, KC_TAB),
-    [CD_DEL] = COMBO(del_combo, KC_DEL),
+    [XD_DEL] = COMBO(del_combo, KC_DEL),
 };
 
 const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_QUOTE);
