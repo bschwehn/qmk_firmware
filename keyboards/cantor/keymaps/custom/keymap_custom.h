@@ -2,6 +2,14 @@
 #include "features/layer_lock.h"
 #include "keymap_uk.h"
 
+enum charybdis_keymap_layers {
+    LR_BASE = 0,
+    LR_BRACES,
+    LR_NAV,
+    LR_FUN,
+    LR_NUM,
+    LR_POINTER,
+};
 enum custom_combo {
     CUSTOM_QU = SAFE_RANGE + 5,
     CUSTOM_AUML,
@@ -11,6 +19,7 @@ enum custom_combo {
     CUSTOM_END_CAPS,
     CUSTOM_ESC,
     CUSTOM_ENTER,
+    CUSTOM_PT_DQUO,
     CUSTOM_LAST
 };
 
@@ -184,6 +193,7 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     uint8_t mod_state = get_mods();
     static bool is_shifted;
     is_shifted = get_mods() & MOD_MASK_SHIFT;
+    static uint16_t dquo_timer;
     if (record->event.pressed) {
         switch (keycode) {
         case CUSTOM_QU:
@@ -215,6 +225,23 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
                 tap_code16(KC_ESC);
             }
             return false;
+        }
+    }
+    switch (keycode) {
+    case CUSTOM_PT_DQUO:
+        if (record->event.pressed) {
+            dquo_timer = timer_read();
+            layer_on(LR_POINTER);  //turn on layer 7
+        } else {
+            layer_off(LR_POINTER);  //turn off layer 7
+            if (timer_elapsed(dquo_timer) < TAPPING_TERM) {
+                if (is_shifted) {
+                    tap_code16(UK_UNDS);
+                }
+                else {
+                    tap_code16(UK_DQUO);
+                }
+            }
         }
     }
     return true;
