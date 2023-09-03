@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include "features/achordion.h"
 #include "features/layer_lock.h"
-#include "features/repeat.h"
 #include "features/mouse_turbo_click.h"
 
 #ifdef CONSOLE_ENABLE
@@ -291,7 +290,6 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     if (!process_achordion(keycode, record)) { return false; }
     if (!process_caps_word(keycode, record)) { return false; }
     if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
-    process_repeat_key(keycode, record);
     uint8_t mod_state = get_mods();
     static bool is_shifted;
     is_shifted = get_mods() & MOD_MASK_SHIFT;
@@ -405,8 +403,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
         KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,               KC_K,    LT_H,  LT_COMMA, KC_DOT,  LT_DQUO, DRGSCRL,
   // ╰──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────╯
-        (MT, MOD_LCTL, KC_BSPACE), KC_SPC,   KC_ENT,      QK_LEAD,  (MT, MOD_LCTL, KC_BSPACE),
-        (MT, MOD_LCTL, KC_DEL), LLOCK,     QK_REPEAT_KEY
+        MT(MOD_LCTL, KC_BSPACE), KC_SPC,   KC_ENT,      QK_LEAD,  MT(MOD_LCTL, KC_BSPACE),
+        MT(MOD_LCTL, KC_DEL), LLOCK,     QK_REPEAT_KEY
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 
