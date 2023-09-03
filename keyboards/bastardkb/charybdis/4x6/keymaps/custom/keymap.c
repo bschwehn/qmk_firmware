@@ -405,8 +405,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
         KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,               KC_K,    LT_H,  LT_COMMA, KC_DOT,  LT_DQUO, DRGSCRL,
   // ╰──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────╯
-        KC_BSPACE, KC_SPC,   KC_ENT,      QK_LEAD,  KC_BSPACE,
-        KC_DEL, LLOCK,     CUSTOM_REPEAT
+        (MT, MOD_LCTL, KC_BSPACE), KC_SPC,   KC_ENT,      QK_LEAD,  (MT, MOD_LCTL, KC_BSPACE),
+        (MT, MOD_LCTL, KC_DEL), LLOCK,     QK_REPEAT_KEY
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 
@@ -1175,6 +1175,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     }
 }
 #endif
+// TODO: not sure if this is still used, maybe replaced with QUICK_TAP_TERM
 bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case MT(MOD_LSFT, KC_S):
