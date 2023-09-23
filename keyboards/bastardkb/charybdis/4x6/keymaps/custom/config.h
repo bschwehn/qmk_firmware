@@ -89,7 +89,7 @@
 
 #undef TAPPING_TERM
 #define TAPPING_TERM 171
-#define COMBO_TERM 25
+#define COMBO_TERM 40
 #define ACHORDION_COOLDOWN 200
 //#undef ACHORDION_COOLDOWN
 
@@ -133,3 +133,5 @@
 
 // still hold layer after double tab, like c$ not cci
 #define QUICK_TAP_TERM 0
+
+#define TAPPING_TOGGLE 2

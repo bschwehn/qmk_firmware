@@ -66,13 +66,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [LR_BASE] = LAYOUT_split_3x6_3(
         KC_TAB,         KC_Q,           KC_W,           LT(4,KC_F),     LT(4,KC_P),     KC_B,
-        KC_J, LT(3,KC_L), LT(3,KC_U), KC_Y, UK_COLN, KC_TRANSPARENT,
+        KC_J, LT(3,KC_L), LT(3,KC_U), KC_Y, UK_COLN, KC_APPLICATION,
 
-    LT(5,KC_ESCAPE), MT(MOD_LGUI, KC_A),MT(MOD_LALT, KC_R),MT(MOD_LSFT, KC_S),MT(MOD_LCTL, KC_T),KC_G,
-    KC_M,  MT(MOD_RCTL, KC_N),MT(MOD_RSFT, KC_E),MT(MOD_LALT, KC_I),MT(MOD_RGUI, KC_O),KC_APPLICATION,
+    LT(5,KC_ESCAPE), MT(MOD_LGUI, KC_A), MT(MOD_LALT, KC_R), MT(MOD_LSFT, KC_S), MT(MOD_LCTL, KC_T), KC_G,
+        KC_M,  MT(MOD_RCTL, KC_N), MT(MOD_RSFT, KC_E), MT(MOD_LALT, KC_I), MT(MOD_RGUI, KC_O), QK_ALT_REPEAT_KEY,
 
     LLOCK,        LT(2,KC_Z),     LT(2,KC_X),     LT(1,KC_C),     LT(1,KC_D),     KC_V,
-    KC_K,           LT(1,KC_H),     LT(1,KC_COMMA), KC_DOT,         LT_DQUO,        KC_BSPC,
+    KC_K,           LT(1,KC_H),     LT(1,KC_COMMA), KC_DOT,         UK_DQUO,        TT(LR_POINTER),
 
     MT(MOD_LCTL, KC_DELETE),  KC_SPACE, MT(MOD_LSFT, KC_ENTER),
     QK_LEAD, MT(MOD_LCTL, KC_BSPC), QK_REPEAT_KEY
@@ -81,17 +81,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT, KC_TRANSPARENT, UK_BSLS,        UK_LABK,        UK_RABK,        UK_PERC,
     UK_AT,          UK_QUES,        UK_PIPE,        UK_ASTR,        UK_GRV,         KC_PSCR,
 
-    TO(0),          TD(DANCE_6),    MT(MOD_LALT, UK_SCLN),TD(DANCE_7),    TD(DANCE_8),    UK_PLUS,
-    UK_CIRC,     MT(MOD_RCTL, UK_EQL),TD(DANCE_9),    TD(DANCE_10),   MT(MOD_RGUI, UK_MINS),KC_TRANSPARENT,
+    TO(0),          UK_COLN,    UK_SCLN, UK_LCBR,    UK_RCBR,    UK_PLUS,
+    UK_CIRC,        UK_EQL,     UK_AMPR,    UK_DLR,   UK_MINS,  KC_TRANSPARENT,
 
     KC_TRANSPARENT, UK_LPRN,        UK_RPRN,        UK_LBRC,        UK_RBRC,        UK_MINS,
     UK_TILD,        UK_EXLM,        UK_UNDS,        UK_SLSH,        UK_HASH,        KC_RALT,
 
-    KC_SPACE,       UK_SCLN,        UK_COLN,
-    UK_UNDS,        KC_LPRN,        KC_ENTER
-
-
-  ),
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, QK_ALT_REPEAT_KEY ),
   [LR_NAV] = LAYOUT_split_3x6_3(
     KC_SYSTEM_SLEEP, KC_MS_WH_DOWN,  KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_UP, KC_MS_RIGHT,
         KC_DOWN, KC_RIGHT,     LSFT(KC_INSERT), LCTL(KC_INSERT), LSFT(KC_DELETE), KC_VOLU,
@@ -106,8 +103,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT, LCTL(KC_MS_WH_DOWN),LCTL(KC_MS_WH_UP)
   ),
   [LR_FUN] = LAYOUT_split_3x6_3(
-    KC_TRANSPARENT, LSFT(KC_TAB),   KC_F1,          KC_F2,          KC_F3,          KC_F10,          KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, LSFT(KC_TAB),   KC_F1,          KC_F2,          KC_F3,          KC_F10,
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 
     KC_TRANSPARENT, KC_TAB,         KC_F4,          KC_F5,          KC_F6,          KC_F11,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
@@ -137,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 
     KC_TRANSPARENT, KC_MS_LEFT, KC_MS_DOWN, KC_MS_UP, KC_MS_RIGHT, KC_MS_ACCEL1,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_MS_BTN1, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 
     KC_TRANSPARENT, KC_MS_WH_LEFT, KC_MS_WH_DOWN, KC_MS_WH_UP, KC_MS_WH_RIGHT, KC_MS_ACCEL2,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_ACCEL0, KC_TRANSPARENT, KC_TRANSPARENT,
@@ -761,17 +758,48 @@ void leader_end_user(void) {
     }
 }
 #endif
+/*new combo try
 
+tab < [
+bsp { {
+del / +
+
+] > app
+} ) ent
+! ; ?
+
+tststs !
+*/
 enum combos {
     WF_ESC,
     WF_ESC10,
     WF_ESC3,
-    XC_BSPC,
     FP_Q,
     V_A,
     V_U,
     V_O,
-    UY_ENTER,
+    SLEEP,
+    APP,
+    TAB,
+    XD_DEL,
+    XC_BSPC,
+    WF_LABK,
+    FP_LBRC,
+    AR_BSPC,
+    RS_LPRN,
+    ST_LCBR,
+    ZX_DEL,
+    XC_SLSH,
+    CD_PLUS,
+    LU_RBRC,
+    UY_RABK,
+    YCLN_APP,
+    NE_RCBR,
+    EI_RPRN,
+    IO_ENT,
+    HCOM_EXLM,
+    COMDOT_SCLN,
+    DOTQU_QUES,
     COMBO_LENGTH
 };
 
@@ -788,8 +816,29 @@ const uint16_t PROGMEM auml_combo[] = {MT(MOD_LGUI, KC_A), KC_V, COMBO_END};
 const uint16_t PROGMEM uuml_combo[] = {LT(3,KC_U), KC_V, COMBO_END};
 const uint16_t PROGMEM ouml_combo[] = {MT(MOD_RGUI, KC_O), KC_V, COMBO_END};
 const uint16_t PROGMEM bspc_combo[] = {LT(2,KC_X), LT(1,KC_C), COMBO_END};
-const uint16_t PROGMEM enter_combo[] = {LT(3,KC_U), KC_Y, COMBO_END};
+//const uint16_t PROGMEM enter_combo[] = {LT(3,KC_U), KC_Y, COMBO_END};
+const uint16_t PROGMEM sleep_combo[] = {KC_Q, KC_SPACE, COMBO_END};
+const uint16_t PROGMEM app_combo[] = {KC_DOT, LT_DQUO, COMBO_END};
+const uint16_t PROGMEM tab_combo[] = {KC_Q, KC_W,  COMBO_END};
+const uint16_t PROGMEM del_combo[] = {LT(2, KC_X),LT(1,KC_D),  COMBO_END};
 
+const uint16_t PROGMEM wf_labk_combo[] = {KC_W, LT(4, KC_F), COMBO_END};
+const uint16_t PROGMEM fp_lbrc_combo[] = {LT(4, KC_F), LT(4, KC_P), COMBO_END};
+const uint16_t PROGMEM ar_bspc_combo[] = {MT(MOD_LGUI, KC_A), MT(MOD_LALT, KC_R), COMBO_END};
+const uint16_t PROGMEM rs_lprn_combo[] = {MT(MOD_LALT, KC_R), MT(MOD_LSFT, KC_S), COMBO_END};
+const uint16_t PROGMEM st_lcbr_combo[] = {MT(MOD_LSFT, KC_S), MT(MOD_LCTL, KC_T), COMBO_END};
+const uint16_t PROGMEM zx_del_combo[] = {LT(2, KC_Z), LT(2, KC_X), COMBO_END};
+const uint16_t PROGMEM xc_slsh_combo[] = {LT(2, KC_X), LT(1, KC_C), COMBO_END};
+const uint16_t PROGMEM cd_plus_combo[] = {LT(1, KC_C), LT(1, KC_D), COMBO_END};
+const uint16_t PROGMEM lu_rbrc_combo[] = {LT(3, KC_L), LT(3, KC_U), COMBO_END};
+const uint16_t PROGMEM uy_rabk_combo[] = {LT(3, KC_U), KC_Y, COMBO_END};
+const uint16_t PROGMEM ycln_app_combo[] = {KC_Y, UK_COLN, COMBO_END};
+const uint16_t PROGMEM ne_rcbr_combo[] = {MT(MOD_RCTL, KC_N), MT(MOD_RSFT, KC_E), COMBO_END};
+const uint16_t PROGMEM ei_rprn_combo[] = {MT(MOD_RSFT, KC_E), MT(MOD_LALT, KC_I), COMBO_END};
+const uint16_t PROGMEM io_ent_combo[] = {MT(MOD_LALT, KC_I), MT(MOD_RGUI, KC_O), COMBO_END};
+const uint16_t PROGMEM hcom_exlm_combo[] = {LT(1,KC_H), LT(1,KC_COMMA), COMBO_END};
+const uint16_t PROGMEM comdot_scln_combo[] = {LT(1,KC_COMMA), KC_DOT, COMBO_END};
+const uint16_t PROGMEM dotqu_ques_combo[] = {KC_DOT, UK_DQUO, COMBO_END};
 
 combo_t key_combos[] = {
     [WF_ESC] = COMBO(esc_combo, CUSTOM_ESC),
@@ -800,19 +849,47 @@ combo_t key_combos[] = {
     [V_U] = COMBO(uuml_combo, CUSTOM_UUML),
     [V_O] = COMBO(ouml_combo, CUSTOM_OUML),
     [XC_BSPC] = COMBO(bspc_combo, CUSTOM_BSPC),
-    [UY_ENTER] = COMBO(enter_combo, CUSTOM_ENTER),
-};
-const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_QUOTE);
-const key_override_t dash_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(1,KC_COMMA), UK_MINS);
-const key_override_t dquote_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_DQUO, UK_UNDS);
+//    [UY_ENTER] = COMBO(enter_combo, CUSTOM_ENTER),
+    [SLEEP] = COMBO(sleep_combo, KC_SYSTEM_SLEEP),
+    [APP] = COMBO(app_combo, KC_APPLICATION),
+    [TAB] = COMBO(tab_combo, KC_TAB),
+    [XD_DEL] = COMBO(del_combo, KC_DEL),
 
-// This globally defines all key overrides to be used
-const key_override_t **key_overrides = (const key_override_t *[]){
-	&apo_key_override,
-	&dash_key_override,
-    &dquote_key_override,
-	NULL // Null terminate the array of overrides!
+    [WF_LABK] = COMBO(wf_labk_combo, UK_LABK),
+    [FP_LBRC] = COMBO(fp_lbrc_combo, UK_LBRC),
+    [AR_BSPC] = COMBO(ar_bspc_combo, KC_BSPC),
+    [RS_LPRN] = COMBO(rs_lprn_combo, UK_LPRN),
+    [ST_LCBR] = COMBO(st_lcbr_combo, UK_LCBR),
+    [ZX_DEL] = COMBO(zx_del_combo, KC_DELETE),
+    [XC_SLSH] = COMBO(xc_slsh_combo, UK_SLSH),
+    [CD_PLUS] = COMBO(cd_plus_combo, UK_PLUS),
+    [LU_RBRC] = COMBO(lu_rbrc_combo, UK_RBRC),
+    [UY_RABK] = COMBO(uy_rabk_combo, UK_RABK),
+    [YCLN_APP] = COMBO(ycln_app_combo, KC_APPLICATION),
+    [NE_RCBR] = COMBO(ne_rcbr_combo, UK_RCBR),
+    [EI_RPRN] = COMBO(ei_rprn_combo, UK_RPRN),
+    [IO_ENT] = COMBO(io_ent_combo, KC_ENTER),
+    [HCOM_EXLM] = COMBO(hcom_exlm_combo, UK_EXLM),
+    [COMDOT_SCLN] = COMBO(comdot_scln_combo, UK_SCLN),
+    [DOTQU_QUES] = COMBO(dotqu_ques_combo, UK_QUES),
 };
+
+const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_QUOTE);
+const key_override_t dash_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(LR_BRACES,KC_COMMA), UK_MINS);
+const key_override_t dquote_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_DQUO, UK_UNDS);
+const key_override_t coln_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_COLN, UK_SCLN);
+//const key_override_t coln_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_COLN, UK_UNDS);
+
+const key_override_t **key_overrides = (const key_override_t *[]){
+    &apo_key_override,
+    &dash_key_override,
+    &dquote_key_override,
+    &coln_key_override,
+    NULL // Null terminate the array of overrides!
+};
+
+
+#ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case LT(1,KC_C):
@@ -823,6 +900,8 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 }
+#endif
+// TODO: not sure if this is still used, maybe replaced with QUICK_TAP_TERM
 bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     case MT(MOD_LSFT, KC_S):

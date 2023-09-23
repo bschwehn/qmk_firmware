@@ -3,7 +3,7 @@
 
 #undef TAPPING_TERM
 #define TAPPING_TERM 171
-#define COMBO_TERM 25
+#define COMBO_TERM 40
 #define ACHORDION_COOLDOWN 200
 
 #define PERMISSIVE_HOLD

@@ -397,11 +397,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ╭──────────────────────────────────────────────────────╮           ╭──────────────────────────────────────────────────────╮
         KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,               KC_6,    KC_0,    KC_8,    KC_9,    KC_0,   KC_BTN1,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
-        KC_TAB,    KC_Q,    KC_W,    LT_F,    LT_P,    KC_B,               KC_J,    LT_L,    LT_U,    KC_Y,    UK_COLN, RGB_MOD,
+        KC_TAB,    KC_Q,    KC_W,    LT_F,    LT_P,    KC_B,               KC_J,    LT_L,    LT_U,    KC_Y,    UK_COLN, LT_DQUO,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
-       KC_ESC,    HRM_A,   HRM_R,   HRM_S,   HRM_T,   HRM_G,               HRM_M,    HRM_N,   HRM_E,   HRM_I,   HRM_O,  KC_ENT,
+       KC_ESC,    HRM_A,   HRM_R,   HRM_S,   HRM_T,   HRM_G,               HRM_M,    HRM_N,   HRM_E,   HRM_I,   HRM_O,  QK_ALT_REPEAT_KEY,
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
-        KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,               KC_K,    LT_H,  LT_COMMA, KC_DOT,  LT_DQUO, DRGSCRL,
+        KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,               KC_K,    LT_H,  LT_COMMA, KC_DOT,  UK_DQUO, TT(LR_POINTER), //TT not working for some reason
   // ╰──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────╯
         MT(MOD_LCTL, KC_BSPACE), KC_SPC,   KC_ENT,      QK_LEAD,  MT(MOD_LCTL, KC_BSPACE),
         MT(MOD_LCTL, KC_DEL), LLOCK,     QK_REPEAT_KEY
@@ -1106,6 +1106,23 @@ enum combos {
     APP,
     TAB,
     XD_DEL,
+    WF_LABK,
+    FP_LBRC,
+    AR_BSPC,
+    RS_LPRN,
+    ST_LCBR,
+    ZX_DEL,
+    XC_SLSH,
+    CD_PLUS,
+    LU_RBRC,
+    UY_RABK,
+    YCLN_APP,
+    NE_RCBR,
+    EI_RPRN,
+    IO_ENT,
+    HCOM_EXLM,
+    COMDOT_SCLN,
+    DOTQU_QUES,
     COMBO_LENGTH,
 };
 
@@ -1129,6 +1146,25 @@ const uint16_t PROGMEM app_combo[] = {KC_DOT, LT_DQUO, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_Q, KC_W,  COMBO_END};
 const uint16_t PROGMEM del_combo[] = {LT(2, KC_X),LT(1,KC_D),  COMBO_END};
 
+       //RGB_TOG,HRM_COLN,HRM_SCLN,HRM_LCBR,HRM_RCBR,UK_PLUS,     UK_CIRC, HRM_EQ, HRM_AMPR, HRM_DLR, HRM_MINS, KC_PEQL,
+const uint16_t PROGMEM wf_labk_combo[] = {KC_W, LT_F, COMBO_END};
+const uint16_t PROGMEM fp_lbrc_combo[] = {LT_F, LT_P, COMBO_END};
+const uint16_t PROGMEM ar_bspc_combo[] = {HRM_A, HRM_R, COMBO_END};
+const uint16_t PROGMEM rs_lprn_combo[] = {HRM_R, HRM_S, COMBO_END};
+const uint16_t PROGMEM st_lcbr_combo[] = {HRM_S, HRM_T, COMBO_END};
+const uint16_t PROGMEM zx_del_combo[] = {LT_Z, LT_X, COMBO_END};
+const uint16_t PROGMEM xc_slsh_combo[] = {LT_X, LT_C, COMBO_END};
+const uint16_t PROGMEM cd_plus_combo[] = {LT_C, LT_D, COMBO_END};
+const uint16_t PROGMEM lu_rbrc_combo[] = {LT_L, LT_U, COMBO_END};
+const uint16_t PROGMEM uy_rabk_combo[] = {LT_U, KC_Y, COMBO_END};
+const uint16_t PROGMEM ycln_app_combo[] = {KC_Y, UK_COLN, COMBO_END};
+const uint16_t PROGMEM ne_rcbr_combo[] = {HRM_N, HRM_E, COMBO_END};
+const uint16_t PROGMEM ei_rprn_combo[] = {HRM_E, HRM_I, COMBO_END};
+const uint16_t PROGMEM io_ent_combo[] = {HRM_I, HRM_O, COMBO_END};
+const uint16_t PROGMEM hcom_exlm_combo[] = {LT_H, LT_COMMA, COMBO_END};
+const uint16_t PROGMEM comdot_scln_combo[] = {LT_COMMA, KC_DOT, COMBO_END};
+const uint16_t PROGMEM dotqu_ques_combo[] = {KC_DOT, UK_DQUO, COMBO_END};
+
 combo_t key_combos[] = {
     [WF_ESC] = COMBO(esc_combo, CUSTOM_ESC),
     [WF_ESC10] = COMBO(esc_combo10, CUSTOM_ESC),
@@ -1144,6 +1180,24 @@ combo_t key_combos[] = {
     [APP] = COMBO(app_combo, KC_APPLICATION),
     [TAB] = COMBO(tab_combo, KC_TAB),
     [XD_DEL] = COMBO(del_combo, KC_DEL),
+
+    [WF_LABK] = COMBO(wf_labk_combo, UK_LABK),
+    [FP_LBRC] = COMBO(fp_lbrc_combo, UK_LBRC),
+    [AR_BSPC] = COMBO(ar_bspc_combo, KC_BSPC),
+    [RS_LPRN] = COMBO(rs_lprn_combo, UK_LPRN),
+    [ST_LCBR] = COMBO(st_lcbr_combo, UK_LCBR),
+    [ZX_DEL] = COMBO(zx_del_combo, KC_DELETE),
+    [XC_SLSH] = COMBO(xc_slsh_combo, UK_SLSH),
+    [CD_PLUS] = COMBO(cd_plus_combo, UK_PLUS),
+    [LU_RBRC] = COMBO(lu_rbrc_combo, UK_RBRC),
+    [UY_RABK] = COMBO(uy_rabk_combo, UK_RABK),
+    [YCLN_APP] = COMBO(ycln_app_combo, KC_APPLICATION),
+    [NE_RCBR] = COMBO(ne_rcbr_combo, UK_RCBR),
+    [EI_RPRN] = COMBO(ei_rprn_combo, UK_RPRN),
+    [IO_ENT] = COMBO(io_ent_combo, KC_ENTER),
+    [HCOM_EXLM] = COMBO(hcom_exlm_combo, UK_EXLM),
+    [COMDOT_SCLN] = COMBO(comdot_scln_combo, UK_SCLN),
+    [DOTQU_QUES] = COMBO(dotqu_ques_combo, UK_QUES),
 };
 
 const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_QUOTE);
