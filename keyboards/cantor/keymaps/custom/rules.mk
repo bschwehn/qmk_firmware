@@ -23,3 +23,4 @@ SRC += features/achordion.c
 SRC += features/layer_lock.c
 #SRC += features/repeat.c
 #SRC += features/mouse_turbo_click.c
+VPATH += keyboards/gboards

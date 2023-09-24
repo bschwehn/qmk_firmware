@@ -7,6 +7,7 @@
 #include "features/layer_lock.h"
 #include "features/mouse_turbo_click.h"
 
+
 #ifdef CONSOLE_ENABLE
 #    include "print.h"
 #endif // CONSOLE_ENABLE
@@ -75,6 +76,7 @@ static uint16_t auto_pointer_layer_timer = 0;
 #define HRM_O MT(MOD_RGUI, KC_O)
 
 #define AL_BSPC MT(MOD_LCTL, KC_BSPC)
+#define AL_THMB3 MT(MOD_LSFT, KC_ENT)
 
 //#define HRM_COLN MT(MOD_LGUI, UK_COLN) // td 6
 #define HRM_COLN TD(DANCE_6) // td 6
@@ -90,6 +92,8 @@ static uint16_t auto_pointer_layer_timer = 0;
 //#define HRM_DLR MT(MOD_LALT, UK_DLR) // td 10
 #define HRM_DLR TD(DANCE_10) // td 10
 #define HRM_MINS MT(MOD_RGUI, UK_MINS)
+
+#include "g/keymap_combo.h"
 
 #ifndef POINTING_DEVICE_ENABLE
 #    define DRGSCRL KC_NO
@@ -404,7 +408,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
         KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,               KC_K,    LT_H,  LT_COMMA, KC_DOT,  UK_DQUO, TT(LR_POINTER), //TT not working for some reason
   // ╰──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────╯
-        AL_BSPC, KC_SPC,   KC_ENT,      QK_LEAD,  MT(MOD_LCTL, KC_BSPACE),
+        AL_BSPC, KC_SPC,   AL_THMB3,      QK_LEAD,  MT(MOD_LCTL, KC_BSPACE),
         MT(MOD_LCTL, KC_DEL), LLOCK,     QK_REPEAT_KEY
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
@@ -1092,149 +1096,7 @@ void leader_start_user(void) {
     rgb_matrix_sethsv_noeeprom(HSV_PINK);
 }
 #endif
-enum combos {
-    WF_ESC,
-    WF_ESC10,
-    WF_ESC3,
-    XC_ENTER,
-    ZC_BSPC,
-    //FP_Q,
-    V_A,
-    V_U,
-    V_O,
-    //UY_ENTER,
-    SLEEP,
-    APP,
-    TAB,
-    XD_DEL,
-    // braces combos -> not worgink well to have combos on adjacent common bigram keys
-    /*WF_LABK,
-    FP_LBRC,
-    AR_BSPC,
-    RS_LPRN,
-    ST_LCBR,
-    ZX_DEL,
-    XC_SLSH,
-    CD_PLUS,
-    LU_RBRC,
-    UY_RABK,
-    YCLN_APP,
-    NE_RCBR,
-    EI_RPRN,
-    IO_ENT,
-    HCOM_EXLM,
-    COMDOT_SCLN,
-    DOTQU_QUES,
-    */
-    COMDOT_SCLN,
-    // try with bspc combos
-    BSO_ENT,
-    BSCO_ARROW,
-    BSN_DARROW,
-    COMBO_LENGTH
-};
 
-uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this instead!
-
-// const uint16_t PROGMEM esc_combo[] = {MT(MOD_LGUI, KC_A), MT(MOD_LCTL, KC_T), COMBO_END};
-const uint16_t PROGMEM esc_combo[] = {KC_W, LT(4,KC_F), COMBO_END};
-const uint16_t PROGMEM esc_combo10[] = {KC_F1, KC_F2, COMBO_END};
-//const uint16_t PROGMEM esc_combo10[] = {KC_TAB, KC_F6, COMBO_END};
-const uint16_t PROGMEM esc_combo3[] = {UK_BSLS, UK_LABK, COMBO_END};
-//const uint16_t PROGMEM esc_combo3[] = {TD(DANCE_8), TD(DANCE_10), COMBO_END};
-//const uint16_t PROGMEM q_combo[] = {LT(4,KC_F),     LT(4,KC_P), COMBO_END};
-const uint16_t PROGMEM auml_combo[] = {MT(MOD_LGUI, KC_A), KC_V, COMBO_END};
-const uint16_t PROGMEM uuml_combo[] = {LT(3,KC_U), KC_V, COMBO_END};
-const uint16_t PROGMEM ouml_combo[] = {MT(MOD_RGUI, KC_O), KC_V, COMBO_END};
-const uint16_t PROGMEM bspc_combo[] = {LT(2,KC_Z), LT(1,KC_C), COMBO_END};
-//const uint16_t PROGMEM enter_left_combo[] = {LT(2,KC_X), LT(1,KC_C), COMBO_END};
-//onst uint16_t PROGMEM enter_combo[] = {LT(3,KC_U), KC_Y, COMBO_END};
-const uint16_t PROGMEM sleep_combo[] = {KC_Q, KC_SPACE, COMBO_END};
-const uint16_t PROGMEM app_combo[] = {KC_DOT, LT_DQUO, COMBO_END};
-const uint16_t PROGMEM tab_combo[] = {KC_Q, KC_W,  COMBO_END};
-const uint16_t PROGMEM del_combo[] = {LT(2, KC_X),LT(1,KC_D),  COMBO_END};
-
-       //RGB_TOG,HRM_COLN,HRM_SCLN,HRM_LCBR,HRM_RCBR,UK_PLUS,     UK_CIRC, HRM_EQ, HRM_AMPR, HRM_DLR, HRM_MINS, KC_PEQL,
-/*
-const uint16_t PROGMEM wf_labk_combo[] = {KC_W, LT_F, COMBO_END};
-const uint16_t PROGMEM fp_lbrc_combo[] = {LT_F, LT_P, COMBO_END};
-const uint16_t PROGMEM ar_bspc_combo[] = {HRM_A, HRM_R, COMBO_END};
-const uint16_t PROGMEM rs_lprn_combo[] = {HRM_R, HRM_S, COMBO_END};
-const uint16_t PROGMEM st_lcbr_combo[] = {HRM_S, HRM_T, COMBO_END};
-const uint16_t PROGMEM zx_del_combo[] = {LT_Z, LT_X, COMBO_END};
-const uint16_t PROGMEM xc_slsh_combo[] = {LT_X, LT_C, COMBO_END};
-const uint16_t PROGMEM cd_plus_combo[] = {LT_C, LT_D, COMBO_END};
-const uint16_t PROGMEM lu_rbrc_combo[] = {LT_L, LT_U, COMBO_END};
-const uint16_t PROGMEM uy_rabk_combo[] = {LT_U, KC_Y, COMBO_END};
-const uint16_t PROGMEM ycln_app_combo[] = {KC_Y, UK_COLN, COMBO_END};
-const uint16_t PROGMEM ne_rcbr_combo[] = {HRM_N, HRM_E, COMBO_END};
-const uint16_t PROGMEM ei_rprn_combo[] = {HRM_E, HRM_I, COMBO_END};
-const uint16_t PROGMEM io_ent_combo[] = {HRM_I, HRM_O, COMBO_END};
-const uint16_t PROGMEM hcom_exlm_combo[] = {LT_H, LT_COMMA, COMBO_END};
-const uint16_t PROGMEM comdot_scln_combo[] = {LT_COMMA, KC_DOT, COMBO_END};
-const uint16_t PROGMEM dotqu_ques_combo[] = {KC_DOT, UK_DQUO, COMBO_END};
-*/
-
-const uint16_t PROGMEM comdot_scln_combo[] = {LT(1,KC_COMMA), KC_DOT, COMBO_END};
-const uint16_t PROGMEM bso_ent_combo[] = {AL_BSPC, HRM_O,  COMBO_END};
-const uint16_t PROGMEM bsco_arrow_combo[] = {AL_BSPC, LT_COMMA,  COMBO_END};
-const uint16_t PROGMEM bsn_darrow_combo[] = {AL_BSPC, HRM_N,  COMBO_END};
-
-combo_t key_combos[] = {
-    [WF_ESC] = COMBO(esc_combo, CUSTOM_ESC),
-    [WF_ESC10] = COMBO(esc_combo10, CUSTOM_ESC),
-    [WF_ESC3] = COMBO(esc_combo3, CUSTOM_ESC),
-    //   [FP_Q] = COMBO(q_combo, CUSTOM_QU),
-    [V_A] = COMBO(auml_combo, CUSTOM_AUML),
-    [V_U] = COMBO(uuml_combo, CUSTOM_UUML),
-    [V_O] = COMBO(ouml_combo, CUSTOM_OUML),
-    [ZC_BSPC] = COMBO(bspc_combo, CUSTOM_BSPACE),
-    //[UY_ENTER] = COMBO(enter_combo, CUSTOM_ENTER),
-    //[XC_ENTER] = COMBO(enter_left_combo, CUSTOM_ENTER),
-    [SLEEP] = COMBO(sleep_combo, KC_SYSTEM_SLEEP),
-    [APP] = COMBO(app_combo, KC_APPLICATION),
-    [TAB] = COMBO(tab_combo, KC_TAB),
-    [XD_DEL] = COMBO(del_combo, KC_DEL),
-/*
-    [WF_LABK] = COMBO(wf_labk_combo, UK_LABK),
-    [FP_LBRC] = COMBO(fp_lbrc_combo, UK_LBRC),
-    [AR_BSPC] = COMBO(ar_bspc_combo, KC_BSPC),
-    [RS_LPRN] = COMBO(rs_lprn_combo, UK_LPRN),
-    [ST_LCBR] = COMBO(st_lcbr_combo, UK_LCBR),
-    [ZX_DEL] = COMBO(zx_del_combo, KC_DELETE),
-    [XC_SLSH] = COMBO(xc_slsh_combo, UK_SLSH),
-    [CD_PLUS] = COMBO(cd_plus_combo, UK_PLUS),
-    [LU_RBRC] = COMBO(lu_rbrc_combo, UK_RBRC),
-    [UY_RABK] = COMBO(uy_rabk_combo, UK_RABK),
-    [YCLN_APP] = COMBO(ycln_app_combo, KC_APPLICATION),
-    [NE_RCBR] = COMBO(ne_rcbr_combo, UK_RCBR),
-    [EI_RPRN] = COMBO(ei_rprn_combo, UK_RPRN),
-    [IO_ENT] = COMBO(io_ent_combo, KC_ENTER),
-    [HCOM_EXLM] = COMBO(hcom_exlm_combo, UK_EXLM),
-    [COMDOT_SCLN] = COMBO(comdot_scln_combo, UK_SCLN),
-    [DOTQU_QUES] = COMBO(dotqu_ques_combo, UK_QUES),
-*/
-    [BSO_ENT] = COMBO(bso_ent_combo, KC_ENTER),
-    [COMDOT_SCLN] = COMBO(comdot_scln_combo, UK_SCLN),
-    [BSCO_ARROW] = COMBO_ACTION(bsco_arrow_combo),
-    [BSN_DARROW] = COMBO_ACTION(bsn_darrow_combo),
-};
-
-
-void process_combo_event(uint16_t combo_index, bool pressed) {
-  switch(combo_index) {
-    case BSN_DARROW:
-      if (pressed) {
-        SEND_STRING("=>");
-      }
-      break;
-    case BSCO_ARROW:
-      if (pressed) {
-        SEND_STRING("->");
-      }
-      break;
-  }
-}
 const key_override_t apo_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_QUOTE);
 const key_override_t dash_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(LR_BRACES,KC_COMMA), UK_MINS);
 const key_override_t dquote_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_DQUO, UK_UNDS);
