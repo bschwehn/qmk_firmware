@@ -129,6 +129,7 @@ const keyrecord_t* tap_hold_record) {
 }
 #endif
 static bool custom_on_left_hand(keypos_t pos) {
+    dprintf("custom_on_left_hand: row %d col %d\n", pos.row, pos.col);
     return pos.row < MATRIX_ROWS / 2;
 }
 
@@ -150,12 +151,15 @@ bool achordion_chord(uint16_t tap_hold_keycode,
     }
 #endif
     uint16_t row = tap_hold_record->event.key.row;
+    dprintf("achordion_chort: row %d\n", row);
     // holding key on thumb or buttom cow
     if (row == 3 || row == 7) return true;
     row = other_record->event.key.row;
     // other key on thumb
     if (row == 3 || row == 7) return true;
     if (other_keycode == LLOCK) return true;
+    // combos are on 0/0, need  to work with hold
+    if (other_record->event.key.row == 0 && other_record->event.key.col == 0) return true;
     return custom_achordion_opposite_hands(tap_hold_record, other_record);
 }
 

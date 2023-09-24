@@ -49,6 +49,14 @@
 
 #include "g/keymap_combo.h"
 
+void keyboard_post_init_user(void) {
+  // Customise these values to desired behaviour
+  debug_enable=true;
+  debug_matrix=true;
+  //debug_keyboard=true;
+  //debug_mouse=true;
+}
+
 enum tap_dance_codes {
     DANCE_0,
     DANCE_1,
@@ -808,21 +816,3 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     }
 }
 #endif
-// TODO: not sure if this is still used, maybe replaced with QUICK_TAP_TERM
-bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-    case MT(MOD_LSFT, KC_S):
-    case MT(MOD_RSFT, KC_E):
-    case LT(4,KC_F):
-    case LT(4,KC_P):
-    case LT(2,KC_Z):
-    case LT(2,KC_X):
-    case LT(1,KC_C):
-    case LT(1,KC_D):
-    case LT(1,KC_H):
-    case LT(1,KC_COMMA):
-        return true;
-    default:
-        return false;
-    }
-}

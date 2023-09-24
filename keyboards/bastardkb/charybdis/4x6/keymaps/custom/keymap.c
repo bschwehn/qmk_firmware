@@ -262,6 +262,8 @@ bool achordion_chord(uint16_t tap_hold_keycode,
     // other key on thumb
     if (row == 4 || row == 9) return true;
     if (other_keycode == LLOCK) return true;
+    // combos are on 0/0, need  to work with hold
+    if (other_record->event.key.row == 0 && other_record->event.key.col == 0) return true;
     return custom_achordion_opposite_hands(tap_hold_record, other_record);
 }
 static bool is_caps_word = false;
