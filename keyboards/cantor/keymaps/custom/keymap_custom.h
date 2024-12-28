@@ -9,6 +9,7 @@ enum charybdis_keymap_layers {
     LR_FUN,
     LR_NUM,
     LR_POINTER,
+    LR_EXTRAS
 };
 enum custom_combo {
     CUSTOM_QU = SAFE_RANGE + 5,
@@ -20,7 +21,13 @@ enum custom_combo {
     CUSTOM_ESC,
     CUSTOM_ENTER,
     CUSTOM_PT_DQUO,
-    CUSTOM_LAST
+    CUSTOM_ARROW,
+    CUSTOM_DARROW,
+    CUSTOM_EMPROP,
+    CUSTOM_VIMSAVE,
+    CUSTOM_HTTPS,
+    CUSTOM_LAST,
+
 };
 
 enum custom_ext {
@@ -41,6 +48,7 @@ bool achordion_eager_mod(uint8_t mod) {
     case MOD_RSFT:
     case MOD_LCTL:
     case MOD_RCTL:
+    case MOD_LALT:
         return true;  // Eagerly apply Shift and Ctrl mods.
 
     default:
@@ -228,6 +236,21 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
             } else {
                 tap_code16(KC_ESC);
             }
+            return false;
+        case CUSTOM_EMPROP:
+            SEND_STRING(SS_TAP(X_NUHS) SS_TAP(X_KP_PLUS));
+            return false;
+        case CUSTOM_DARROW:
+            SEND_STRING("=>");
+            return false;
+        case CUSTOM_ARROW:
+            SEND_STRING("->");
+            return false;
+        case CUSTOM_HTTPS:
+            SEND_STRING("https://");
+            return false;
+        case CUSTOM_VIMSAVE:
+            SEND_STRING(":w\n");
             return false;
         }
     }

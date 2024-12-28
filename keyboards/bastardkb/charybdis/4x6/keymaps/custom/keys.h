@@ -9,6 +9,11 @@ enum custom_combo {
     CUSTOM_ESC,
     CUSTOM_ENTER,
     CUSTOM_PT_DQUO,
+    CUSTOM_ARROW,
+    CUSTOM_DARROW,
+    CUSTOM_EMPROP,
+    CUSTOM_VIMSAVE,
+    CUSTOM_HTTPS,
     CUSTOM_LAST
 };
 

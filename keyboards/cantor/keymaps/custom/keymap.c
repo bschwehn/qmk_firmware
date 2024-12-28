@@ -5,6 +5,21 @@
 #include "keymap_custom.h"
 #include "keymap_uk.h"
 
+enum tap_dance_codes {
+    DANCE_0,
+    DANCE_1,
+    DANCE_2,
+    DANCE_3,
+    DANCE_4,
+    DANCE_5,
+    DANCE_6,
+    DANCE_7,
+    DANCE_8,
+    DANCE_9,
+    DANCE_10,
+    DANCE_11,
+    DANCE_12,
+};
 #define KC_BSPACE KC_BSPC
 #define KC_RSHIFT KC_RSFT
 #define KC_NA KC_TRANSPARENT
@@ -24,8 +39,10 @@
 #define LSA_T(kc) MT(MOD_LSFT | MOD_LALT, kc)
 #define BP_NDSH_MAC ALGR(KC_8)
 #define SE_SECT_MAC ALGR(KC_6)
-#define AL_BSPC MT(MOD_LCTL, KC_BSPC)
-#define AL_THMB3 MT(MOD_LSFT, KC_ENT)
+//#define AL_BSPC MT(MOD_LCTL, KC_BSPC)
+#define AL_BSPC LT(LR_EXTRAS, KC_BSPC)
+//#define AL_THMB3 MT(MOD_LSFT, KC_ENT)
+#define AL_THMB3 TD(DANCE_12)
 #define HRM_A MT(MOD_LGUI, KC_A)
 #define HRM_R MT(MOD_LALT, KC_R)
 #define HRM_S MT(MOD_LSFT, KC_S)
@@ -57,21 +74,6 @@ void keyboard_post_init_user(void) {
   //debug_mouse=true;
 }
 
-enum tap_dance_codes {
-    DANCE_0,
-    DANCE_1,
-    DANCE_2,
-    DANCE_3,
-    DANCE_4,
-    DANCE_5,
-    DANCE_6,
-    DANCE_7,
-    DANCE_8,
-    DANCE_9,
-    DANCE_10,
-    DANCE_11,
-    DANCE_12,
-};
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      /*
       * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
@@ -171,6 +173,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
+  ),
+  [LR_EXTRAS] = LAYOUT_split_3x6_3
+    // note: MT from base works if pressed earlier, MT not working with custom keys
+    (
+    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+    KC_NO, KC_NO, CUSTOM_UUML, KC_NO, KC_NO, KC_NO,
+
+     KC_NO, CUSTOM_AUML, KC_LALT, KC_LSFT, KC_LCTL, KC_NO,
+     KC_NO, CUSTOM_DARROW, KC_LSFT, KC_LALT, CUSTOM_OUML, KC_NO,
+
+    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+    KC_NO, CUSTOM_HTTPS, CUSTOM_ARROW, KC_NO, CUSTOM_EMPROP, KC_NO,
+
+    KC_NO, KC_ENT, KC_NO,
+    KC_NO, KC_NO, KC_NO
   ),
 };
 
@@ -610,34 +627,35 @@ void dance_12_reset(tap_dance_state_t *state, void *user_data);
 
 void on_dance_12(tap_dance_state_t *state, void *user_data) {
     if(state->count == 3) {
-        tap_code16(KC_KP_ASTERISK);
-        tap_code16(KC_KP_ASTERISK);
-        tap_code16(KC_KP_ASTERISK);
+        tap_code16(KC_SPC);
+        tap_code16(KC_SPC);
+        tap_code16(KC_SPC);
     }
     if(state->count > 3) {
-        tap_code16(KC_KP_ASTERISK);
+        tap_code16(KC_SPC);
     }
 }
 
 void dance_12_finished(tap_dance_state_t *state, void *user_data) {
     dance_state[12].step = dance_step(state);
     switch (dance_state[12].step) {
-        case SINGLE_TAP: register_code16(KC_KP_ASTERISK); break;
-        case SINGLE_HOLD: register_code16(KC_KP_SLASH); break;
-        case DOUBLE_TAP: register_code16(KC_KP_ASTERISK); register_code16(KC_KP_ASTERISK); break;
-        case DOUBLE_SINGLE_TAP: tap_code16(KC_KP_ASTERISK); register_code16(KC_KP_ASTERISK);
+        case SINGLE_TAP: register_code16(KC_SPC); break;
+        case SINGLE_HOLD: register_code16(KC_LSFT); break;
+        case DOUBLE_TAP: register_code16(KC_ENT); break;
+        case DOUBLE_SINGLE_TAP: tap_code16(KC_SPC); register_code16(KC_SPC);
     }
 }
 
 void dance_12_reset(tap_dance_state_t *state, void *user_data) {
     wait_ms(10);
     switch (dance_state[12].step) {
-        case SINGLE_TAP: unregister_code16(KC_KP_ASTERISK); break;
-        case SINGLE_HOLD: unregister_code16(KC_KP_SLASH); break;
-        case DOUBLE_TAP: unregister_code16(KC_KP_ASTERISK); break;
-        case DOUBLE_SINGLE_TAP: unregister_code16(KC_KP_ASTERISK); break;
+        case SINGLE_TAP: unregister_code16(KC_SPC); break;
+        case SINGLE_HOLD: unregister_code16(KC_LSFT); break;
+        case DOUBLE_TAP: unregister_code16(KC_ENT); break;
+        case DOUBLE_SINGLE_TAP: unregister_code16(KC_SPC); break;
     }
     dance_state[12].step = 0;
+
 }
 
 tap_dance_action_t tap_dance_actions[] = {

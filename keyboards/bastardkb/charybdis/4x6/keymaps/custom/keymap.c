@@ -23,8 +23,20 @@ enum charybdis_keymap_layers {
     LR_FUN,
     LR_NUM,
     LR_POINTER,
+    LR_EXTRAS
 };
 
+enum tap_dance_codes {
+    DANCE_SCROLLLEAD,
+    DANCE_4,
+    DANCE_6,
+    DANCE_7,
+    DANCE_8,
+    DANCE_9,
+    DANCE_10,
+    DANCE_11,
+    DANCE_12,
+};
 /** \brief Automatically enable sniping-mode on the pointer layer. */
 #define CHARYBDIS_AUTO_SNIPING_ON_LAYER LR_POINTER
 
@@ -75,8 +87,11 @@ static uint16_t auto_pointer_layer_timer = 0;
 #define HRM_I MT(MOD_LALT, KC_I)
 #define HRM_O MT(MOD_RGUI, KC_O)
 
-#define AL_BSPC MT(MOD_LCTL, KC_BSPC)
-#define AL_THMB3 MT(MOD_LSFT, KC_ENT)
+//#define AL_BSPC MT(MOD_LCTL, KC_BSPC)
+#define AL_BSPC LT(LR_EXTRAS, KC_BSPC)
+#define TD_ENT TD(DANCE_12)
+// #define AL_THMB3 MT(MOD_LSFT, KC_ENT)
+#define AL_THMB3 TD(DANCE_12)
 
 //#define HRM_COLN MT(MOD_LGUI, UK_COLN) // td 6
 #define HRM_COLN TD(DANCE_6) // td 6
@@ -346,7 +361,22 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
                 tap_code16(KC_ESC);
             }
             return false;
-      }
+        case CUSTOM_EMPROP:
+            SEND_STRING(SS_TAP(X_NUHS) SS_TAP(X_KP_PLUS));
+            return false;
+        case CUSTOM_DARROW:
+            SEND_STRING("=>");
+            return false;
+        case CUSTOM_ARROW:
+            SEND_STRING("->");
+            return false;
+        case CUSTOM_HTTPS:
+            SEND_STRING("https://");
+            return false;
+        case CUSTOM_VIMSAVE:
+            SEND_STRING(":w\n");
+            return false;
+        }
     }
     switch (keycode) {
     case CUSTOM_PT_DQUO:
@@ -387,17 +417,6 @@ __attribute__((weak)) bool caps_word_press_user(uint16_t keycode) {
         return false;  // Deactivate Caps Word.
     }
 }
-enum tap_dance_codes {
-    DANCE_SCROLLLEAD,
-    DANCE_4,
-    DANCE_6,
-    DANCE_7,
-    DANCE_8,
-    DANCE_9,
-    DANCE_10,
-    DANCE_11,
-    DANCE_12,
-};
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [LR_BASE] = LAYOUT_charybdis_4x6(
@@ -410,7 +429,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────┤
         KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,               KC_K,    LT_H,  LT_COMMA, KC_DOT,  UK_DQUO, TT(LR_POINTER), //TT not working for some reason
   // ╰──────────────────────────────────────────────────────┤           ├──────────────────────────────────────────────────────╯
-        AL_BSPC, KC_SPC,   AL_THMB3,      QK_LEAD,  MT(MOD_LCTL, KC_BSPACE),
+        AL_BSPC, KC_SPC,   AL_THMB3,      QK_LEAD,  AL_BSPC,
         MT(MOD_LCTL, KC_DEL), LLOCK,     QK_REPEAT_KEY
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
@@ -487,6 +506,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   KC_BTN2, KC_BTN1, KC_BTN3,    KC_BTN3, KC_BTN1,
                                            KC_NA, KC_BTN2,    KC_BTN2
+  //                            ╰───────────────────────────╯ ╰──────────────────╯
+  ),
+  [LR_EXTRAS] = LAYOUT_charybdis_4x6(
+    // note: MT from base works if pressed earlier, MT not working with custom keys
+  // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
+                KC_NA, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,    KC_NA, KC_NA, KC_NA, KC_NA, KC_NA, KC_NA,
+  // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
+            KC_NA, KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_NA,    KC_NA, KC_NA, CUSTOM_UUML, KC_NA, KC_NA, KC_NA,
+  // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
+            KC_NA, CUSTOM_AUML, KC_LALT, KC_LSFT, KC_LCTL, KC_NA,    KC_NA, CUSTOM_DARROW, KC_LSFT, KC_LALT, CUSTOM_OUML, KC_NA,
+  // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
+            KC_NA, KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_NA,    KC_NA, CUSTOM_HTTPS, CUSTOM_ARROW, KC_NA, CUSTOM_EMPROP, KC_NA,
+  // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
+                                  KC_NA, KC_NA, KC_NA,    KC_NA, KC_NA,
+                                           KC_NA, KC_NA,    KC_NA
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 };
@@ -903,39 +937,38 @@ void dance_12_reset(tap_dance_state_t *state, void *user_data);
 
 void on_dance_12(tap_dance_state_t *state, void *user_data) {
     if(state->count == 3) {
-        tap_code16(KC_KP_ASTERISK);
-        tap_code16(KC_KP_ASTERISK);
-        tap_code16(KC_KP_ASTERISK);
+        tap_code16(KC_SPC);
+        tap_code16(KC_SPC);
+        tap_code16(KC_SPC);
     }
     if(state->count > 3) {
-        tap_code16(KC_KP_ASTERISK);
+        tap_code16(KC_SPC);
     }
 }
 
 void dance_12_finished(tap_dance_state_t *state, void *user_data) {
     dance_state[12].step = dance_step(state);
     switch (dance_state[12].step) {
-        case SINGLE_TAP: register_code16(KC_KP_ASTERISK); break;
-        case SINGLE_HOLD: register_code16(KC_KP_SLASH); break;
-        case DOUBLE_TAP: register_code16(KC_KP_ASTERISK); register_code16(KC_KP_ASTERISK); break;
-        case DOUBLE_SINGLE_TAP: tap_code16(KC_KP_ASTERISK); register_code16(KC_KP_ASTERISK);
+        case SINGLE_TAP: register_code16(KC_SPC); break;
+        case SINGLE_HOLD: register_code16(KC_LSFT); break;
+        case DOUBLE_TAP: register_code16(KC_ENT); break;
+        case DOUBLE_SINGLE_TAP: tap_code16(KC_SPC); register_code16(KC_SPC);
     }
 }
 
 void dance_12_reset(tap_dance_state_t *state, void *user_data) {
     wait_ms(10);
-    switch (dance_state[12].step) {void on_dance_scroll(tap_dance_state_t *state, void *user_data);
-void dance_scroll_finished(tap_dance_state_t *state, void *user_data);
-void dance_scroll_reset(tap_dance_state_t *state, void *user_data);
-
-
-        case SINGLE_TAP: unregister_code16(KC_KP_ASTERISK); break;
-        case SINGLE_HOLD: unregister_code16(KC_KP_SLASH); break;
-        case DOUBLE_TAP: unregister_code16(KC_KP_ASTERISK); break;
-        case DOUBLE_SINGLE_TAP: unregister_code16(KC_KP_ASTERISK); break;
+    switch (dance_state[12].step) {
+        case SINGLE_TAP: unregister_code16(KC_SPC); break;
+        case SINGLE_HOLD: unregister_code16(KC_LSFT); break;
+        case DOUBLE_TAP: unregister_code16(KC_ENT); break;
+        case DOUBLE_SINGLE_TAP: unregister_code16(KC_SPC); break;
     }
     dance_state[12].step = 0;
-}void on_dance_scroll(tap_dance_state_t *state, void *user_data);
+
+}
+
+void on_dance_scroll(tap_dance_state_t *state, void *user_data);
 
 void dance_scroll_finished(tap_dance_state_t *state, void *user_data);
 void dance_scroll_reset(tap_dance_state_t *state, void *user_data);
