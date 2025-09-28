@@ -4,6 +4,7 @@
 #include QMK_KEYBOARD_H
 #include "keymap_custom.h"
 #include "keymap_uk.h"
+#include "print.h"
 
 enum tap_dance_codes {
     DANCE_0,
@@ -20,6 +21,8 @@ enum tap_dance_codes {
     DANCE_11,
     DANCE_12,
 };
+#define CHORDAL_HOLD
+#define PERMISSIVE_HOLD
 #define KC_BSPACE KC_BSPC
 #define KC_RSHIFT KC_RSFT
 #define KC_NA KC_TRANSPARENT
@@ -64,12 +67,12 @@ enum tap_dance_codes {
 
 #define LT_DQUO CUSTOM_PT_DQUO
 
-/* #include "g/keymap_combo.h" */
+#include "g/keymap_combo.h"
 
 void keyboard_post_init_user(void) {
   // Customise these values to desired behaviour
   debug_enable=true;
-  debug_matrix=true;
+  debug_matrix=false;
   //debug_keyboard=true;
   //debug_mouse=true;
 }
@@ -664,6 +667,7 @@ tap_dance_action_t tap_dance_actions[] = {
 // custom
 #ifdef LEADER_ENABLE
 void leader_end_user(void) {
+    print("in leader_end_user\n");
     if (leader_sequence_one_key(KC_BSPC)) {
         tap_code(KC_BSPC);
     }
@@ -800,12 +804,11 @@ const key_override_t dquote_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_DQUO
 const key_override_t coln_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_COLN, UK_SCLN);
 //const key_override_t coln_key_override = ko_make_basic(MOD_MASK_SHIFT, UK_COLN, UK_UNDS);
 
-const key_override_t **key_overrides = (const key_override_t *[]){
+const key_override_t *key_overrides[] = {
     &apo_key_override,
     &dash_key_override,
     &dquote_key_override,
-    &coln_key_override,
-    NULL // Null terminate the array of overrides!
+    &coln_key_override
 };
 
 
@@ -821,3 +824,43 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     }
 }
 #endif
+
+bool is_flow_tap_key(uint16_t keycode) {
+    // uprintf("is_flow_tab_key: %u\n", keycode);
+    if ((get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) != 0) {
+        return false; // Disable Flow Tap on hotkeys.
+    }
+    switch (get_tap_keycode(keycode)) {
+        case KC_SPC:
+        case KC_A ... KC_Z:
+        case KC_DOT:
+        case KC_COMM:
+        case KC_SCLN:
+        case KC_SLSH:
+            return true;
+    }
+    return false;
+}
+
+uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
+                           uint16_t prev_keycode) {
+    dprintf("get_flow_tab_term: %u, %u\n", keycode, prev_keycode);
+    // get_keycode_string reuses buffer, cannot be in same format string
+    uprintf("get_flow_tab_term translate: %s", get_keycode_string(keycode));
+    uprintf(", %s\n", get_keycode_string(prev_keycode));
+    if (is_flow_tap_key(keycode) && is_flow_tap_key(prev_keycode)) {
+        switch (keycode) {
+            case LT_C:
+            case LT_COMMA:
+            case HRM_S:
+            case HRM_E:
+            case LT_F:
+              dprintf("disabling flow tap\n");
+              return 0;  // Short timeout on these keys.
+
+            default:
+              return FLOW_TAP_TERM;  // Longer timeout otherwise.
+        }
+    }
+    return 0;  // Disable Flow Tap.
+}

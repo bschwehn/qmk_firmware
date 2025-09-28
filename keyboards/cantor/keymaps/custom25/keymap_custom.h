@@ -32,11 +32,6 @@ enum custom_ext {
     LLOCK = CUSTOM_LAST
 };
 
-static bool custom_on_left_hand(keypos_t pos) {
-    dprintf("custom_on_left_hand: row %d col %d\n", pos.row, pos.col);
-    return pos.row < MATRIX_ROWS / 2;
-}
-
 static bool is_caps_word = false;
 void caps_word_set_user(bool active) {
     is_caps_word = active;
@@ -59,7 +54,7 @@ bool send_grave_with_caps_word(uint16_t keycode, uint16_t mod_state) {
     return false;
 }
 
-bool custom_record_user_unsureaboutthis(uint16_t keycode, keyrecord_t* record) {
+bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     /* if (!process_achordion(keycode, record)) { return false; } */
     /* if (!process_caps_word(keycode, record)) { return false; } */
     /* if (!process_layer_lock(keycode, record, LLOCK)) { return false; } */
@@ -153,4 +148,15 @@ __attribute__((weak)) bool caps_word_press_user(uint16_t keycode) {
     default:
         return false;  // Deactivate Caps Word.
     }
+}
+
+char chordal_hold_handedness(keypos_t key) {
+
+    /* if (key.col == 0 || key.col == MATRIX_COLS - 1) { */
+    /*     return '*';  // Exempt the outer columns. */
+    /* } */
+
+    // On split keyboards, typically, the first half of the rows are on the
+    // left, and the other half are on the right.
+    return key.row < MATRIX_ROWS / 2 ? 'L' : 'R';
 }

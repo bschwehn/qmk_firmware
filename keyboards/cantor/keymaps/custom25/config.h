@@ -1,10 +1,9 @@
-#undef DEBOUNCE
-#define DEBOUNCE 10
+/*#undef DEBOUNCE
+#define DEBOUNCE 10*/
 
 #undef TAPPING_TERM
-#define TAPPING_TERM 171
+#define TAPPING_TERM 200
 #define COMBO_TERM 40
-#define ACHORDION_COOLDOWN 200
 
 #define PERMISSIVE_HOLD
 
@@ -53,3 +52,6 @@
 /* #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY */
 #define TAPPING_FORCE_HOLD_PER_KEY
 #define ONESHOT_TIMEOUT 1000
+
+// not sure yet about flow tap. Disabled on shift and special char switch
+#define FLOW_TAP_TERM 150
