@@ -854,7 +854,7 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
             case LT_COMMA:
             case HRM_S:
             case HRM_E:
-            case LT_F:
+            case HRM_E:
               dprintf("disabling flow tap\n");
               return 0;  // Short timeout on these keys.
 

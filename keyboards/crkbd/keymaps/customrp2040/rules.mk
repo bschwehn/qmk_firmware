@@ -1,3 +1,7 @@
+#MCU = RP2040
+#BOOTLOADER = kb2040
+#BOARD = GENERIC_RP_RP2040
+CONVERT_TO=rp2040_ce
 CONSOLE_ENABLE = yes
 COMMAND_ENABLE = no
 AUDIO_ENABLE = no
@@ -10,18 +14,14 @@ NKRO_ENABLE = no           # Enable N-Key Rollover
 LEADER_ENABLE = yes
 COMBO_ENABLE = yes
 KEY_OVERRIDE_ENABLE = yes
-SRC += features/achordion.c
-SRC += features/layer_lock.c
-SRC += features/repeat.c
-SRC += features/mouse_turbo_click.c
 LAYER_LOCK_ENABLE = yes
 
 MOUSEKEY_ENABLE = yes    # Mouse keys
 DEFERRED_EXEC_ENABLE = yes
 RGBLIGHT_ENABLE = no    # Enable WS2812 RGB underlight.
-OLED_ENABLE     = yes
+OLED_ENABLE     = no
 OLED_DRIVER     = SSD1306
-LTO_ENABLE      = yes
+LTO_ENABLE      = no
 # https://docs.qmk.fm/#/squeezing_avr?id=squeezing-the-most-out-of-avr
 SPACE_CADET_ENABLE = no
 GRAVE_ESC_ENABLE = no
@@ -33,3 +33,5 @@ UNICODE_ENABLE = no
 MIDI_ENABLE = no
 BLUETOOTH_ENABLE = no
 WPM_ENABLE = yes
+
+VPATH += keyboards/gboards

@@ -53,5 +53,4 @@
 #define TAPPING_FORCE_HOLD_PER_KEY
 #define ONESHOT_TIMEOUT 1000
 
-// not sure yet about flow tap. Disabled on shift and special char switch
 #define FLOW_TAP_TERM 150

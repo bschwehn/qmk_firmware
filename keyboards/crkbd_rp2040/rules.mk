@@ -1,4 +1,3 @@
-# MCU name
 MCU = RP2040
 BOOTLOADER = rp2040
 ALLOW_WARNINGS = yes
@@ -24,7 +23,7 @@ BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
 RGBLIGHT_ENABLE = no        # Enable keyboard RGB underglow
 AUDIO_ENABLE = no           # Audio output
 RGB_MATRIX_ENABLE = no
-RGB_MATRIX_DRIVER = WS2812
+#RGB_MATRIX_DRIVER = WS2812
 
 # if firmware size over limit, try this option
 # LTO_ENABLE = yes
