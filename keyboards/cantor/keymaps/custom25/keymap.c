@@ -194,6 +194,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+if (!custom_record_user(keycode, record)) { return false; }
+  switch (keycode) {
+    case MC_0:
+    if (record->event.pressed) {
+      SEND_STRING(SS_TAP(X_GRAVE) SS_DELAY(100) SS_TAP(X_SPACE));
+
+    }
+    break;
+  }
+  return true;
+}
+
 typedef struct {
     bool is_press_action;
     uint8_t step;
@@ -851,9 +864,14 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
     if (is_flow_tap_key(keycode) && is_flow_tap_key(prev_keycode)) {
         switch (keycode) {
             case LT_C:
+            case LT_D:
+            case LT_F:
+            case LT_P:
+            case LT_U:
+            case LT_X:
+            case LT_Z:
             case LT_COMMA:
             case HRM_S:
-            case HRM_E:
             case HRM_E:
               dprintf("disabling flow tap\n");
               return 0;  // Short timeout on these keys.
