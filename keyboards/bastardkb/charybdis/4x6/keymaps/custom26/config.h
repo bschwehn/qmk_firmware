@@ -20,7 +20,7 @@
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 
 #undef RGB_DISABLE_TIMEOUT
-#define RGB_DISABLE_TIMEOUT 900000
+#define RblebleGB_DISABLE_TIMEOUT 900000
 
 #define USB_SUSPEND_WAKEUP_DELAY 0
 // still hold layer after double tab, like c$ not cci
@@ -28,9 +28,6 @@
 
 #undef MOUSEKEY_WHEEL_DELAY
 #define MOUSEKEY_WHEEL_DELAY 202
-
-#undef MOUSEKEY_MAX_SPEED
-#define MOUSEKEY_MAX_SPEED 14
 
 #undef MOUSEKEY_WHEEL_TIME_TO_MAX
 #define MOUSEKEY_WHEEL_TIME_TO_MAX 80
@@ -41,7 +38,8 @@
 #define MOUSEKEY_INERTIA
 #define MOUSEKEY_MOVE_DELTA 1
 #undef MOUSEKEY_MAX_SPEED
-#define MOUSEKEY_MAX_SPEED 40
+// don't know why this is so much slower in charybdis compared to cantor.
+#define MOUSEKEY_MAX_SPEED 255
 
 #define FIRMWARE_VERSION u8"3oBGG/gDvAM"
 #undef RGB_DISABLE_WHEN_USB_SUSPENDED
