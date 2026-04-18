@@ -24,6 +24,7 @@ enum custom_combo {
     CUSTOM_EMPROP,
     CUSTOM_VIMSAVE,
     CUSTOM_HTTPS,
+    CUSTOM_JIGGLE,
     CUSTOM_LAST,
 
 };
@@ -61,6 +62,34 @@ bool custom_record_user(uint16_t keycode, keyrecord_t* record) {
     is_shifted = get_mods() & MOD_MASK_SHIFT;
     static uint16_t dquo_timer;
     if (record->event.pressed) {
+        // ---- jiggler
+        static deferred_token token = INVALID_DEFERRED_TOKEN;
+        static report_mouse_t report = {0};
+        if (keycode == CUSTOM_JIGGLE) {
+            if (token) {
+                // If jiggler is currently running, stop when any key is pressed.
+                cancel_deferred_exec(token);
+                token = INVALID_DEFERRED_TOKEN;
+                report = (report_mouse_t){};  // Clear the mouse.
+                host_mouse_send(&report);
+            } else if (keycode == CUSTOM_JIGGLE) {
+                uint32_t jiggler_callback(uint32_t trigger_time, void* cb_arg) {
+                    // Deltas to move in a circle of radius 20 pixels over 32 frames.
+                    static const int8_t deltas[32] = {
+                        0, -1, -2, -2, -3, -3, -4, -4, -4, -4, -3, -3, -2, -2, -1, 0,
+                        0, 1, 2, 2, 3, 3, 4, 4, 4, 4, 3, 3, 2, 2, 1, 0};
+                    static uint8_t phase = 0;
+                    // Get x delta from table and y delta by rotating a quarter cycle.
+                    report.x = deltas[phase];
+                    report.y = deltas[(phase + 8) & 31];
+                    phase = (phase + 1) & 31;
+                    host_mouse_send(&report);
+                    return 300;  // Call the callback every 16 ms.
+                }
+                token = defer_exec(1, jiggler_callback, NULL);  // Schedule callback.
+            }
+        }
+        // -- jiggler
         uprintf("custom_record_user: %s", get_keycode_string(keycode));
         switch (keycode) {
         case CUSTOM_QU:
@@ -157,5 +186,29 @@ char chordal_hold_handedness(keypos_t key) {
 
     // On split keyboards, typically, the first half of the rows are on the
     // left, and the other half are on the right.
-    return key.row < MATRIX_ROWS / 2 ? 'L' : 'R';
+    char ret = key.row < MATRIX_ROWS / 2 ? 'L' : 'R';
+    return ret;
 }
+
+
+/* bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, */
+/*                       uint16_t other_keycode, keyrecord_t* other_record) { */
+/*     // Exceptionally allow some one-handed chords for hotkeys. */
+/*     /\* switch (tap_hold_keycode) { *\/ */
+/*     /\*     case LCTL_T(KC_Z): *\/ */
+/*     /\*         if (other_keycode == KC_C || other_keycode == KC_V) { *\/ */
+/*     /\*             return true; *\/ */
+/*     /\*         } *\/ */
+/*     /\*         break; *\/ */
+
+/*     /\*     case RCTL_T(KC_SLSH): *\/ */
+/*     /\*         if (other_keycode == KC_N) { *\/ */
+/*     /\*             return true; *\/ */
+/*     /\*         } *\/ */
+/*     /\*         break; *\/ */
+/*     /\* } *\/ */
+/*     /\* // Otherwise defer to the opposite hands rule. *\/ */
+/*     bool res = get_chordal_hold_default(tap_hold_record, other_record); */
+/*     // uprintf("chordal result: %u\n", res); */
+/*     return res; */
+/* } */

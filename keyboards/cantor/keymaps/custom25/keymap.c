@@ -21,8 +21,6 @@ enum tap_dance_codes {
     DANCE_11,
     DANCE_12,
 };
-#define CHORDAL_HOLD
-#define PERMISSIVE_HOLD
 #define KC_BSPACE KC_BSPC
 #define KC_RSHIFT KC_RSFT
 #define KC_NA KC_TRANSPARENT
@@ -109,7 +107,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LLOCK,        LT_Z,     LT_X,     LT_C,     LT_D,     KC_V,
     KC_K,           LT_H,     LT_COMMA, KC_DOT,         UK_DQUO,        TT(LR_POINTER),
 
-    MT(MOD_LCTL, KC_DELETE),  KC_SPACE, AL_THMB3,
+    MT(MOD_LCTL, KC_DELETE),  KC_SPACE, KC_ENT,
     QK_LEAD, AL_BSPC, QK_REPEAT_KEY
   ),
   [LR_BRACES] = LAYOUT_split_3x6_3(
@@ -138,13 +136,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT, LCTL(MS_WHLD),LCTL(MS_WHLU)
   ),
   [LR_FUN] = LAYOUT_split_3x6_3(
-    KC_TRANSPARENT, LSFT(KC_TAB),   KC_F1,          KC_F2,          KC_F3,          KC_F10,
+    QK_DYNAMIC_TAPPING_TERM_PRINT, LSFT(KC_TAB),   KC_F1,          KC_F2,          KC_F3,          KC_F10,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 
-    KC_TRANSPARENT, KC_TAB,         KC_F4,          KC_F5,          KC_F6,          KC_F11,
+    QK_DYNAMIC_TAPPING_TERM_DOWN, KC_TAB,         KC_F4,          KC_F5,          KC_F6,          KC_F11,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 
-    KC_TRANSPARENT, KC_APPLICATION, KC_F7,          KC_F8,          KC_F9,          KC_F12,
+    QK_DYNAMIC_TAPPING_TERM_UP, KC_APPLICATION, KC_F7,          KC_F8,          KC_F9,          KC_F12,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
@@ -165,7 +163,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   /* note: accell has no effect in kinetic or accellerated mode */
   [LR_POINTER] = LAYOUT_split_3x6_3(
-    KC_TRANSPARENT, KC_TRANSPARENT, MS_BTN3, MS_BTN1, MS_BTN2,  MS_ACL0,
+    KC_TRANSPARENT, CUSTOM_JIGGLE, MS_BTN3, MS_BTN1, MS_BTN2,  MS_ACL0,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
 
     KC_TRANSPARENT, MS_LEFT, MS_DOWN, MS_UP, MS_RGHT, MS_ACL1,
@@ -195,6 +193,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+ // uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count); uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
 if (!custom_record_user(keycode, record)) { return false; }
   switch (keycode) {
     case MC_0:
@@ -206,7 +205,6 @@ if (!custom_record_user(keycode, record)) { return false; }
   }
   return true;
 }
-
 typedef struct {
     bool is_press_action;
     uint8_t step;
@@ -877,8 +875,10 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
               return 0;  // Short timeout on these keys.
 
             default:
+              dprintf("flowing\n");
               return FLOW_TAP_TERM;  // Longer timeout otherwise.
         }
     }
+    dprintf("disabling flow tap end\n");
     return 0;  // Disable Flow Tap.
 }
