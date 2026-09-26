@@ -33,23 +33,23 @@
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LR_BASE] = LAYOUT(
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
-        KC_ESCAPE, KC_1, KC_2, KC_3, KC_4, KC_5,                 KC_6, KC_7, KC_8, KC_9, KC_0, MS_BTN1,
+        KC_ESCAPE, KC_1, KC_2, KC_3, KC_4, KC_5,                 KC_6, KC_7, KC_8, KC_9, KC_0, MS_BTN2,
         KC_TAB, KC_Q, KC_W, LT_F, LT_P, KC_B, KC_J,              LT_L, LT_U, KC_Y, UK_COLN, KC_APPLICATION,
-       KC_ESC,    HRM_A,   HRM_R,   HRM_S,   HRM_T,   KC_G,      KC_M,    HRM_N,   HRM_E,   HRM_I,   HRM_O,  QK_ALT_REPEAT_KEY,
-        KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,    KC_K,    LT_H,  LT_COMMA, KC_DOT,  UK_DQUO, TT(LR_POINTER), //TT not working for some reason
-        MT(MOD_LCTL, KC_DELETE),  KC_SPACE, KC_ENT,              QK_LEAD,  AL_BSPC,
+       KC_ESC,    HRM_A,   HRM_R,   HRM_S,   HRM_T,   KC_G,      KC_M,    HRM_N,   HRM_E,   HRM_I,   HRM_O,  KC_ENT,
+        KC_LCTL,    LT_Z,    LT_X,    LT_C,    LT_D,    KC_V,    KC_K,    LT_H,  LT_COMMA, KC_DOT,  UK_DQUO, LT(LR_POINTER, MS_BTN1),
+        MT(MOD_LCTL, KC_DELETE),  KC_SPACE, KC_ENT,              LEADER,  AL_BSPC,
         MT(MOD_LCTL, KC_DEL), QK_LLCK,                           QK_REPEAT_KEY
     ),
 
   [LR_BRACES] = LAYOUT(
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
-       KC_TILD, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,    KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS,
+      QK_BOOT, KC_TILD, KC_AT, KC_HASH,  KC_DLR, KC_PERC,    KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       RM_NEXT,/*TURBO*/KC_NA,UK_BSLS,UK_LABK,UK_RABK,UK_PERC,  UK_AT, UK_QUES, UK_PIPE, UK_ASTR, UK_GRV, KC_NA,
+       RM_PREV,/*TURBO*/KC_NA,UK_BSLS,UK_LABK,UK_RABK,UK_PERC,  UK_AT, UK_QUES, UK_PIPE, UK_ASTR, UK_GRV, KC_NA,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        RM_TOGG,UK_COLN,    UK_SCLN, UK_LCBR,    UK_RCBR,    UK_PLUS,     UK_CIRC,        UK_EQL,     UK_AMPR,    UK_DLR,   UK_MINS, KC_PEQL,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       RM_PREV, UK_LPRN, UK_RPRN, UK_LBRC, UK_RBRC, UK_MINS,   UK_TILD, UK_EXLM, UK_UNDS, UK_SLSH, UK_HASH, KC_PDOT,
+       RM_NEXT, UK_LPRN, UK_RPRN, UK_LBRC, UK_RBRC, UK_MINS,   UK_TILD, UK_EXLM, UK_UNDS, UK_SLSH, UK_HASH, KC_PDOT,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
        /*LLOCK*/
        KC_NA, KC_NA, KC_NA,    KC_NA, KC_NA,
@@ -91,7 +91,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
         KC_MNXT,  KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_NA,      UK_0,    UK_1,    UK_2,    UK_3,   KC_KP_ASTERISK, KC_NA,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-        KC_MPLY,  KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_NA,    KC_KP_MINUS, UK_4,  UK_5,    UK_6,   KC_KP_DOT, KC_MUTE,
+        KC_MPLY,  KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_NA,    KC_KP_MINUS, UK_4,  UK_5,    UK_6,   KC_DOT, KC_MUTE,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
         KC_MPRV,  KC_NA,   KC_NA,   KC_NA,   KC_NA,   KC_NA,    KC_KP_PLUS , UK_7,  UK_8,    UK_9,   KC_COMMA, KC_VOLD,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
@@ -231,6 +231,9 @@ void leader_end_user(void) {
     else if (leader_sequence_two_keys(KC_S, KC_A)) {
         tap_code(KC_APPLICATION);
     }
+    else if (leader_sequence_two_keys(KC_M, KC_E)) {
+        SEND_STRING("benjamin.schwehn");
+    }
     else if (leader_sequence_two_keys(KC_S, KC_B)) {
         tap_code(KC_PAUSE);
     }
@@ -317,6 +320,7 @@ uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t* record,
             case HRM_S:
             case HRM_E:
               dprintf("disabling flow tap\n");
+              // return FLOW_TAP_TERM;  // Longer timeout otherwise.
               return 0;  // Short timeout on these keys.
 
             default:

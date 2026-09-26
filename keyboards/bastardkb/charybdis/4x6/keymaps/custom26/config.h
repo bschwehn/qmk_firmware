@@ -11,8 +11,9 @@
 
 #define LEADER_PER_KEY_TIMING
 #define LEADER_TIMEOUT 400
+#define SUPER_LEADER_TIMEOUT 400
 // #define IGNORE_MOD_TAP_INTERRUPT
-#define HOLD_ON_OTHER_KEY
+// #define HOLD_ON_OTHER_KEY_PRESS
 /* #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY */
 #define TAPPING_FORCE_HOLD_PER_KEY
 #define ONESHOT_TIMEOUT 1000
@@ -20,7 +21,7 @@
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 
 #undef RGB_DISABLE_TIMEOUT
-#define RblebleGB_DISABLE_TIMEOUT 900000
+#define RGB_DISABLE_TIMEOUT 900000
 
 #define USB_SUSPEND_WAKEUP_DELAY 0
 // still hold layer after double tab, like c$ not cci
@@ -48,9 +49,12 @@
 #define LEADER_PER_KEY_TIMING
 #define LEADER_TIMEOUT 400
 // #define IGNORE_MOD_TAP_INTERRUPT
+// is this doing anything? should be with _press I think. And with press it is too much.
 #define HOLD_ON_OTHER_KEY
-/* #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY */
 #define TAPPING_FORCE_HOLD_PER_KEY
 
 #define FLOW_TAP_TERM 150
+
 #define DEBUG_MATRIX_SCAN_RATE
+
+#define RGB_MATRIX_SOLID_REACTIVE_GRADIENT_MODE

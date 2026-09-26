@@ -86,13 +86,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_J, LT_L, LT_U, KC_Y, UK_COLN, KC_APPLICATION,
 
     LT(5,KC_ESCAPE), HRM_A, HRM_R, HRM_S, HRM_T, KC_G,
-        KC_M, HRM_N, HRM_E, HRM_I, HRM_O, QK_ALT_REPEAT_KEY,
+        KC_M, HRM_N, HRM_E, HRM_I, HRM_O, KC_ENT,
 
     LLOCK,        LT_Z,     LT_X,     LT_C,     LT_D,     KC_V,
     KC_K,           LT_H,     LT_COMMA, KC_DOT,         UK_DQUO,        TT(LR_POINTER),
 
     MT(MOD_LCTL, KC_DELETE),  KC_SPACE, KC_ENT,
-    QK_LEAD, AL_BSPC, QK_REPEAT_KEY
+    LEADER, AL_BSPC, QK_REPEAT_KEY
   ),
   [LR_BRACES] = LAYOUT_split_3x6_3(
     KC_TRANSPARENT, KC_TRANSPARENT, UK_BSLS,        UK_LABK,        UK_RABK,        UK_PERC,
@@ -137,7 +137,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     UK_0,           UK_1,           UK_2,           UK_3,          KC_KP_ASTERISK ,   KC_TRANSPARENT,
 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-    KC_KP_MINUS,    UK_4,           UK_5,           UK_6,           KC_KP_DOT,      KC_TRANSPARENT,
+    KC_KP_MINUS,    UK_4,           UK_5,           UK_6,           KC_DOT,      KC_TRANSPARENT,
 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
     KC_KP_PLUS, UK_7,        UK_8,           UK_9,           KC_KP_COMMA,    KC_TRANSPARENT,
